@@ -15,7 +15,7 @@ Operates the robot "?" for FRC game "Rapid React".
 ### If RobotLib gets an update:
 1) download the RobotLib.json file from the RobotLib Github repo and drop it into the vendordeps folder inside the project folder. Build the project.
 ****************************************************************************************************************
-Version 22
+Version 22.0
 
 *   Base code for 2022 robot.
 

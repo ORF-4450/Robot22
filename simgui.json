@@ -13,7 +13,9 @@
         }
       },
       "/SmartDashboard/Field": {
-        "image": "C:\\Users\\rcorn\\workspace\\FRC Java\\Robot21C\\resources\\2021-barrel.png",
+        "height": 8.210550308227539,
+        "image": "C:\\Users\\rcorn\\workspace\\FRC Java\\Robot22\\resources\\2022-field.png",
+        "width": 15.982950210571289,
         "window": {
           "visible": true
         }
