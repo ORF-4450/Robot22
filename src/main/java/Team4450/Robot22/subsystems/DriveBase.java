@@ -4,13 +4,11 @@ package Team4450.Robot22.subsystems;
 import static Team4450.Robot22.Constants.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
-import Team4450.Lib.ValveDA;
 import Team4450.Lib.SRXMagneticEncoderRelative.DistanceUnit;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.RobotContainer;
@@ -19,7 +17,6 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -31,6 +28,7 @@ import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -830,4 +828,13 @@ public class DriveBase extends SubsystemBase
         return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(PIDRateType.velocityMPS), 
                                                 rightEncoder.getVelocity(PIDRateType.velocityMPS));
     }
+
+	/**
+	 * Displays a trajectory on the sim gui field image.
+	 * @param trajectory Trajctory to display.
+	 */
+	public void displayTrajectoryOnSim(Trajectory trajectory)
+	{
+		if (RobotBase.isSimulation()) fieldSim.getObject("traj").setTrajectory(trajectory);
+	}
 }
