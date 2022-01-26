@@ -164,7 +164,7 @@ Drive Characterization/characterization-project/
 Shooter Characterization/characterization-project/
 
 # Misc temp files
-logging/
+logging/logging.*.*
 
 # Backups
 *.zip
