@@ -87,7 +87,7 @@ public class TankDrive extends CommandBase
   /** 
    * Called every time the scheduler runs while the command is scheduled. Passes
    * the left/right speed values provided by whatever double provider was passed
-   * in the constructor to the drive base tank drive function. The providers are
+   * in the constructor, to the drive base tank drive function. The providers are
    * typically the joystick Y deflection values but can be any double provider.
    */
   @Override

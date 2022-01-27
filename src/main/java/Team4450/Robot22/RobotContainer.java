@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import Team4450.Robot22.commands.ArcadeDrive;
 import Team4450.Robot22.commands.TankDrive;
+import Team4450.Robot22.commands.autonomous.TestAuto;
 import Team4450.Robot22.commands.NotifierCommand;
 import Team4450.Robot22.subsystems.DriveBase;
 import Team4450.Robot22.subsystems.LimeLight;
@@ -114,7 +115,8 @@ public class RobotContainer
     // and setAutoChoices() which appear later in this class.
 	private enum AutoProgram
 	{
-		NoProgram
+		NoProgram,
+		TestAuto
 	}
 
 	private static SendableChooser<AutoProgram>	autoChooser;
@@ -358,7 +360,11 @@ public class RobotContainer
 			case NoProgram:
 				autoCommand = null;
 				break;
-        }
+ 				
+				case TestAuto:
+				autoCommand = new TestAuto(driveBase);
+				break;
+		}
         
         // Reset motor deadband for auto.
         driveBase.setPowerDeadBand(.02);
@@ -377,6 +383,7 @@ public class RobotContainer
 		
 		SendableRegistry.add(autoChooser, "Auto Program");
 		autoChooser.setDefaultOption("No Program", AutoProgram.NoProgram);
+		autoChooser.addOption("Test Auto", AutoProgram.TestAuto);		
 				
 		SmartDashboard.putData(autoChooser);
 	}

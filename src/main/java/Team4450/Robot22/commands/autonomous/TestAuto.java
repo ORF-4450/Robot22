@@ -111,6 +111,9 @@ public class TestAuto extends CommandBase
 		// Note: commands.isFinished() will not work to detect the end of the command list
 		// due to how FIRST coded the SquentialCommandGroup class. 
 		
-		return !commands.isScheduled();
+		if (commands == null)
+			return true;
+		else
+			return !commands.isScheduled();
 	}
 }

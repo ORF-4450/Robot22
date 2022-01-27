@@ -3,6 +3,7 @@ package Team4450.Robot22;
 
 import java.util.Properties;
 
+import Team4450.Lib.Util;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "ORF22-01.23.22-1";
+	public static String		PROGRAM_NAME = "ORF22-01.26.22-1";
 
 	public static Robot			robot;
 
@@ -56,10 +57,10 @@ public final class Constants
                                                                 // sketchy...
 	public static final double  DRIVE_WHEEL_DIAMETER = 6.20;	// Inches.
 	public static final double	STEERING_ASSIST_GAIN = .05;
-    public static final double	TRACK_WIDTH = 23;				// Inches. 
-	public static final double	GEAR_RATIO = 18.0;				// Overall gear ratio, motor rotations to one
+    public static final double	TRACK_WIDTH = 30;				// Inches. 
+	public static final double	GEAR_RATIO = 12.6;				// Overall gear ratio, motor rotations to one
 																// wheel rotation.
-	public static final double	ROBOT_WEIGHT = 125;				// Pounds.
+	public static final double	ROBOT_WEIGHT = 154;				// Pounds.
 	
 	// LCD display line number constants showing class where the line is set.
 	public static final int		LCD_1 = 1;	    // Robot, Auto Commands.
@@ -73,15 +74,20 @@ public final class Constants
 	public static final int		LCD_10 = 10;	// Not used.
 
 	// Default starting field position in meters for pose tracking. For 2020 full field lower left corner.
-	public static final double	INITIAL_X = 1.2;
-	public static final double	INITIAL_Y = 0.5;
-    public static final double	INITIAL_HEADING = 0;
+	// public static final double	INITIAL_X = 1.2;
+	// public static final double	INITIAL_Y = 0.5;
+    // public static final double	INITIAL_HEADING = 0;
+
+	// Sample 2022 starting position.
+	public static final double	INITIAL_X = 7.218;
+	public static final double	INITIAL_Y = 2.959;
+    public static final double	INITIAL_HEADING = 153;
 
     // Use these values in PathWeaver for speed and acceleration.
     // Robot will go faster than this, more like 2.6 mps but this value tones down autonomous speed.
 
-    public static final double  MAX_WHEEL_SPEED = 2.0;          // Meters per second.
-    public static final double  MAX_WHEEL_ACCEL = 1.0;          // Meters per second per second.
+    public static final double  MAX_WHEEL_SPEED = 2.0;     // Meters per second.
+    public static final double  MAX_WHEEL_ACCEL = 1.0;     // Meters per second per second.
     
     // Estimated by eyeball observation. Needs to be estimated each new robot.
 
@@ -91,7 +97,7 @@ public final class Constants
     // Drive base characterization results. These values from 2021 as placeholders until 2022
 	// characterization is done.
 
-    public static final double  TRACK_WIDTH_C = 1.07;       // Meters.
+    public static final double  TRACK_WIDTH_C = Util.inchesToMeters(TRACK_WIDTH);	// Meters.
 
     public static final double  DB_KS = 1.74;
     public static final double  DB_KV = 1.8;
