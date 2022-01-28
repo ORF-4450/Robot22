@@ -203,12 +203,7 @@ public class Robot extends TimedRobot
     SmartDashboard.putBoolean("Brake", false);
     SmartDashboard.putBoolean("Pickup", false);
     SmartDashboard.putBoolean("PickupExtended", false);
-    SmartDashboard.putBoolean("CountingTurns", false);
-    SmartDashboard.putBoolean("RotatingToTarget", false);
     SmartDashboard.putBoolean("Shooter", false);
-    SmartDashboard.putBoolean("Belt", false);
-    SmartDashboard.putString("GameColor", "");
-    SmartDashboard.putString("Zone", "GREEN");
     SmartDashboard.putBoolean("TargetLocked", false);
 
     Util.consoleLog("end -------------------------------------------------------------------------");
@@ -297,18 +292,11 @@ public class Robot extends TimedRobot
 
   /**
    * This function is called periodically during teleop. Technically there should
-   * be nothing here. 2020 game has color wheel target color that can be sent by
-   * FMS at any time so we monitor for it here.
+   * be nothing here.
    */
   @Override
   public void teleopPeriodic() 
   {
-    // Update game color on DS. Can change at any time during teleop.
-
-    String gameData = DriverStation.getGameSpecificMessage();
-
-    //if (gameData != null)
-    //rich  SmartDashboard.putString("GameColor", ColorWheel.convertGameColor(gameData));
   }
 
   /**

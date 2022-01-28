@@ -410,12 +410,15 @@ public class RobotContainer
 	 */
 	public void resetFaults()
 	{
-		// This code turns off the automatic compressor management if requested by DS. Putting this
+		// This code turns on/off the automatic compressor management if requested by DS. Putting this
 		// here is a convenience since this function is called at each mode change.
-		if (SmartDashboard.getBoolean("CompressorEnabled", true)) pcm.disableCompressor();
+		if (SmartDashboard.getBoolean("CompressorEnabled", true)) 
+			pcm.enableCompressorDigital();
+		else
+			pcm.disableCompressor();
 		
 		pdp.clearStickyFaults();
-		//pcm.clearAllStickyFaults();
+		pcm.clearAllStickyFaults();
     }
          
     /**
