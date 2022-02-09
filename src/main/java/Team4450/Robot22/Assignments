@@ -7,6 +7,8 @@ Port	Device			Description
 2		CanTalon		Left rear drive motor.
 3		CanTalon		Right front drive motor.
 4		CanTalon		Right rear drive motor.
+5       CanVictor       Lower pickup motor.
+6       CanVictor       Upper pickup motor.
 
 
 PWM Ports
@@ -80,3 +82,11 @@ Brakes					boolean			True when drive Talons are in brake mode.
 AltDriveMode			boolean			True when alternate drive mode is enabled.
 Low Battery				boolean			True when battery is low.
 Overload				boolean			True when brownout has occurred.
+
+Pickup					boolean			True when pickup motor is running.
+PickupExtended			boolean			True when pickup is extended.
+Shooter					boolean			True when shooter motor is running.
+ShooterFeed				boolean			True when shooter feed motor is running.
+Brake					boolean			True when climber brake is engaged.
+
+Drive Base gearbox ratios: 11:60, 26:30, 22:44  yields 12.5:1 overall for 9.28 f/s or 3 m/s.
