@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "ORF22-01.27.22-1";
+	public static String		PROGRAM_NAME = "ORF22-02.09.22-1";
 
 	public static Robot			robot;
 
@@ -30,15 +30,16 @@ public final class Constants
 	    
 	// Drive motor controller port assignments.
 	public static final int		LF_TALON = 1, LR_TALON = 2, RF_TALON = 3, RR_TALON = 4;
-	
+
 	// Other motor controller port assignments
+	public static final int		UPPER_PICKUP_VICTOR = 6, LOWER_PICKUP_VICTOR = 5;
 	
 	// Joystick port assignments.
 	public static final int		LEFT_STICK = 0, RIGHT_STICK = 1, UTILITY_STICK = 2, LAUNCH_PAD = 3, GAME_PAD = 4;
 
 	// Pneumatic valve controller port assignments.
 	public static final int		COMPRESSOR = 0;
-	//public static final int		HIGHLOW_VALVE = 0;			// 0-1
+	public static final int		PICKUP_VALVE = 0;			// 0-1
 
 	// Digital Input port assignments. Encoder takes 2 ports.
 
@@ -49,8 +50,6 @@ public final class Constants
 	// Simulated Gyro needs an actual analog port and has to be 0 or 1.
 	public static final int		SIM_GYRO = 0;
     public static final int		PRESSURE_SENSOR = 1;
-
-	//public static final DriverStation	ds = DriverStation.getInstance();
 
     public static final double	TALON_RAMP_RATE = 1.0;			// Takes 1 sec for full power to be applied.
                                                                 // Tried going above 1.0 but behavior became
@@ -84,7 +83,7 @@ public final class Constants
     public static final double	INITIAL_HEADING = 153;
 
     // Use these values in PathWeaver for speed and acceleration.
-    // Robot will go faster than this, more like 2.6 mps but this value tones down autonomous speed.
+    // Robot will go faster than this, more like 3 mps but this value tones down autonomous speed.
 
     public static final double  MAX_WHEEL_SPEED = 2.0;     // Meters per second.
     public static final double  MAX_WHEEL_ACCEL = 1.0;     // Meters per second per second.

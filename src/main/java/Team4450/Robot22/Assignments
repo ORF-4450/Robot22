@@ -19,7 +19,9 @@ Port	Device			Description
 PCM 0 Ports
 Port	Device blk-pos	Description
 -----------------------------------------------------------------------------------
-
+0		ValveDA 1		A side is extend pickup.
+1		ValveDA 1		B side is retract pickup.
+       
 
 PCM 1 Ports
 Port	Device blk-pos	Description
@@ -54,7 +56,11 @@ Y Axis					Forward/Backward tank driving.
 Utility Joystick
 Button Name				Function
 -----------------------------------------------------------------------------------
-
+TRIGGER                 Shoot ball.
+TOP_MIDDLE				Shooter motor toggle (PID).
+TOP_BACK				Extend/retract pickup with motor.
+TOP_LEFT				Manual channel ball toward shooter.
+TO_RIGHT				Manual channel ball toward pickup.
 
 LaunchPad
 Button Name				Function
@@ -89,4 +95,4 @@ Shooter					boolean			True when shooter motor is running.
 ShooterFeed				boolean			True when shooter feed motor is running.
 Brake					boolean			True when climber brake is engaged.
 
-Drive Base gearbox ratios: 11:60, 26:30, 22:44  yields 12.5:1 overall for 9.28 f/s or 3 m/s.
+Drive Base gearbox ratios: 11:60, 26:30, 22:44  yields 12.6:1 overall for 9.28 f/s or 3 m/s.
