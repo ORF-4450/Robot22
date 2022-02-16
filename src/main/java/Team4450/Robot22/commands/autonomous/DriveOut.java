@@ -1,6 +1,7 @@
 package Team4450.Robot22.commands.autonomous;
 
 import Team4450.Lib.LCD;
+import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 
 import static Team4450.Robot22.Constants.*;
@@ -8,36 +9,35 @@ import Team4450.Robot22.RobotContainer;
 import Team4450.Robot22.subsystems.DriveBase;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
- * This is an empty autonomous command as a starting place to build new
- * auto commands.
+ * Drive out of the starting area.
  */
-public class TestAuto extends CommandBase
+public class DriveOut extends CommandBase
 {
 	private final DriveBase driveBase;
 
     private SequentialCommandGroup	commands = null;
 	private Command					command = null;
-
-    // These constants define the starting pose for this auto program. Defaults to the base starting pose.
-    private double                  kInitialX = INITIAL_X, kInitialY = INITIAL_Y, kInitialHeading = INITIAL_HEADING;
+	private	Pose2d					startingPose;
 
 	/**
 	 * Creates a new TestAuto autonomous command.
 	 *
 	 * @param subsystem The subsystem used by this command.
 	 */
-	public TestAuto(DriveBase subsystem) 
+	public DriveOut(DriveBase subsystem, Pose2d startingPose) 
 	{
-		Util.consoleLog();
+		Util.consoleLog("x=%.3f  y=%.3f  hdg=%.1f", startingPose.getX(), startingPose.getY(), 
+						startingPose.getRotation().getDegrees());
 		
 		driveBase = subsystem;
+
+		this.startingPose = startingPose;
 			  
 		// Use addRequirements() here to declare subsystem dependencies.
 		addRequirements(this.driveBase);
@@ -65,18 +65,40 @@ public class TestAuto extends CommandBase
 
 		// Set heading to initial angle (0 is robot pointed down the field) so
 		// NavX class can track which way the robot is pointed during the match.
-		RobotContainer.navx.setHeading(kInitialHeading);
+		RobotContainer.navx.setHeading(startingPose.getRotation().getDegrees());
 			
 		// Target heading should be the same.
-		RobotContainer.navx.setTargetHeading(kInitialHeading);
+		RobotContainer.navx.setTargetHeading(startingPose.getRotation().getDegrees());
 			
 		// Set Talon ramp rate for smooth acceleration from stop. Determine by observation.
 		driveBase.SetCANTalonRampRate(1.0);
 			
-		// Reset odometry tracking with initial x,y position and heading (set above) specific to this 
-		// auto routine. Robot must be placed in same starting location each time for pose tracking
-		// to work. The settings below are the starting point default for 2021 field.
-		driveBase.resetOdometer(new Pose2d(kInitialX, kInitialY, new Rotation2d()), RobotContainer.navx.getHeading());
+		// Reset odometry tracking with initial x,y position and heading (passed at constructor). 
+		// Robot must be placed in same starting location each time for pose tracking
+		// to work. 
+		driveBase.resetOdometer(startingPose, startingPose.getRotation().getDegrees());
+		
+		// Since a typical autonomous program consists of multiple actions, which are commands
+		// in this style of programming, we will create a list of commands for the actions to
+		// be taken in this auto program and add them to a sequential command list to be 
+		// executed one after the other until done.
+		
+		commands = new SequentialCommandGroup();
+		
+		// First action is to drive forward some encoder counts and stop with brakes on.
+		
+        command = new AutoDrive(driveBase, .50, 
+                                SRXMagneticEncoderRelative.getTicksForDistance(6, DRIVE_WHEEL_DIAMETER), 
+								AutoDrive.StopMotors.stop,
+								AutoDrive.Brakes.on,
+								AutoDrive.Pid.on,
+								AutoDrive.Heading.angle);
+		
+		commands.addCommands(command);
+		
+		// Launch autonomous command sequence.
+		
+		commands.schedule();
 	}
 	
 	/**

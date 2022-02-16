@@ -1,6 +1,7 @@
 package Team4450.Robot22.commands.autonomous;
 
 import Team4450.Lib.LCD;
+import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 
 import static Team4450.Robot22.Constants.*;
@@ -8,37 +9,33 @@ import Team4450.Robot22.RobotContainer;
 import Team4450.Robot22.subsystems.DriveBase;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
- * This is an example autonomous command using 4450 written auto driving
- * commands which are customized versions of the Wpilib motion profile 
- * based PID commands.
+ * Shoot loaded ball then drive out of starting area.
  */
-public class TestAuto2 extends CommandBase
+public class ShootFirst extends CommandBase
 {
 	private final DriveBase driveBase;
-	
-	private SequentialCommandGroup	commands = null;
+
+    private SequentialCommandGroup	commands = null;
 	private Command					command = null;
 	private	Pose2d					startingPose;
 
 	/**
-	 * Creates a new TestAuto2 autonomous command. This command demonstrates one
-	 * possible structure for an autonomous command and shows the use of the 
-	 * autonomous driving support commands.
+	 * Creates a new TestAuto autonomous command.
 	 *
-	 * @param driveBase DriveBase subsystem used by this command to drive the robot.
+	 * @param subsystem The subsystem used by this command.
 	 */
-	public TestAuto2(DriveBase driveBase, Pose2d startingPose) 
+	public ShootFirst(DriveBase subsystem, Pose2d startingPose) 
 	{
-		Util.consoleLog();
+		Util.consoleLog("x=%.3f  y=%.3f  hdg=%.1f", startingPose.getX(), startingPose.getY(), 
+						startingPose.getRotation().getDegrees());
 		
-		this.driveBase = driveBase;
+		driveBase = subsystem;
 
 		this.startingPose = startingPose;
 			  
@@ -57,7 +54,7 @@ public class TestAuto2 extends CommandBase
 		
 		driveBase.setMotorSafety(false);  // Turn off watchdog.
 		
-	  	LCD.printLine(LCD_1, "Mode: Auto - TestAuto2 - All=%s, Location=%d, FMS=%b, msg=%s", alliance.name(), location, 
+	  	LCD.printLine(LCD_1, "Mode: Auto - TestAutoCommand - All=%s, Location=%d, FMS=%b, msg=%s", alliance.name(), location, 
 				DriverStation.isFMSAttached(), gameMessage);
 		
 		// Reset wheel encoders.	  	
@@ -67,19 +64,19 @@ public class TestAuto2 extends CommandBase
 	  	RobotContainer.navx.resetYaw();
 
 		// Set heading to initial angle (0 is robot pointed down the field) so
-		// NavX class can track which way the robot is pointed all during the match.
-		RobotContainer.navx.setHeading(startingPose.getRotation().getDegrees());
+		// NavX class can track which way the robot is pointed during the match.
+		RobotContainer.navx.setHeading(startingPose.getRotation().getDegrees() + 90);
 			
 		// Target heading should be the same.
-		RobotContainer.navx.setTargetHeading(startingPose.getRotation().getDegrees());
+		RobotContainer.navx.setTargetHeading(startingPose.getRotation().getDegrees() + 90);
 			
 		// Set Talon ramp rate for smooth acceleration from stop. Determine by observation.
 		driveBase.SetCANTalonRampRate(1.0);
 			
-		// Reset odometry tracking with initial x,y position and heading (set above) specific to this 
-		// auto routine. Robot must be placed in same starting location each time for pose tracking
-		// to work.
-		driveBase.resetOdometer(startingPose, startingPose.getRotation().getDegrees());
+		// Reset odometry tracking with initial x,y position and heading (passed at constructor). 
+		// Robot must be placed in same starting location each time for pose tracking
+		// to work. We add 90 degrees because robot will be facing the target instead of outward.
+		driveBase.resetOdometer(startingPose, startingPose.getRotation().getDegrees() + 90);
 		
 		// Since a typical autonomous program consists of multiple actions, which are commands
 		// in this style of programming, we will create a list of commands for the actions to
@@ -88,33 +85,12 @@ public class TestAuto2 extends CommandBase
 		
 		commands = new SequentialCommandGroup();
 		
-		// First action is to drive forward somedistance and stop with brakes on.
-				
-		command = new AutoDriveProfiled(driveBase, 2, AutoDrive.StopMotors.stop, AutoDrive.Brakes.on);
-		
-		commands.addCommands(command);
-		
-		// Next action is to rotate left 90.
-		
-		command = new AutoRotateProfiled(driveBase, -90);
+        // First action is shoot the loaded ball.
 
-		commands.addCommands(command);
+		// Next action is to backup some encoder counts and stop with brakes on.
 		
-		// Next action is to drive distance and stop with brakes on.
-		
-		command = new AutoDriveProfiled(driveBase, 2, AutoDrive.StopMotors.stop, AutoDrive.Brakes.on);
-		
-		commands.addCommands(command);
-
-        // Now rotate to heading 0.
-
-		command = new AutoRotateHdgProfiled(driveBase, 0);
-
-		commands.addCommands(command);
-        
-        // Now drive a curve to 90 deg right.
-
-		command = new AutoCurve(driveBase, .30, .20, 90,
+        command = new AutoDrive(driveBase, -.50, 
+                                SRXMagneticEncoderRelative.getTicksForDistance(6, DRIVE_WHEEL_DIAMETER), 
 								AutoDrive.StopMotors.stop,
 								AutoDrive.Brakes.on,
 								AutoDrive.Pid.on,
@@ -129,9 +105,6 @@ public class TestAuto2 extends CommandBase
 	
 	/**
 	 *  Called every time the scheduler runs while the command is scheduled.
-	 *  In this model, this command just idles while the Command Group we
-	 *  created runs on its own executing the steps (commands) of this Auto
-	 *  program.
 	 */
 	@Override
 	public void execute() 
@@ -162,7 +135,9 @@ public class TestAuto2 extends CommandBase
 		// Note: commands.isFinished() will not work to detect the end of the command list
 		// due to how FIRST coded the SquentialCommandGroup class. 
 		
-		return !commands.isScheduled();
+		if (commands == null)
+			return true;
+		else
+			return !commands.isScheduled();
 	}
 }
-

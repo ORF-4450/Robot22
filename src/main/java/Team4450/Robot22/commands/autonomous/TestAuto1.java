@@ -25,9 +25,7 @@ public class TestAuto1 extends CommandBase
 	
 	private SequentialCommandGroup	commands = null;
 	private Command					command = null;
-    
-    // These constants define the starting pose for this auto program. Defaults to the base starting pose.
-    private double                  kInitialX = INITIAL_X, kInitialY = INITIAL_Y, kInitialHeading = INITIAL_HEADING;
+	private	Pose2d					startingPose;
 
 	/**
 	 * Creates a new TestAuto1 autonomous command. This command demonstrates one
@@ -36,11 +34,13 @@ public class TestAuto1 extends CommandBase
 	 *
 	 * @param driveBase DriveBase subsystem used by this command to drive the robot.
 	 */
-	public TestAuto1(DriveBase driveBase) 
+	public TestAuto1(DriveBase driveBase, Pose2d startingPose) 
 	{
 		Util.consoleLog();
 		
 		this.driveBase = driveBase;
+
+		this.startingPose = startingPose;
 			  
 		// Use addRequirements() here to declare subsystem dependencies.
 		addRequirements(this.driveBase);
@@ -68,10 +68,10 @@ public class TestAuto1 extends CommandBase
 
 		// Set heading to initial angle (0 is robot pointed down the field) so
 		// NavX class can track which way the robot is pointed all during the match.
-		RobotContainer.navx.setHeading(kInitialHeading);
+		RobotContainer.navx.setHeading(startingPose.getRotation().getDegrees());
 			
 		// Target heading should be the same.
-		RobotContainer.navx.setTargetHeading(kInitialHeading);
+		RobotContainer.navx.setTargetHeading(startingPose.getRotation().getDegrees());
 			
 		// Set Talon ramp rate for smooth acceleration from stop. Determine by observation.
 		driveBase.SetCANTalonRampRate(1.0);
@@ -79,7 +79,7 @@ public class TestAuto1 extends CommandBase
 		// Reset odometry tracking with initial x,y position and heading (set above) specific to this 
 		// auto routine. Robot must be placed in same starting location each time for pose tracking
 		// to work.
-		driveBase.resetOdometer(new Pose2d(kInitialX, kInitialY, new Rotation2d()), RobotContainer.navx.getHeading());
+		driveBase.resetOdometer(startingPose, startingPose.getRotation().getDegrees());
 		
 		// Since a typical autonomous program consists of multiple actions, which are commands
 		// in this style of programming, we will create a list of commands for the actions to

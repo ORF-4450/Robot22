@@ -4,6 +4,8 @@ package Team4450.Robot22;
 import java.util.Properties;
 
 import Team4450.Lib.Util;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "RAC22-02.10.22-1";
+	public static String		PROGRAM_NAME = "RAC22-02.15.22-1";
 
 	public static Robot			robot;
 
@@ -32,7 +34,7 @@ public final class Constants
 	public static final int		LF_TALON = 1, LR_TALON = 2, RF_TALON = 3, RR_TALON = 4;
 
 	// Other motor controller port assignments
-	public static final int		UPPER_PICKUP_VICTOR = 6, LOWER_PICKUP_VICTOR = 5;
+	public static final int		UPPER_PICKUP_VICTOR = 6, LOWER_PICKUP_VICTOR = 5, INDEXER_VICTOR = 7;
 	
 	// Joystick port assignments.
 	public static final int		LEFT_STICK = 0, RIGHT_STICK = 1, UTILITY_STICK = 2, LAUNCH_PAD = 3, GAME_PAD = 4;
@@ -72,15 +74,20 @@ public final class Constants
 	public static final int		LCD_9 = 9;	    // TankDrive command.
 	public static final int		LCD_10 = 10;	// Not used.
 
-	// Default starting field position in meters for pose tracking. For 2020 full field lower left corner.
-	// public static final double	INITIAL_X = 1.2;
-	// public static final double	INITIAL_Y = 0.5;
-    // public static final double	INITIAL_HEADING = 0;
+	// Default starting field position in meters for pose tracking. For full field lower left corner.
+	public static final Pose2d	DEFAULT_STARTING_POSE = new Pose2d(1.2, 0.5, new Rotation2d(Math.toRadians(0)));
 
-	// Sample 2022 starting position.
-	public static final double	INITIAL_X = 7.218;
-	public static final double	INITIAL_Y = 2.959;
-    public static final double	INITIAL_HEADING = 153;
+	// 2022 starting positions.
+
+	public static final Pose2d	BLUE_1 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
+	public static final Pose2d	BLUE_2 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
+	public static final Pose2d	BLUE_3 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
+	public static final Pose2d	BLUE_4 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
+
+	public static final Pose2d	RED_1 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
+	public static final Pose2d	RED_2 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
+	public static final Pose2d	RED_3 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
+	public static final Pose2d	RED_4 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
 
     // Use these values in PathWeaver for speed and acceleration.
     // Robot will go faster than this, more like 3 mps but this value tones down autonomous speed.

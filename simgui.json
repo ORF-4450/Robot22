@@ -4,7 +4,8 @@
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Auto Program": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Gyro2": "Gyro"
+      "/SmartDashboard/Gyro2": "Gyro",
+      "/SmartDashboard/Start Position": "String Chooser"
     },
     "windows": {
       "/SmartDashboard/Auto Program": {
@@ -21,6 +22,11 @@
         }
       },
       "/SmartDashboard/Gyro2": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Start Position": {
         "window": {
           "visible": true
         }

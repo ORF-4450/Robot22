@@ -9,6 +9,7 @@ Port	Device			Description
 4		CanTalon		Right rear drive motor.
 5       CanVictor       Lower pickup motor.
 6       CanVictor       Upper pickup motor.
+7       CanVictor       Indexer motor.
 
 
 PWM Ports

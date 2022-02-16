@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,7 +39,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import Team4450.Robot22.commands.ArcadeDrive;
 import Team4450.Robot22.commands.TankDrive;
-import Team4450.Robot22.commands.autonomous.TestAuto;
+import Team4450.Robot22.commands.autonomous.DriveOut;
+import Team4450.Robot22.commands.autonomous.ShootFirst;
 import Team4450.Robot22.commands.NotifierCommand;
 import Team4450.Robot22.subsystems.DriveBase;
 import Team4450.Robot22.subsystems.LimeLight;
@@ -116,10 +118,12 @@ public class RobotContainer
 	private enum AutoProgram
 	{
 		NoProgram,
-		TestAuto
+		DriveOut,
+		ShootFirst
 	}
 
 	private static SendableChooser<AutoProgram>	autoChooser;
+	private static SendableChooser<Pose2d>		startingPoseChooser;
 
 	/**
 	 * The container for the robot. Contains subsystems, Opertor Interface devices, and commands.
@@ -253,6 +257,8 @@ public class RobotContainer
 
 		setAutoChoices();
 
+		setStartingPoses();
+
 		// Configure the button bindings for real and simulated robot.
 		
         if (RobotBase.isReal()) 
@@ -345,6 +351,7 @@ public class RobotContainer
 	public Command getAutonomousCommand() 
 	{
 		AutoProgram		program = AutoProgram.NoProgram;
+		Pose2d			startingPose = BLUE_1;
 		Command			autoCommand = null;
 		
 		Util.consoleLog();
@@ -352,6 +359,8 @@ public class RobotContainer
 		try
 		{
 			program = autoChooser.getSelected();
+
+			startingPose = startingPoseChooser.getSelected();
 		}
 		catch (Exception e)	{ Util.logException(e); }
 		
@@ -361,8 +370,12 @@ public class RobotContainer
 				autoCommand = null;
 				break;
  				
-				case TestAuto:
-				autoCommand = new TestAuto(driveBase);
+				case DriveOut:
+				autoCommand = new DriveOut(driveBase, startingPose);
+				break;
+ 				
+				case ShootFirst:
+				autoCommand = new ShootFirst(driveBase, startingPose);
 				break;
 		}
         
@@ -383,9 +396,33 @@ public class RobotContainer
 		
 		SendableRegistry.add(autoChooser, "Auto Program");
 		autoChooser.setDefaultOption("No Program", AutoProgram.NoProgram);
-		autoChooser.addOption("Test Auto", AutoProgram.TestAuto);		
+		autoChooser.addOption("Drive Out", AutoProgram.DriveOut);		
+		autoChooser.addOption("Shoot First", AutoProgram.ShootFirst);		
 				
 		SmartDashboard.putData(autoChooser);
+	}
+  
+    // Configure SendableChooser (drop down list on dashboard) with starting pose choices and
+	// send them to SmartDashboard/ShuffleBoard.
+	
+	private static void setStartingPoses()
+	{
+		Util.consoleLog();
+		
+		startingPoseChooser = new SendableChooser<Pose2d>();
+		
+		SendableRegistry.add(startingPoseChooser, "Start Position");
+		startingPoseChooser.setDefaultOption("Blue 1", BLUE_1);
+		startingPoseChooser.addOption("Blue 2", BLUE_2);		
+		startingPoseChooser.addOption("Blue 3", BLUE_3);		
+		startingPoseChooser.addOption("Blue 4", BLUE_4);		
+
+		startingPoseChooser.addOption("Red 1", RED_1);		
+		startingPoseChooser.addOption("Red 2", RED_2);		
+		startingPoseChooser.addOption("Red 3", RED_3);		
+		startingPoseChooser.addOption("Red 4", RED_4);		
+				
+		SmartDashboard.putData(startingPoseChooser);
 	}
 
 	/**

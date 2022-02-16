@@ -191,7 +191,7 @@ public class DriveBase extends SubsystemBase
 		// driver station location and always start in the same place relative to the
 		// station.
 		
-		resetOdometer(new Pose2d(INITIAL_X, INITIAL_Y, new Rotation2d()), INITIAL_HEADING);
+		resetOdometer(DEFAULT_STARTING_POSE, DEFAULT_STARTING_POSE.getRotation().getDegrees());
 
         if (RobotBase.isSimulation()) configureSimulation();
         
