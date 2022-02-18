@@ -35,6 +35,7 @@ public final class Constants
 
 	// Other motor controller port assignments
 	public static final int		UPPER_PICKUP_VICTOR = 6, LOWER_PICKUP_VICTOR = 5, INDEXER_VICTOR = 7;
+	public static final int		LEFT_CLIMBER_VICTOR = 8, RIGHT_CLIMBER_VICTOR = 9, SHOOTER_VICTOR = 10;
 	
 	// Joystick port assignments.
 	public static final int		LEFT_STICK = 0, RIGHT_STICK = 1, UTILITY_STICK = 2, LAUNCH_PAD = 3, GAME_PAD = 4;
@@ -42,6 +43,8 @@ public final class Constants
 	// Pneumatic valve controller port assignments.
 	public static final int		COMPRESSOR = 0;
 	public static final int		PICKUP_VALVE = 0;			// 0-1
+	public static final int		LEFT_CLIMBER_VALVE = 2;		// 2-3
+	public static final int		RIGHT_CLIMBER_VALVE = 4;	// 4-5
 
 	// Digital Input port assignments. Encoder takes 2 ports.
 
