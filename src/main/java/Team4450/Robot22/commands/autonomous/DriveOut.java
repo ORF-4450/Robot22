@@ -85,10 +85,11 @@ public class DriveOut extends CommandBase
 		
 		commands = new SequentialCommandGroup();
 		
-		// First action is to drive forward some encoder counts and stop with brakes on.
+		// First action is to drive forward some encoder counts and stop with brakes on. We express the
+		// target distance in feet and convert to ticks.
 		
         command = new AutoDrive(driveBase, .50, 
-                                SRXMagneticEncoderRelative.getTicksForDistance(6, DRIVE_WHEEL_DIAMETER), 
+                                SRXMagneticEncoderRelative.getTicksForDistance(5.2, DRIVE_WHEEL_DIAMETER), 
 								AutoDrive.StopMotors.stop,
 								AutoDrive.Brakes.on,
 								AutoDrive.Pid.on,

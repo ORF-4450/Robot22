@@ -38,11 +38,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import Team4450.Robot22.commands.ArcadeDrive;
+import Team4450.Robot22.commands.Climb;
 import Team4450.Robot22.commands.TankDrive;
 import Team4450.Robot22.commands.autonomous.DriveOut;
 import Team4450.Robot22.commands.autonomous.ShootFirst;
 import Team4450.Robot22.commands.NotifierCommand;
 import Team4450.Robot22.subsystems.Channel;
+import Team4450.Robot22.subsystems.Climber;
 import Team4450.Robot22.subsystems.DriveBase;
 import Team4450.Robot22.subsystems.LimeLight;
 import Team4450.Robot22.subsystems.Pickup;
@@ -62,7 +64,8 @@ public class RobotContainer
 	private final Channel		channel;
 	private final Pickup		pickup;
 	public static Shooter		shooter;
-
+	private final Climber		climber;
+	
 	// Subsystem Default Commands.
 
 	private final TankDrive		driveCommand;
@@ -203,11 +206,19 @@ public class RobotContainer
         channel = new Channel();
         shooter = new Shooter(channel);
         pickup = new Pickup();
+		climber = new Climber();
 
 		// Create any persistent commands.
 
 		// Set subsystem Default commands.
-	  
+		
+		// Set the default climb command. This command will be scheduled automatically to run
+		// every teleop period and so use the utility joy stick to control the climber winch.
+		// We pass in function lambda so the command can read the stick generically as a
+		// DoubleProvider when it runs later (see below).
+		
+		climber.setDefaultCommand(new Climb(climber, () -> utilityStick.GetY()));
+
 		// Set the default drive command. This command will be scheduled automatically to run
 		// every teleop period and so use the joy sticks to drive the robot. We pass in function
 		// lambda, which is like creating a DoulbleSupplier conformant class, so the command can 
