@@ -42,8 +42,11 @@ import Team4450.Robot22.commands.TankDrive;
 import Team4450.Robot22.commands.autonomous.DriveOut;
 import Team4450.Robot22.commands.autonomous.ShootFirst;
 import Team4450.Robot22.commands.NotifierCommand;
+import Team4450.Robot22.subsystems.Channel;
 import Team4450.Robot22.subsystems.DriveBase;
 import Team4450.Robot22.subsystems.LimeLight;
+import Team4450.Robot22.subsystems.Pickup;
+import Team4450.Robot22.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -56,8 +59,12 @@ public class RobotContainer
 	// Subsystems.
 
 	private final DriveBase 	driveBase;
+	private final Channel		channel;
+	private final Pickup		pickup;
+	public static Shooter		shooter;
 
 	// Subsystem Default Commands.
+
 	private final TankDrive		driveCommand;
 	//private final ArcadeDrive	driveCommand;
 
@@ -193,7 +200,10 @@ public class RobotContainer
 		// Create subsystems prior to button mapping.
 		
 		driveBase = new DriveBase();
-		
+        channel = new Channel();
+        shooter = new Shooter(channel);
+        pickup = new Pickup();
+
 		// Create any persistent commands.
 
 		// Set subsystem Default commands.
@@ -297,7 +307,33 @@ public class RobotContainer
     		.whenPressed(new InstantCommand(driveCommand::toggleAlternateDrivingMode));
  
 		// -------- Utility stick buttons ----------
+		// Toggle extend Pickup.
+		// So we show 3 ways to control the pickup. A regular command that toggles pickup state,
+		// an instant command that calls a method on Pickup class that toggles state and finally
+		// our special notifier variant that runs the Pickup class toggle method in a separate
+		// thread. So we show all 3 methods as illustration but the reason we tried 3 methods is
+		// that the pickup retraction action takes almost 1 second (due apparently to some big
+		// overhead in disabling the electric eye interrupt) and triggers the global and drivebase
+		// watchdogs. Threading does not as the toggle method is not run on the scheduler thread.
+		// Note: the threaded command can only execute a runnable (function on a class) not a Command.
 		
+		new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_BACK.value)
+        	//.whenPressed(new PickupDeploy(pickup));		
+			//.whenPressed(new InstantCommand(pickup::toggleDeploy, pickup));
+			.whenPressed(new NotifierCommand(pickup::toggleDeploy, 0.0, pickup));
+
+			new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_MIDDLE.value)
+			.whenPressed(new InstantCommand(shooter::togglePID, shooter));		
+		
+        new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_LEFT.value)
+			.whenPressed(new InstantCommand(channel::toggleIndexerUp, channel));
+		
+        new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_RIGHT.value)
+			.whenPressed(new InstantCommand(channel::toggleIndexerDown, channel));
+
+        new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TRIGGER.value)
+            .whenPressed(new NotifierCommand(channel::feedBall, 0.0));
+
 		// -------- Launch pad buttons -------------
 		
 		// Because the launch pad buttons are wired backwards, we use whenReleased to 
