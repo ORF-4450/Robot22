@@ -90,7 +90,7 @@ public class ShootFirst extends CommandBase
 		// Next action is to backup some encoder counts and stop with brakes on.
 		
         command = new AutoDrive(driveBase, -.50, 
-                                SRXMagneticEncoderRelative.getTicksForDistance(6, DRIVE_WHEEL_DIAMETER), 
+                                SRXMagneticEncoderRelative.getTicksForDistance(3.5, DRIVE_WHEEL_DIAMETER), 
 								AutoDrive.StopMotors.stop,
 								AutoDrive.Brakes.on,
 								AutoDrive.Pid.on,

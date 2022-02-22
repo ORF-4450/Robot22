@@ -84,15 +84,15 @@ public final class Constants
 
 	// 2022 starting positions. Location in meters, angle in degrees.
 
-	public static final Pose2d	BLUE_1 = new Pose2d(6.873, 4.990, new Rotation2d(Math.toRadians(243)));
-	public static final Pose2d	BLUE_2 = new Pose2d(6.504, 4.099, new Rotation2d(Math.toRadians(160)));
-	public static final Pose2d	BLUE_3 = new Pose2d(7.218, 2.959, new Rotation2d(Math.toRadians(153)));
-	public static final Pose2d	BLUE_4 = new Pose2d(7.965, 2.585, new Rotation2d(Math.toRadians(70)));
+	public static final Pose2d	BLUE_1 = new Pose2d(6.687, 5.406, new Rotation2d(Math.toRadians(243)));
+	public static final Pose2d	BLUE_2 = new Pose2d(6.148, 4.022, new Rotation2d(Math.toRadians(160)));
+	public static final Pose2d	BLUE_3 = new Pose2d(6.679, 2.818, new Rotation2d(Math.toRadians(153)));
+	public static final Pose2d	BLUE_4 = new Pose2d(8.133, 2.251, new Rotation2d(Math.toRadians(70)));
 
-	public static final Pose2d	RED_1 = new Pose2d(9.129, 3.205, new Rotation2d(Math.toRadians(60)));
-	public static final Pose2d	RED_2 = new Pose2d(9.471, 4.102, new Rotation2d(Math.toRadians(336)));
-	public static final Pose2d	RED_3 = new Pose2d(8.942, 5.286, new Rotation2d(Math.toRadians(332)));
-	public static final Pose2d	RED_4 = new Pose2d(8.122, 5.475, new Rotation2d(Math.toRadians(246)));
+	public static final Pose2d	RED_1 = new Pose2d(9.465, 2.812, new Rotation2d(Math.toRadians(60)));
+	public static final Pose2d	RED_2 = new Pose2d(9.866, 4.230, new Rotation2d(Math.toRadians(336)));
+	public static final Pose2d	RED_3 = new Pose2d(9.311, 5.373, new Rotation2d(Math.toRadians(332)));
+	public static final Pose2d	RED_4 = new Pose2d(7.902, 6.003, new Rotation2d(Math.toRadians(246)));
 
     // Use these values in PathWeaver for speed and acceleration.
     // Robot will go faster than this, more like 3 mps but this value tones down autonomous speed.
