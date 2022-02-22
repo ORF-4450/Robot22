@@ -65,7 +65,7 @@ public class RobotContainer
 	private final Pickup		pickup;
 	public static Shooter		shooter;
 	private final Climber		climber;
-	
+
 	// Subsystem Default Commands.
 
 	private final TankDrive		driveCommand;
@@ -353,6 +353,10 @@ public class RobotContainer
         // Reset odometer.
 		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_GREEN.value)
     		.whenReleased(new InstantCommand(driveBase::zeroOdometer));
+        
+        // Toggle shooter wheel high/low RPM.
+		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_YELLOW.value)
+    		.whenReleased(new InstantCommand(shooter::toggleHighLowRPM));
 
     	// Reset encoders.
 		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_RED.value)

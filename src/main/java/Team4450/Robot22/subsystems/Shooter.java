@@ -27,10 +27,10 @@ public class Shooter extends PIDSubsystem
 
     private FXEncoder       encoder = new FXEncoder(shooterMotor);
 
-    public final double     defaultPower = .50, defaultRPM = 3000, maxRPM = 6000;
-    private double          currentPower = defaultPower, targetRPM = defaultRPM, toleranceRPM = 50;
+    public final double     defaultPower = .50, lowTargetRPM = 3000, highTargetRPM = 5000, maxRPM = 6000;
+    private double          currentPower = defaultPower, targetRPM = lowTargetRPM, toleranceRPM = 50;
     private static double   kP = .0002, kI = kP / 100, kD = 0;
-    private boolean         startUp;
+    private boolean         startUp, highRPM;
     private double          startTime, kS = .498, kV = .108;
 
     private Channel         channel;
@@ -95,6 +95,7 @@ public class Shooter extends PIDSubsystem
 	private void updateDS()
 	{
 		SmartDashboard.putBoolean("Shooter", wheelRunning);
+		SmartDashboard.putBoolean("ShooterHighRPM", highRPM);
 	}
 
 	/**
@@ -238,7 +239,7 @@ public class Shooter extends PIDSubsystem
     @Override
     public void enable()
     {
-        Util.consoleLog();
+        Util.consoleLog("target rpm=%.0f", targetRPM);
 
         // This is now being handled by code in periodic() function that monitors motor
         // current to detect jam and backup only when needed.
@@ -298,7 +299,30 @@ public class Shooter extends PIDSubsystem
 
         return isRunning();
     }
+    
+    /**
+     * Toggles shooter wheel PID target RPM between low and high.
+     * @return True if RPM is high, false if low.
+     */
+    public boolean toggleHighLowRPM()
+    {
+        Util.consoleLog();
 
+        if (targetRPM == lowTargetRPM)
+        {
+           targetRPM = highTargetRPM;
+           highRPM = true;
+        }
+        else
+        {
+           targetRPM = lowTargetRPM;
+           highRPM = false;
+        }
+
+        updateDS();
+        
+        return highRPM;
+    }
     /**
      * Runs indexer wheel backward before starting shooter motor
      * to move ball down out of contact with shooter wheel.
