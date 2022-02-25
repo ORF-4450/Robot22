@@ -3,6 +3,8 @@ package Team4450.Robot22;
 
 import java.util.Properties;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import Team4450.Lib.Util;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,7 +20,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "RAC22-02.19.22-1";
+	public static String		PROGRAM_NAME = "RAC22-02.25.22-1";
 
 	public static Robot			robot;
 
@@ -35,7 +37,7 @@ public final class Constants
 
 	// Other motor controller port assignments
 	public static final int		UPPER_PICKUP_VICTOR = 6, LOWER_PICKUP_VICTOR = 5, INDEXER_VICTOR = 7;
-	public static final int		LEFT_CLIMBER_VICTOR = 8, RIGHT_CLIMBER_VICTOR = 9, SHOOTER_TALON = 10;
+	public static final int		LEFT_CLIMBER_VICTOR = 8, RIGHT_CLIMBER_TALON = 9, SHOOTER_TALON = 10;
 	
 	// Joystick port assignments.
 	public static final int		LEFT_STICK = 0, RIGHT_STICK = 1, UTILITY_STICK = 2, LAUNCH_PAD = 3, GAME_PAD = 4;
@@ -43,12 +45,12 @@ public final class Constants
 	// Pneumatic valve controller port assignments.
 	public static final int		COMPRESSOR = 0;
 	public static final int		PICKUP_VALVE = 0;			// 0-1
-	public static final int		LEFT_CLIMBER_VALVE = 2;		// 2-3
-	public static final int		RIGHT_CLIMBER_VALVE = 4;	// 4-5
+	public static final int		MAIN_CLIMBER_VALVE = 2;		// 2-3
+	public static final int		AUX_CLIMBER_VALVE = 4;		// 4-5
 
 	// Digital Input port assignments. Encoder takes 2 ports.
 	public static final int		CLIMBER_SWITCH = 0;
-	public static final int		CLIMBER_ENCODER = 1;		// 1-2
+	//public static final int		CLIMBER_ENCODER = 1;		// 1-2
 
 	// Simulation dummy encoders use DIO port numbers above the actual ports on RoboRio.
 	public static final int		DUMMY_LEFT_ENCODER = 10, DUMMY_RIGHT_ENCODER = 12;

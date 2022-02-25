@@ -100,8 +100,8 @@ public class TankDrive extends CommandBase
       LCD.printLine(LCD_3, "leftY=%.3f (%.3f)  rightY=%.3f (%.3f)", leftY, driveBase.getLeftPower(), rightY,
                     driveBase.getRightPower());
                  
-      LCD.printLine(LCD_4, "utilY=%.3f  utilX=%.3f", RobotContainer.utilityStick.GetY(), 
-                    RobotContainer.utilityStick.GetX());
+      LCD.printLine(LCD_4, "utilY=%.3f  utilX=%.3f  climberEnc=%d", RobotContainer.utilityStick.GetY(), 
+                    RobotContainer.utilityStick.GetX(), RobotContainer.climber.encoderGet());
 
 	    LCD.printLine(LCD_7, "Lrpm=%d - Rrpm=%d  Lmax vel=%.3f - Rmax vel=%.3f", driveBase.leftEncoder.getRPM(),
 			    driveBase.rightEncoder.getRPM(), driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS),
@@ -110,11 +110,10 @@ public class TankDrive extends CommandBase
 	    Pose2d pose = driveBase.getOdometerPose();
 	  
       LCD.printLine(LCD_8, "pose x=%.1fm (lrot=%.2f)  y=%.1fm  deg=%.1f", pose.getX(), 
-                    driveBase.leftEncoder.getRotations(), pose.getY(),
-                    pose.getRotation().getDegrees());
+                    driveBase.leftEncoder.getRotations(), pose.getY(), pose.getRotation().getDegrees());
                     
-      //LCD.printLine(LCD_9, "shooter rpm=%.0f  max=%.0f", RobotContainer.shooter.getRPM(), 
-      //              RobotContainer.shooter.getMaxRPM());
+      LCD.printLine(LCD_9, "shooter rpm=%.0f  max=%.0f", RobotContainer.shooter.getRPM(), 
+                    RobotContainer.shooter.getMaxRPM());
 	  
 	  if (altDriveMode)
 	  {	  // normal tank with straight drive assist when sticks within 10% of each other and

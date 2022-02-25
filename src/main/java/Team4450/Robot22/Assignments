@@ -11,7 +11,7 @@ Port	Device			Description
 6       CanVictor       Upper pickup motor.
 7       CanVictor       Indexer motor.
 8       CanVictor       Left climber motor.
-9       CanVictor       Right climber motor.
+9       CanTalon        Right climber motor.
 10      CanVictor       Shooter motor.
 
 
@@ -26,9 +26,9 @@ Port	Device blk-pos	Description
 0		ValveDA 1		A side is extend pickup.
 1		ValveDA 1		B side is retract pickup.
 2       ValveDA 2       A side is extend main climber arm.
-3       ValveDA 2       B side is retract mail climber arm.
-4       ValveDA 3       A side is extend secondary climber arm.
-5       ValveDA 3       B side is retract secondary climber arm.
+3       ValveDA 2       B side is retract main climber arm.
+4       ValveDA 3       A side is extend auxilliary climber arm.
+5       ValveDA 3       B side is retract auxilliary climber arm.
        
 
 PCM 1 Ports
@@ -106,5 +106,7 @@ ShooterHighRPM          boolean         True when shooter set to high RPM.
 ShooterFeed				boolean			True when shooter feed motor is running.
 Brake					boolean			True when climber brake is engaged.
 Start Position          Chooser         List of robot starting positions.
+Main Extended           boolean         True if climber main arm is extended.
+Aux extended            boolean         True if climber aux arm is extended.
 
 Drive Base gearbox ratios: 11:60, 26:30, 22:44  yields 12.6:1 overall for 9.28 f/s or 3 m/s.

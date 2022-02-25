@@ -5,10 +5,13 @@ import static Team4450.Robot22.Constants.*;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.ValveDA;
+
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,7 +22,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Climber extends SubsystemBase
 {
 	  
-	private WPI_VictorSPX			climberFrontVictor, climberBackVictor;
+	private WPI_VictorSPX			climberLeftVictor;
+    private WPI_TalonSRX            climberRightTalon;
 
 	private MotorControllerGroup	climberDrive;
 
@@ -28,28 +32,39 @@ public class Climber extends SubsystemBase
 
 	// Encoder (regular type) is plugged into dio port n:
 	// orange=+5v blue=signal, dio port n+1: black=gnd yellow=signal. 
-	private Encoder			climberEncoder = new Encoder(CLIMBER_ENCODER, CLIMBER_ENCODER + 1, true, EncodingType.k4X);
+	//private Encoder			climberEncoder = new Encoder(CLIMBER_ENCODER, CLIMBER_ENCODER + 1, true, EncodingType.k4X);
+    
+    // SRX magnetic encoder plugged into a CAN Talon.
+    private SRXMagneticEncoderRelative  climberEncoder;
 
-	private boolean			brakeEngaged;
+	private ValveDA			        mainValve = new ValveDA(MAIN_CLIMBER_VALVE);
+    private ValveDA                 auxValve = new ValveDA(AUX_CLIMBER_VALVE);
+
+	private boolean			        brakeEngaged, mainExtended, auxExtended;
 	
 	public Climber()
 	{
 		Util.consoleLog();
 		
-		climberFrontVictor = new WPI_VictorSPX(LEFT_CLIMBER_VICTOR);
-		climberBackVictor = new WPI_VictorSPX(RIGHT_CLIMBER_VICTOR);
+		climberLeftVictor = new WPI_VictorSPX(LEFT_CLIMBER_VICTOR);
+		climberRightTalon = new WPI_TalonSRX(RIGHT_CLIMBER_TALON);
 	      
-		climberFrontVictor.setInverted(true);
+		climberLeftVictor.setInverted(true);
 	      
-	    climberFrontVictor.setNeutralMode(NeutralMode.Brake);
-	    climberBackVictor.setNeutralMode(NeutralMode.Brake);
+	    climberLeftVictor.setNeutralMode(NeutralMode.Brake);
+	    climberRightTalon.setNeutralMode(NeutralMode.Brake);
 	    //hookVictor.setNeutralMode(NeutralMode.Brake);
 
-	    climberDrive = new MotorControllerGroup(climberFrontVictor, climberBackVictor);
+	    climberDrive = new MotorControllerGroup(climberLeftVictor, climberRightTalon);
+
+        climberEncoder = new SRXMagneticEncoderRelative(climberRightTalon, 0);
 
 		climberEncoder.reset();
 		
 		releaseBrake();
+
+        retractMain();
+        retractAux();
 		
 		Util.consoleLog("Climber created!");
 	}
@@ -89,6 +104,15 @@ public class Climber extends SubsystemBase
 		
 		climberDrive.stopMotor();
 	}
+
+    /**
+     * Returns the climber encoder current tick count.
+     * @return The tick count.
+     */
+    public int encoderGet()
+    {
+        return climberEncoder.get();
+    }
 	
 	/**
 	 * Engage the climber brake.
@@ -145,6 +169,103 @@ public class Climber extends SubsystemBase
 		Util.consoleLog();
 
 		SmartDashboard.putBoolean("Brake", brakeEngaged);
+		SmartDashboard.putBoolean("Main Extended", mainExtended);
+		SmartDashboard.putBoolean("Aux Extended", auxExtended);
 	}
+	
+	/**
+	 * Extend the main clinber arm.
+	 */
+	public void extendMain()
+	{
+		Util.consoleLog();
+		
+		mainValve.SetA();
+        
+        mainExtended = true;
+	}
+	
+	/**
+	 * Retract the main climber arm.
+	 */
+	public void retractMain()
+	{
+		Util.consoleLog();
+		
+        mainValve.SetB();
+        
+        mainExtended = false;
 
+        stop();
+	}
+	  
+	/**
+	 * Toggle between main climber arm extended and retracted.
+	 */
+	public void toggleDeployMain()
+	{
+		Util.consoleLog("%b", isMainExtended());
+		
+		if (isMainExtended())
+			retractMain();
+		else
+		  	extendMain();
+    }
+	
+	/**
+	 * Returns extended state of main climber arm.
+	 * @return True if arm extended.
+	 */
+	public boolean isMainExtended()
+	{
+		return mainExtended;
+	}
+    	
+	/**
+	 * Extend the auxilliary clinber arm.
+	 */
+	public void extendAux()
+	{
+		Util.consoleLog();
+		
+		auxValve.SetA();
+        
+        auxExtended = true;
+	}
+	
+	/**
+	 * Retract the auxilliary climber arm.
+	 */
+	public void retractAux()
+	{
+		Util.consoleLog();
+		
+        auxValve.SetB();
+        
+        auxExtended = false;
+
+        stop();
+	}
+	  
+	/**
+	 * Toggle between auxiliiary climber arm extended and retracted.
+	 */
+	public void toggleDeployAux()
+	{
+		Util.consoleLog("%b", isAuxExtended());
+		
+		if (isMainExtended())
+			retractAux();
+		else
+		  	extendAux();
+    }
+	
+	/**
+	 * Returns extended state of main climber arm.
+	 * @return True if arm extended.
+	 */
+	public boolean isAuxExtended()
+	{
+		return auxExtended;
+	}
 }

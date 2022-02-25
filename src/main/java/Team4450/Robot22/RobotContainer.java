@@ -64,7 +64,7 @@ public class RobotContainer
 	private final Channel		channel;
 	private final Pickup		pickup;
 	public static Shooter		shooter;
-	private final Climber		climber;
+	public static Climber		climber;
 
 	// Subsystem Default Commands.
 
@@ -421,11 +421,11 @@ public class RobotContainer
 				autoCommand = null;
 				break;
  				
-				case DriveOut:
+			case DriveOut:
 				autoCommand = new DriveOut(driveBase, startingPose);
 				break;
  				
-				case ShootFirst:
+			case ShootFirst:
 				autoCommand = new ShootFirst(driveBase, startingPose);
 				break;
 		}
