@@ -12,7 +12,7 @@ Port	Device			Description
 7       CanVictor       Indexer motor.
 8       CanVictor       Left climber motor.
 9       CanTalon        Right climber motor.
-10      CanVictor       Shooter motor.
+10      CanTalon        Shooter motor.
 
 
 PWM Ports

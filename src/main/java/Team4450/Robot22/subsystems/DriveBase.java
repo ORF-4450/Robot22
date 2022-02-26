@@ -85,11 +85,11 @@ public class DriveBase extends SubsystemBase
 		InitializeCANTalon(RRCanTalon);
 		
 		// Configure CAN Talons with appropriate inversion determined by testing.
-		LFCanTalon.setInverted(true);
-		LRCanTalon.setInverted(true);
+		LFCanTalon.setInverted(false);
+		LRCanTalon.setInverted(false);
 		  
-		RFCanTalon.setInverted(false);
-		RRCanTalon.setInverted(false);
+		RFCanTalon.setInverted(true);
+		RRCanTalon.setInverted(true);
 		  
 		// Configure SRX encoders as needed for measuring velocity and distance. 
 		// Wheel diameter is in inches. Adjust for each years robot.
@@ -106,8 +106,8 @@ public class DriveBase extends SubsystemBase
         // Needed for Built-in SRX encoder sim support, not used at this time.
         // if (RobotBase.isSimulation())
         // {
-        //     leftEncoder.setInverted(true);
-        //     rightEncoder.setInverted(true);
+             leftEncoder.setInverted(true);
+             rightEncoder.setInverted(true);
         // }
 		
 		// Put rear talons into a differential drive object and set the

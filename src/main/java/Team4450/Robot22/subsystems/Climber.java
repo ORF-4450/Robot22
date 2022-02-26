@@ -57,7 +57,7 @@ public class Climber extends SubsystemBase
 
 	    climberDrive = new MotorControllerGroup(climberLeftVictor, climberRightTalon);
 
-        climberEncoder = new SRXMagneticEncoderRelative(climberRightTalon, 0);
+        climberEncoder = new SRXMagneticEncoderRelative(climberRightTalon, 1);
 
 		climberEncoder.reset();
 		
