@@ -201,10 +201,11 @@ public class Robot extends TimedRobot
     SmartDashboard.putBoolean("AltDriveMode", false);
     SmartDashboard.putBoolean("SteeringAssist", false);
     SmartDashboard.putBoolean("Brake", false);
-    SmartDashboard.putBoolean("Pickup", false);
-    SmartDashboard.putBoolean("PickupExtended", false);
-    SmartDashboard.putBoolean("Shooter", false);
-    SmartDashboard.putBoolean("TargetLocked", false);
+    //SmartDashboard.putBoolean("TargetLocked", false);
+
+    RobotContainer.pickup.retract();
+    RobotContainer.channel.stopIndexer();
+    RobotContainer.shooter.stopWheel();
 
     Util.consoleLog("end -------------------------------------------------------------------------");
   }

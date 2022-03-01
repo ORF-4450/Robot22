@@ -1,11 +1,11 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "725",
+      "height": "825",
       "maximized": "1",
       "style": "2",
       "userScale": "2",
-      "width": "1280",
+      "width": "1600",
       "xpos": "0",
       "ypos": "27"
     }
@@ -23,7 +23,7 @@
     },
     "###/SmartDashboard/Gyro2": {
       "Collapsed": "0",
-      "Pos": "951,51",
+      "Pos": "957,28",
       "Size": "320,380"
     },
     "###/SmartDashboard/Start Position": {
@@ -39,16 +39,16 @@
     "###Joysticks": {
       "Collapsed": "0",
       "Pos": "261,706",
-      "Size": "976,82"
+      "Size": "976,278"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "340,26",
+      "Pos": "324,58",
       "Size": "933,542"
     },
     "###Other Devices": {
       "Collapsed": "0",
-      "Pos": "827,40",
+      "Pos": "1281,21",
       "Size": "312,868"
     },
     "###System Joysticks": {

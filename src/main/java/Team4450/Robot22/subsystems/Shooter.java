@@ -67,7 +67,7 @@ public class Shooter extends PIDSubsystem
         {
             super.periodic();
 
-            // Util.consoleLog("current=%.3f", shooterMotor.getStatorCurrent());
+            Util.consoleLog("current=%.3f", shooterMotor.getStatorCurrent());
 
             // This code watches motor startup current draw and if too high we
             // assume wheel is jammed by a ball. We stop wheel, back up channel
@@ -76,7 +76,7 @@ public class Shooter extends PIDSubsystem
 
             if (isRunning() && startUp)
             {
-                if (shooterMotor.getStatorCurrent() > 150)
+                if (shooterMotor.getStatorCurrent() > 175)
                 {
                     stopWheel();
                     backupIndexer();
@@ -89,6 +89,9 @@ public class Shooter extends PIDSubsystem
         else
         {
             if (isRunning()) stopWheel();
+
+            targetRPM = lowTargetRPM;
+            highRPM = false;
         }
 	}
 
@@ -216,6 +219,7 @@ public class Shooter extends PIDSubsystem
         // a voltage that will achieve the rpm we want. PID controller output will
         // adjust the speed to keeep on the rpm and will compensate for rpm being
         // drug down by a ball passing through the shooter.
+
         double ff = m_shooterFeedforward.calculate(setpoint / 60);
         
         double volts = output + ff;
@@ -320,9 +324,12 @@ public class Shooter extends PIDSubsystem
         }
 
         updateDS();
-        
+
+        Util.consoleLog("rpm=%.0f", targetRPM);
+
         return highRPM;
     }
+
     /**
      * Runs indexer wheel backward before starting shooter motor
      * to move ball down out of contact with shooter wheel.

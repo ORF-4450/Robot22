@@ -6,13 +6,16 @@ import Team4450.Lib.Util;
 
 import static Team4450.Robot22.Constants.*;
 import Team4450.Robot22.RobotContainer;
+import Team4450.Robot22.subsystems.Channel;
 import Team4450.Robot22.subsystems.DriveBase;
-
+import Team4450.Robot22.subsystems.Shooter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * Shoot loaded ball then drive out of starting area.
@@ -24,13 +27,15 @@ public class ShootFirst extends CommandBase
     private SequentialCommandGroup	commands = null;
 	private Command					command = null;
 	private	Pose2d					startingPose;
+	private Shooter					shooter;
+	private Channel					channel;
 
 	/**
-	 * Creates a new TestAuto autonomous command.
+	 * Creates a new ShootFirst autonomous command.
 	 *
 	 * @param subsystem The subsystem used by this command.
 	 */
-	public ShootFirst(DriveBase subsystem, Pose2d startingPose) 
+	public ShootFirst(DriveBase subsystem, Shooter shooter, Channel channel, Pose2d startingPose) 
 	{
 		Util.consoleLog("x=%.3f  y=%.3f  hdg=%.1f", startingPose.getX(), startingPose.getY(), 
 						startingPose.getRotation().getDegrees());
@@ -38,6 +43,9 @@ public class ShootFirst extends CommandBase
 		driveBase = subsystem;
 
 		this.startingPose = startingPose;
+
+		this.shooter = shooter;
+		this.channel = channel;
 			  
 		// Use addRequirements() here to declare subsystem dependencies.
 		addRequirements(this.driveBase);
@@ -54,7 +62,7 @@ public class ShootFirst extends CommandBase
 		
 		driveBase.setMotorSafety(false);  // Turn off watchdog.
 		
-	  	LCD.printLine(LCD_1, "Mode: Auto - TestAutoCommand - All=%s, Location=%d, FMS=%b, msg=%s", alliance.name(), location, 
+	  	LCD.printLine(LCD_1, "Mode: Auto - ShootFirst - All=%s, Location=%d, FMS=%b, msg=%s", alliance.name(), location, 
 				DriverStation.isFMSAttached(), gameMessage);
 		
 		// Reset wheel encoders.	  	
@@ -86,6 +94,29 @@ public class ShootFirst extends CommandBase
 		commands = new SequentialCommandGroup();
 		
         // First action is shoot the loaded ball.
+		// We do this by starting the shooter motor PID at low speed.
+
+		command = new InstantCommand(shooter::enable);
+		
+		commands.addCommands(command);
+
+		// Now wait for shooter to spin up.
+
+		command = new WaitCommand(2.0);
+		
+		//commands.addCommands(command);
+
+		// Now shoot the loaded ball.
+
+		command = new InstantCommand(channel::feedBall);
+		
+		//commands.addCommands(command);
+
+		// Now disable shooter motor PID.
+
+		command = new InstantCommand(shooter::disable);
+		
+		//commands.addCommands(command);
 
 		// Next action is to backup some encoder counts and stop with brakes on.
 		

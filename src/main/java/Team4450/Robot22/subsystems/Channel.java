@@ -25,6 +25,8 @@ public class Channel extends SubsystemBase
 	{
         indexerMotor.setInverted(true);
 
+        stopIndexer();
+
 		Util.consoleLog("Channel created!");
 	}
 	

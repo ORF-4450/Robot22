@@ -84,13 +84,16 @@ public class DriveBase extends SubsystemBase
 		InitializeCANTalon(RFCanTalon);
 		InitializeCANTalon(RRCanTalon);
 		
-		// Configure CAN Talons with appropriate inversion determined by testing.
+		// Configure CAN Talons with appropriate inversion determined by testing on robot.
+		// These inversions don't work under simulation due to how inversion works on a real
+		// CanTalon. See code in simulationPeriodic for more on inversion handling.
+
 		LFCanTalon.setInverted(false);
 		LRCanTalon.setInverted(false);
-		  
+		   
 		RFCanTalon.setInverted(true);
 		RRCanTalon.setInverted(true);
-		  
+		
 		// Configure SRX encoders as needed for measuring velocity and distance. 
 		// Wheel diameter is in inches. Adjust for each years robot.
 		
@@ -103,12 +106,8 @@ public class DriveBase extends SubsystemBase
         // the simulation is coded, but going to live with it for now.
         //if (RobotBase.isReal()) rightEncoder.setInverted(true);
 
-        // Needed for Built-in SRX encoder sim support, not used at this time.
-        // if (RobotBase.isSimulation())
-        // {
-             leftEncoder.setInverted(true);
-             rightEncoder.setInverted(true);
-        // }
+        leftEncoder.setInverted(true);
+        rightEncoder.setInverted(true);
 		
 		// Put rear talons into a differential drive object and set the
 	    // front talons to follow the rears.
@@ -120,7 +119,7 @@ public class DriveBase extends SubsystemBase
 
    		// Configure starting motor safety. This runs a timer between updates of the
 		// robotDrive motor power with the set() method. If the timer expires because
-		// of no input, the assumption would be that something has done wrong and the
+		// of no input, the assumption would be that something has gone wrong and the
 		// code is no longer feeding the robotDrive with speed commands and so the
 		// robot could be in an uncontrolled state. So the watchdog turns off the
 		// motors until a new input is delivered by the set() method. The problem is
@@ -181,7 +180,8 @@ public class DriveBase extends SubsystemBase
 		
 		// Create an odometer object to track the robot's movements.
 		
-		odometer = new DifferentialDriveOdometry(RobotContainer.navx.getTotalYaw2d());
+		//odometer = new DifferentialDriveOdometry(RobotContainer.navx.getTotalYaw2d());
+		odometer = new DifferentialDriveOdometry(new Rotation2d(0));
 
 		// Set robot initial position. This is normally set in an auto routine that
 		// starts a match at a particular location and angle. If there is no auto
@@ -318,6 +318,17 @@ public class DriveBase extends SubsystemBase
 			double leftVoltage = LRCanTalon.getMotorOutputVoltage();
 			double rightVoltage = RRCanTalon.getMotorOutputVoltage();
 
+			// TalonSRX implemment inversion by switching the output leads of the controller. The simulated
+			// controller does not do this, so we have to handle inversion ourselves here. The ! (not) used
+			// below seems to be robot specific to get inversions that turn real motors correctly to turn
+			// the sim correctly. Not sure why this is the case...
+
+			if (RRCanTalon.getInverted())
+			{
+				leftVoltage *= -1;
+				rightVoltage *= -1;
+			}
+
 			driveSim.setInputs(leftVoltage, rightVoltage);
 		
 			driveSim.update(0.02);
@@ -385,6 +396,9 @@ public class DriveBase extends SubsystemBase
 	 */
 	public void tankDrive(double leftPower, double rightPower, boolean squareInputs)
 	{
+		//if (RobotBase.isSimulation())
+		//robotDrive.tankDrive(-leftPower, -rightPower, squareInputs);
+		//else
 		robotDrive.tankDrive(leftPower, rightPower, squareInputs);
 		
 		//Util.consoleLog("l=%.3f m=%.3f  r=%.3f m=%.3f", leftPower, LRCanTalon.get(), rightPower, RRCanTalon.get());
@@ -751,11 +765,15 @@ public class DriveBase extends SubsystemBase
 	 */
 	public Pose2d resetOdometer(Pose2d pose, double heading)
 	{
+		Util.consoleLog("hdg=%.1f", heading);
+
 		odometer.resetPosition(pose, Rotation2d.fromDegrees(heading));
+
+		//odometer = new DifferentialDriveOdometry(pose.getRotation(), new Pose2d(pose.getX(), pose.getY(), pose.getRotation()));
 		
 		Pose2d newPose = odometer.getPoseMeters();
 
-		Util.consoleLog("x=%.2f  y=%.2f  angle=%.2f", newPose.getX(), newPose.getY(), newPose.getRotation().getDegrees());
+		Util.consoleLog("x=%.3f  y=%.3f  angle=%.1f", newPose.getX(), newPose.getY(), newPose.getRotation().getDegrees());
 
 		if (driveSim != null) driveSim.setPose(newPose);
 

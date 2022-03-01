@@ -61,8 +61,8 @@ public class RobotContainer
 	// Subsystems.
 
 	private final DriveBase 	driveBase;
-	private final Channel		channel;
-	private final Pickup		pickup;
+	public static Channel		channel;
+	public static Pickup		pickup;
 	public static Shooter		shooter;
 	public static Climber		climber;
 
@@ -355,7 +355,7 @@ public class RobotContainer
     		.whenReleased(new InstantCommand(driveBase::zeroOdometer));
         
         // Toggle shooter wheel high/low RPM.
-		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_YELLOW.value)
+		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_RED_RIGHT.value)
     		.whenReleased(new InstantCommand(shooter::toggleHighLowRPM));
 
     	// Reset encoders.
@@ -426,7 +426,7 @@ public class RobotContainer
 				break;
  				
 			case ShootFirst:
-				autoCommand = new ShootFirst(driveBase, startingPose);
+				autoCommand = new ShootFirst(driveBase, shooter, channel, startingPose);
 				break;
 		}
         

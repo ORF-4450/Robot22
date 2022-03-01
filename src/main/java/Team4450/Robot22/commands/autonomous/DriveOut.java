@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * Drive out of the starting area.
@@ -26,7 +27,7 @@ public class DriveOut extends CommandBase
 	private	Pose2d					startingPose;
 
 	/**
-	 * Creates a new TestAuto autonomous command.
+	 * Creates a new DriveOut autonomous command.
 	 *
 	 * @param subsystem The subsystem used by this command.
 	 */
@@ -54,7 +55,7 @@ public class DriveOut extends CommandBase
 		
 		driveBase.setMotorSafety(false);  // Turn off watchdog.
 		
-	  	LCD.printLine(LCD_1, "Mode: Auto - TestAutoCommand - All=%s, Location=%d, FMS=%b, msg=%s", alliance.name(), location, 
+	  	LCD.printLine(LCD_1, "Mode: Auto - DriveOut - All=%s, Location=%d, FMS=%b, msg=%s", alliance.name(), location, 
 				DriverStation.isFMSAttached(), gameMessage);
 		
 		// Reset wheel encoders.	  	

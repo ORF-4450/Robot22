@@ -12,7 +12,10 @@ Port	Device			Description
 7       CanVictor       Indexer motor.
 8       CanVictor       Left climber motor.
 9       CanTalon        Right climber motor.
-10      CanTalon        Shooter motor.
+10      CanTalon    
+
+
+Shooter motor.
 
 
 PWM Ports
@@ -75,7 +78,7 @@ Button Name				Function
 -----------------------------------------------------------------------------------
 BUTTON_GREEN            Reset Odometer.
 BUTTON_RED				Reset wheel encoders in teleop.
-BUTTON_YELLOW           Toggle shooter target RPM high/low.
+BUTTON_RED_RIGHT        Toggle shooter target RPM high/low.
 
 ROCKER_LEFT_FRONT		Switch Cameras.
 ROCKER_LEFT_BACK		Toggle drive talon brake mode. 

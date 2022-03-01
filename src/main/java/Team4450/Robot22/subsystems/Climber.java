@@ -53,7 +53,6 @@ public class Climber extends SubsystemBase
 	      
 	    climberLeftVictor.setNeutralMode(NeutralMode.Brake);
 	    climberRightTalon.setNeutralMode(NeutralMode.Brake);
-	    //hookVictor.setNeutralMode(NeutralMode.Brake);
 
 	    climberDrive = new MotorControllerGroup(climberLeftVictor, climberRightTalon);
 
