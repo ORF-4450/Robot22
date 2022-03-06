@@ -38,6 +38,9 @@ public class Pickup extends SubsystemBase
 		lowerVictor = new WPI_VictorSPX(LOWER_PICKUP_VICTOR);
 		upperVictor = new WPI_VictorSPX(UPPER_PICKUP_VICTOR);
 
+		lowerVictor.setInverted(true);
+		upperVictor.setInverted(true);
+
         pickupDrive = new MotorControllerGroup(lowerVictor, upperVictor);
 		  
         // Configure interrupt handler for the ballEye optical ball detector. An interrupt
@@ -55,7 +58,7 @@ public class Pickup extends SubsystemBase
 		
 		//interruptHandler.setInterruptEdges(false, true);
 
-		retract();
+		extend();
 		
 		Util.consoleLog("Pickup created!");
     }
@@ -79,31 +82,35 @@ public class Pickup extends SubsystemBase
 	}
 	
 	/**
-	 * Extend the pickup arm and start the wheel motor with default power.
-	 */
-	public void extend()
+	 * Retract the pickup arm and stop the wheel motor.
+	 * Note: retracting the pickup is actually done by extending the cylinder
+	 * as the cylinder works opposite to pickup motion.
+	 */ 
+	public void retract()
 	{
 		Util.consoleLog();
 		
 		pickupValve.SetA();
         
-        extended = true;
-            
-        start(pickupPower);
+        extended = false;
+        
+		stop();
 	}
 	
 	/**
-	 * Retract the pickup arm and stop the wheel motor.
+	 * Extend the pickup arm and start the wheel motor with default power.
+	 * Note: extending the pickup is actually done by retracting the cylinder
+	 * as the cylinder works opposite to pickup motion.
 	 */
-	public void retract()
+	public void extend()
 	{
 		Util.consoleLog();
 		
         pickupValve.SetB();
         
-        extended = false;
-
-        stop();
+        extended = true;
+           
+        start(pickupPower);
 	}
 	  
 	/**

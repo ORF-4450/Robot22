@@ -361,6 +361,12 @@ public class RobotContainer
     	// Reset encoders.
 		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_RED.value)
     		.whenReleased(new InstantCommand(driveBase::resetEncoders));
+	
+		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_YELLOW.value)
+    		.whenReleased(new InstantCommand(climber::toggleDeployMain));
+			
+		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_BLUE_RIGHT.value)
+    		.whenReleased(new InstantCommand(climber::toggleDeployAux));
 			
 		// Toggle drive CAN Talon brake mode. We need to capture both sides of the rocker switch
 		// to get a toggle on either position of the rocker.

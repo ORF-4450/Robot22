@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 
 import static Team4450.Robot22.Constants.*;
 
+import Team4450.Robot22.Robot;
 import Team4450.Robot22.RobotContainer;
 import Team4450.Lib.LCD;
 import Team4450.Lib.Util;
@@ -100,8 +101,9 @@ public class TankDrive extends CommandBase
       LCD.printLine(LCD_3, "leftY=%.3f (%.3f)  rightY=%.3f (%.3f)", leftY, driveBase.getLeftPower(), rightY,
                     driveBase.getRightPower());
                  
-      LCD.printLine(LCD_4, "utilY=%.3f  utilX=%.3f  climberEnc=%d", RobotContainer.utilityStick.GetY(), 
-                    RobotContainer.utilityStick.GetX(), RobotContainer.climber.encoderGet());
+      LCD.printLine(LCD_4, "utilY=%.3f  utilX=%.3f  climberEnc=%d  climbswitch=%b", RobotContainer.utilityStick.GetY(), 
+                    RobotContainer.utilityStick.GetX(), RobotContainer.climber.encoderGet(), 
+                    RobotContainer.climber.getSwitch());
 
 	    LCD.printLine(LCD_7, "Lrpm=%d - Rrpm=%d  Lmax vel=%.3f - Rmax vel=%.3f", driveBase.leftEncoder.getRPM(),
 			    driveBase.rightEncoder.getRPM(), driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS),

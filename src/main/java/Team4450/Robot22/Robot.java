@@ -93,7 +93,7 @@ public class Robot extends TimedRobot
       if (RobotBase.isSimulation()) Util.consoleLog("Simulated Robot");
       if (RobotBase.isReal()) Util.consoleLog("Real Robot");
 
-      // Debugging code for WPILib bug. Bug fixed but keeing this for a bit.
+      // Debugging code for WPILib bug. Bug fixed but keeping this for a bit.
       // monitorDS1Thread = MonitorDS1.getInstance();
       // monitorDS1Thread.start();
 

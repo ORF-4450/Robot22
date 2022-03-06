@@ -67,7 +67,7 @@ public class Shooter extends PIDSubsystem
         {
             super.periodic();
 
-            Util.consoleLog("current=%.3f", shooterMotor.getStatorCurrent());
+           //Util.consoleLog("current=%.3f", shooterMotor.getStatorCurrent());
 
             // This code watches motor startup current draw and if too high we
             // assume wheel is jammed by a ball. We stop wheel, back up channel

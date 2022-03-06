@@ -62,7 +62,7 @@ public class Climber extends SubsystemBase
 		
 		releaseBrake();
 
-        retractMain();
+        extendMain();
         retractAux();
 		
 		Util.consoleLog("Climber created!");
@@ -89,7 +89,7 @@ public class Climber extends SubsystemBase
 		}
 		
 		// If trying to go up (+) and encoder is at upper limit count, we are the top kill the power.
-		if (power > 0 && climberEncoder.get() >= 5300) power = 0;
+		if (power > 0 && climberEncoder.get() >= 23600) power = 0;
 
 		climberDrive.set(power);
 	}
@@ -102,6 +102,11 @@ public class Climber extends SubsystemBase
 		Util.consoleLog();
 		
 		climberDrive.stopMotor();
+	}
+
+	public boolean getSwitch()
+	{
+		return climberSwitch.get();
 	}
 
     /**
@@ -253,7 +258,7 @@ public class Climber extends SubsystemBase
 	{
 		Util.consoleLog("%b", isAuxExtended());
 		
-		if (isMainExtended())
+		if (isAuxExtended())
 			retractAux();
 		else
 		  	extendAux();
