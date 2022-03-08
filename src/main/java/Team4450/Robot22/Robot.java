@@ -246,8 +246,7 @@ public class Robot extends TimedRobot
     // schedule the autonomous command (example)
 
     try {
-      if (autonomousCommand != null)
-        autonomousCommand.schedule();
+      if (autonomousCommand != null) autonomousCommand.schedule();
     } catch (Exception e) {
       Util.logException(e);
       this.endCompetition();
@@ -284,6 +283,10 @@ public class Robot extends TimedRobot
     SmartDashboard.putBoolean("Teleop Mode", true);
 
     robotContainer.resetFaults();
+
+    RobotContainer.pickup.initialize();
+    RobotContainer.climber.initialize();
+    RobotContainer.shooter.initialize();
 
     // Driving handled by DriveCommand which is default command for the DriveBase.
     // Other commands scheduled by joystick buttons.

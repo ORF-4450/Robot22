@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase
 {
-	  
+	
 	private WPI_VictorSPX			climberLeftVictor;
     private WPI_TalonSRX            climberRightTalon;
 
@@ -68,6 +68,19 @@ public class Climber extends SubsystemBase
 		Util.consoleLog("Climber created!");
 	}
 	
+	/**
+	 * Put climber into it's initial state when robot enabled.
+	 */
+
+	public void initialize()
+	{
+		Util.consoleLog();
+
+		releaseBrake();
+        extendMain();
+        retractAux();
+	}
+
 	@Override
 	public void periodic() 
 	{
@@ -89,7 +102,7 @@ public class Climber extends SubsystemBase
 		}
 		
 		// If trying to go up (+) and encoder is at upper limit count, we are the top kill the power.
-		if (power > 0 && climberEncoder.get() >= 23600) power = 0;
+		if (power > 0 && climberEncoder.get() >= 23000) power = 0;
 
 		climberDrive.set(power);
 	}

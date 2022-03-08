@@ -1,13 +1,10 @@
 package Team4450.Robot22.subsystems;
 
 import static Team4450.Robot22.Constants.SHOOTER_TALON;
-import static Team4450.Robot22.Constants.INDEXER_VICTOR;
 import static Team4450.Robot22.Constants.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import Team4450.Lib.FXEncoder;
 import Team4450.Lib.Util;
 import edu.wpi.first.wpilibj.Timer;
@@ -28,9 +25,9 @@ public class Shooter extends PIDSubsystem
     private FXEncoder       encoder = new FXEncoder(shooterMotor);
 
     public final double     defaultPower = .50, lowTargetRPM = 3000, highTargetRPM = 5000, maxRPM = 6000;
-    private double          currentPower = defaultPower, targetRPM = lowTargetRPM, toleranceRPM = 50;
+    private double          currentPower = defaultPower, targetRPM = highTargetRPM, toleranceRPM = 50;
     private static double   kP = .0002, kI = kP / 100, kD = 0;
-    private boolean         startUp, highRPM;
+    private boolean         startUp, highRPM =  true;
     private double          startTime, kS = .498, kV = .108;
 
     private Channel         channel;
@@ -53,6 +50,17 @@ public class Shooter extends PIDSubsystem
 
         Util.consoleLog("Shooter created!");
     }    
+
+    /**
+     * Put shooter into desired initial state when enabled;
+     */
+    public void initialize()
+    {
+        targetRPM = highTargetRPM;
+        highRPM = true;
+
+        updateDS();
+    }
 	
 	// This method will be called once per scheduler run including when disabled.
 	@Override

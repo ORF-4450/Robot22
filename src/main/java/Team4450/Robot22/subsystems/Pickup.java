@@ -44,7 +44,7 @@ public class Pickup extends SubsystemBase
         pickupDrive = new MotorControllerGroup(lowerVictor, upperVictor);
 		  
         // Configure interrupt handler for the ballEye optical ball detector. An interrupt
-        // handler will run the code (function) we specifiy when the RoboRio detects a change
+        // handler will run the code (function) we specify when the RoboRio detects a change
         // in the digital signal from the eye.
 		
 		//interruptHandler = new AsynchronousInterrupt(ballEye, handleInterrupt);
@@ -58,11 +58,22 @@ public class Pickup extends SubsystemBase
 		
 		//interruptHandler.setInterruptEdges(false, true);
 
-		extend();
+		retract();
 		
 		Util.consoleLog("Pickup created!");
     }
-    
+    	
+	/**
+	 * Put pickup into it's initial state when robot enabled.
+	 */
+
+	public void initialize()
+	{
+		Util.consoleLog();
+
+        retract();
+	}
+	
     // Called on each run of the scheduler.
     @Override
     public void periodic() 
