@@ -91,10 +91,12 @@ public class ShootFirst extends CommandBase
 		// be taken in this auto program and add them to a sequential command list to be 
 		// executed one after the other until done.
 		
+		shooter.initialize(true);
+
 		commands = new SequentialCommandGroup();
 		
         // First action is shoot the loaded ball.
-		// We do this by starting the shooter motor PID at low speed.
+		// We do this by starting the shooter motor PID at target speed.
 
 		command = new InstantCommand(shooter::enable);
 		
@@ -104,30 +106,36 @@ public class ShootFirst extends CommandBase
 
 		command = new WaitCommand(2.0);
 		
-		//commands.addCommands(command);
+		commands.addCommands(command);
 
 		// Now shoot the loaded ball.
 
 		command = new InstantCommand(channel::feedBall);
 		
-		//commands.addCommands(command);
+		commands.addCommands(command);
+		
+		// Now wait for shooter to shoot.
 
+		command = new WaitCommand(1.0);
+		
+		commands.addCommands(command);
+		
 		// Now disable shooter motor PID.
 
 		command = new InstantCommand(shooter::disable);
 		
-		//commands.addCommands(command);
+		commands.addCommands(command);
 
 		// Next action is to backup some encoder counts and stop with brakes on.
 		
         command = new AutoDrive(driveBase, -.50, 
-                                SRXMagneticEncoderRelative.getTicksForDistance(3.5, DRIVE_WHEEL_DIAMETER), 
+                                SRXMagneticEncoderRelative.getTicksForDistance(4.5, DRIVE_WHEEL_DIAMETER), 
 								AutoDrive.StopMotors.stop,
 								AutoDrive.Brakes.on,
 								AutoDrive.Pid.on,
 								AutoDrive.Heading.angle);
 		
-		commands.addCommands(command);
+		//commands.addCommands(command);
 		
 		// Launch autonomous command sequence.
 		

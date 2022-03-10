@@ -95,14 +95,14 @@ public class Climber extends SubsystemBase
 	{
 		// If trying to go down (-) and switch returns true, we are at bottom so kill the power.
 		
-		if (power < 0 && climberSwitch.get()) 
+		if (power < 0 && climberSwitch.get()) // || climberEncoder.get() <= 0)) 
 		{
 			climberEncoder.reset();
 			power = 0;
 		}
 		
 		// If trying to go up (+) and encoder is at upper limit count, we are the top kill the power.
-		if (power > 0 && climberEncoder.get() >= 23000) power = 0;
+		if (power > 0 && climberEncoder.get() >= 22300) power = 0;
 
 		climberDrive.set(power);
 	}

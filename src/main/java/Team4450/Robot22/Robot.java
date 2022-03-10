@@ -286,7 +286,7 @@ public class Robot extends TimedRobot
 
     RobotContainer.pickup.initialize();
     RobotContainer.climber.initialize();
-    RobotContainer.shooter.initialize();
+    RobotContainer.shooter.initialize(true);
 
     // Driving handled by DriveCommand which is default command for the DriveBase.
     // Other commands scheduled by joystick buttons.

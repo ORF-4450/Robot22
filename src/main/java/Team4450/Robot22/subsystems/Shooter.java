@@ -53,11 +53,19 @@ public class Shooter extends PIDSubsystem
 
     /**
      * Put shooter into desired initial state when enabled;
+     * @param high  True to start at high speed, false for low.
      */
-    public void initialize()
+    public void initialize(boolean high)
     {
-        targetRPM = highTargetRPM;
-        highRPM = true;
+        if (high)
+        {
+            targetRPM = highTargetRPM;
+            highRPM = true;
+        } else
+        {
+            targetRPM = lowTargetRPM;
+            highRPM = false;
+        }
 
         updateDS();
     }
