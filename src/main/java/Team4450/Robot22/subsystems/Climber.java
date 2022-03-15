@@ -62,7 +62,7 @@ public class Climber extends SubsystemBase
 		
 		releaseBrake();
 
-        extendMain();
+        retractMain();
         retractAux();
 		
 		Util.consoleLog("Climber created!");
@@ -77,7 +77,7 @@ public class Climber extends SubsystemBase
 		Util.consoleLog();
 
 		releaseBrake();
-        extendMain();
+        retractMain();
         retractAux();
 	}
 
