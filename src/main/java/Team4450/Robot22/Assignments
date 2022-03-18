@@ -42,6 +42,8 @@ Port	Device blk-pos	Description
 Digital I/O Ports
 Port	Device			Description
 -----------------------------------------------------------------------------------
+0       Climber Switch  Limit switch on bottom of climber.
+1       Ball Switch     Ball loaded detect limit switch.
 
 
 Analog I/O Ports
@@ -49,6 +51,7 @@ Port	Device			Description
 -----------------------------------------------------------------------------------
 0       Analog Gyro     Not a real gyro, slot 0 used by the simulation gyro.
 1		Pressure Sensor	Report air pressure.
+2       Light Sensor    Detect ball crossing intake.
 
 
 Left Joystick

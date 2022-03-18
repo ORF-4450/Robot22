@@ -114,8 +114,9 @@ public class TankDrive extends CommandBase
       LCD.printLine(LCD_8, "pose x=%.1fm (lrot=%.2f)  y=%.1fm  deg=%.1f", pose.getX(), 
                     driveBase.leftEncoder.getRotations(), pose.getY(), pose.getRotation().getDegrees());
                     
-      LCD.printLine(LCD_9, "shooter rpm=%.0f  max=%.0f", RobotContainer.shooter.getRPM(), 
-                    RobotContainer.shooter.getMaxRPM());
+      LCD.printLine(LCD_9, "shooter rpm=%.0f  max=%.0f  ball switch=%b  ball eye=%d", RobotContainer.shooter.getRPM(), 
+                    RobotContainer.shooter.getMaxRPM(), RobotContainer.channel.getBallStopSwitch(), 
+                    RobotContainer.channel.getBallStartSensor());
 	  
 	  if (altDriveMode)
 	  {	  // normal tank with straight drive assist when sticks within 10% of each other and

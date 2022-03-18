@@ -4,8 +4,11 @@ import static Team4450.Robot22.Constants.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+
 import Team4450.Lib.Util;
 import Team4450.Robot22.RobotContainer;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,11 +18,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Channel extends SubsystemBase
 {
-	private boolean			indexerRunning;
+	private boolean			indexerRunning, feedingBall;
   	
     private WPI_VictorSPX   indexerMotor = new WPI_VictorSPX(INDEXER_VICTOR);
       
     private double          defaultPower = .30;
+    
+    private DigitalInput    ballStopSwitch = new DigitalInput(BALL_STOP_SWITCH);
+    private AnalogInput     ballStartSensor = new AnalogInput(BALL_START_SENSOR);
 
 	public Channel()
 	{
@@ -34,6 +40,15 @@ public class Channel extends SubsystemBase
 	@Override
 	public void periodic() 
 	{
+        // When indexer is running in the in direction (toward shooter) if the
+        // ball stop detection switch goes true, stop the indexer.
+
+        if (isRunning() && indexerMotor.get() > 0 && getBallStopSwitch() && !feedingBall) stopIndexer();
+
+        // If indexer not running and pickup is running and the light sensor on the intake is
+        // blocked (ball present), start the indexer to grab ball.
+
+        //if (!isRunning() && RobotContainer.pickup.isRunning() && getBallStartSensor() < 500) startIndexer();
 	}
 
 	private void updateDS()
@@ -42,7 +57,7 @@ public class Channel extends SubsystemBase
 	}
 
 	/**
-	 * Stop belt.
+	 * Stop indexer wheel.
 	 */
 	public void stopIndexer()
 	{
@@ -56,7 +71,7 @@ public class Channel extends SubsystemBase
 	}
 
     /**
-	 * Start belt.
+	 * Start indexer wheel.
 	 * @param power Power level -1.0 to 1.0. + is ball IN.
 	 */
 	public void startIndexer(double power)
@@ -105,7 +120,7 @@ public class Channel extends SubsystemBase
     }
    
     /**
-     * Toggles indexer wheelt on/off. Uses default - power level when turning on. Backward
+     * Toggles indexer wheel on/off. Uses default - power level when turning on. Backward
      * is ball DOWN.
      * @return True if result is belt on, false if off.
      */
@@ -116,7 +131,7 @@ public class Channel extends SubsystemBase
     
     /**
      * This is an example of how to pass parameters to a runnable. The two funtions above
-     * could be done on one, with a parameter for direction or perhaps power. Both ways
+     * could be done os one, with a parameter for direction or perhaps power. Both ways
      * are legitimate but this shows how to pass a parameter to a runnable if a case
      * surfaces that needs a parameter. See RobotContainer button config method.
      * @param up Direction of wheel rotation. True is up, false is down.
@@ -157,10 +172,29 @@ public class Channel extends SubsystemBase
         // Can't feed a ball if shooter wheel is not running.
         if  (!RobotContainer.shooter.isRunning()) return;
 
+        feedingBall = true;
+
         startIndexer();
 
-        Timer.delay(.50);   // set time so one ball is fed.
+        Timer.delay(.75);   // set time so one ball is fed.
 
         stopIndexer();
+    
+        feedingBall = false;
+    }
+
+    /**
+     * Get the state of the ball stop detection switch.
+     * @return True if ball contacting switch, false if not.
+     */
+    public boolean getBallStopSwitch()
+    {
+        // Invert as switch port returns true when not in contact with ball.
+        return !ballStopSwitch.get();
+    }
+
+    public int getBallStartSensor()
+    {
+        return ballStartSensor.getValue();
     }
 }

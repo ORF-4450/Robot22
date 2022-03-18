@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "RAC22-03.11.22-3";
+	public static String		PROGRAM_NAME = "RAC22-03.17.22-1";
 
 	public static Robot			robot;
 
@@ -48,6 +48,7 @@ public final class Constants
 
 	// Digital Input port assignments. Encoder takes 2 ports.
 	public static final int		CLIMBER_SWITCH = 0;
+	public static final int		BALL_STOP_SWITCH = 1;
 	//public static final int		CLIMBER_ENCODER = 1;		// 1-2
 
 	// Simulation dummy encoders use DIO port numbers above the actual ports on RoboRio.
@@ -57,6 +58,7 @@ public final class Constants
 	// Simulated Gyro needs an actual analog port and has to be 0 or 1.
 	public static final int		SIM_GYRO = 0;
     public static final int		PRESSURE_SENSOR = 1;
+	public static final int		BALL_START_SENSOR = 2;
 
     public static final double	TALON_RAMP_RATE = 1.0;			// Takes 1 sec for full power to be applied.
                                                                 // Tried going above 1.0 but behavior became
