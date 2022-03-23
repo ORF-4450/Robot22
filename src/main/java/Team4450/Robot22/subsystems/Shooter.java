@@ -92,11 +92,23 @@ public class Shooter extends PIDSubsystem
 
             if (isRunning() && startUp)
             {
-                if (shooterMotor.getStatorCurrent() > 175)
+                if (shooterMotor.getStatorCurrent() > 75)
                 {
-                    stopWheel();
-                    backupIndexer();
-                    startWheel();
+                    // If PID controller is running the motor we need to stop the controller
+                    // and restart it after backing up.
+                    if (isEnabled())
+                    {
+                        disable();
+                        backupIndexer();
+                        enable();
+                    }
+                    else
+                    // If not under PID control, we use regular stop/start.
+                    {
+                        stopWheel();
+                        backupIndexer();
+                        startWheel();
+                    }
                 }
 
                 if (Util.getElaspedTime(startTime) > 1.5) startUp = false;
@@ -263,7 +275,8 @@ public class Shooter extends PIDSubsystem
 
         // This is now being handled by code in periodic() function that monitors motor
         // current to detect jam and backup only when needed.
-        //backUpIndexer();
+        
+        //backupIndexer();
         
         setSetpoint(targetRPM);
 
@@ -356,7 +369,7 @@ public class Shooter extends PIDSubsystem
 
         channel.toggleIndexerDown();
 
-        Timer.delay(.5);   
+        Timer.delay(.25);   
 
         channel.stopIndexer();
     }

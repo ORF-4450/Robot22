@@ -207,6 +207,9 @@ public class Robot extends TimedRobot
     RobotContainer.channel.stopIndexer();
     RobotContainer.shooter.stopWheel();
 
+    Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
+                    RobotContainer.channel.highestSensorValue);
+
     Util.consoleLog("end -------------------------------------------------------------------------");
   }
 

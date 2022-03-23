@@ -27,6 +27,8 @@ public class Channel extends SubsystemBase
     private DigitalInput    ballStopSwitch = new DigitalInput(BALL_STOP_SWITCH);
     private AnalogInput     ballStartSensor = new AnalogInput(BALL_START_SENSOR);
 
+    public int              lowestSensorValue, highestSensorValue;
+
 	public Channel()
 	{
         indexerMotor.setInverted(true);
@@ -49,6 +51,11 @@ public class Channel extends SubsystemBase
         // blocked (ball present), start the indexer to grab ball.
 
         //if (!isRunning() && RobotContainer.pickup.isRunning() && getBallStartSensor() < 500) startIndexer();
+
+        int sensorValue = getBallStartSensor();
+
+        if (sensorValue > highestSensorValue) highestSensorValue = sensorValue;
+        if (sensorValue < lowestSensorValue) lowestSensorValue = sensorValue;
 	}
 
 	private void updateDS()

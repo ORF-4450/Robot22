@@ -118,3 +118,19 @@ Main Extended           boolean         True if climber main arm is extended.
 Aux extended            boolean         True if climber aux arm is extended.
 
 Drive Base gearbox ratios: 11:60, 26:30, 22:44  yields 12.6:1 overall for 9.28 f/s or 3 m/s.
+
+CAN Bus Map:
+
+Roborio
+LR Drive Motor Talon
+LF Drive Motor Talon
+Shooter TalonFX
+PCM
+Pickup CanVictor
+Pickup CanVictor
+Indexer CanVictor
+RF Drive Motor Talon
+RR Drive Motor Talon
+Climber CanVictor
+Climber CanVictor
+PDB
