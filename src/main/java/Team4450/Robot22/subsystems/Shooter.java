@@ -53,7 +53,7 @@ public class Shooter extends PIDSubsystem
 
     /**
      * Put shooter into desired initial state when enabled;
-     * @param high  True to start at high speed, false for low.
+     * @param high True to start at high speed, false for low.
      */
     public void initialize(boolean high)
     {
@@ -90,9 +90,17 @@ public class Shooter extends PIDSubsystem
             // and restart wheel. If no over draw for 1.5 sec we assume good
             // start up and disable this check for rest of wheel run time.
 
+            // Update: The 2022 robot shooter does not ball jam the motor enough to
+            // stop it from starting to turn and eject the ball before we can detect
+            // a jam and stop. The current draw difference is too small between no jam
+            // and jammed to detect reliably and quick enough to stop the ball moving.
+            // So current based jam detection will not work. So we set the current level
+            // way high to effectively turn the current jam detection off. We will have
+            // to use the fixed indexer backup on shooter motor start.
+
             if (isRunning() && startUp)
             {
-                if (shooterMotor.getStatorCurrent() > 75)
+                if (shooterMotor.getStatorCurrent() > 200)
                 {
                     // If PID controller is running the motor we need to stop the controller
                     // and restart it after backing up.
@@ -163,7 +171,10 @@ public class Shooter extends PIDSubsystem
 
         // This is now being handled by code in periodic() function that monitors motor
         // current to detect jam and backup only when needed.
-        //backupIndexer();
+        
+        // Update: For 2022 bot, current jam detection does not work so fixed backup of
+        // indexer must be used.
+        backupIndexer();
 
 		shooterMotor.set(currentPower);
 		
@@ -276,7 +287,10 @@ public class Shooter extends PIDSubsystem
         // This is now being handled by code in periodic() function that monitors motor
         // current to detect jam and backup only when needed.
         
-        //backupIndexer();
+        // Update: For 2022 bot, current jam detection does not work so fixed backup of
+        // indexer must be used.
+        
+        backupIndexer();
         
         setSetpoint(targetRPM);
 
