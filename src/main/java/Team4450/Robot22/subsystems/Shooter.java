@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import Team4450.Lib.FXEncoder;
 import Team4450.Lib.Util;
+import Team4450.Robot22.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -379,6 +380,9 @@ public class Shooter extends PIDSubsystem
      */
     private void backupIndexer()
     {
+        // Skip backup in auto mode.
+        if (robot.isAutonomous()) return;
+
         Util.consoleLog();
 
         channel.toggleIndexerDown();
