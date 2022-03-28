@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ArcadeDrive extends CommandBase 
 {
-  private final DriveBase 		driveBase;
+  private final DriveBase 		  driveBase;
   
   private final DoubleSupplier	powerSupplier, rotationSupplier;
   private final BooleanSupplier turnInPlaceSupplier;
@@ -37,16 +37,16 @@ public class ArcadeDrive extends CommandBase
   {
     Util.consoleLog();
 	  
-	driveBase = subsystem;
+	  driveBase = subsystem;
 	  
-	// Use addRequirements() here to declare subsystem dependencies.
+	  // Use addRequirements() here to declare subsystem dependencies.
 	  
-	addRequirements(this.driveBase);
+	  addRequirements(this.driveBase);
 	  
-	// Save references to DoubleSupplier objects so we can read them later in the
-	// execute method.
+	  // Save references to DoubleSupplier objects so we can read them later in the
+	  // execute method.
 	  
-	powerSupplier = power;
+	  powerSupplier = power;
     rotationSupplier = rotation;
     turnInPlaceSupplier = turnInPlace;
   }
@@ -67,16 +67,16 @@ public class ArcadeDrive extends CommandBase
   @Override
   public void initialize() 
   {
-	Util.consoleLog();
+	  Util.consoleLog();
 	  
-	driveBase.setMotorSafety(true); 	// Turn on watchdog.
+	  driveBase.setMotorSafety(true); 	// Turn on watchdog.
 
-	// 2018 post season testing showed this setting helps smooth out driving response.
-	// Set here because auto programs may set their own rate. We combine this with
-	// squared input on drive methods to try to reduce how jerky and touchy the 
-	// robot can be.
-	  
-	driveBase.SetCANTalonRampRate(TALON_RAMP_RATE);
+    // 2018 post season testing showed this setting helps smooth out driving response.
+    // Set here because auto programs may set their own rate. We combine this with
+    // squared input on drive methods to try to reduce how jerky and touchy the 
+    // robot can be.
+      
+    driveBase.SetCANTalonRampRate(TALON_RAMP_RATE);
   }
 
   /** 
@@ -92,24 +92,31 @@ public class ArcadeDrive extends CommandBase
 
     boolean turnInPlace = turnInPlaceSupplier.getAsBoolean();
 	  
-	LCD.printLine(LCD_2, "leftenc=%d  rightenc=%d", driveBase.getLeftEncoder(), driveBase.getRightEncoder());			
+	  LCD.printLine(LCD_2, "leftenc=%d  rightenc=%d", driveBase.getLeftEncoder(), driveBase.getRightEncoder());			
 
     LCD.printLine(LCD_3, "power=%.3f  rot=%.3f tip=%b  (lpwr=%.3f) (rpwr=%.3f)   ", power, rotation,
         turnInPlace, driveBase.getLeftPower(), driveBase.getRightPower());
                  
     LCD.printLine(LCD_4, "utilY=%.3f  utilX=%.3f", RobotContainer.utilityStick.GetY(), RobotContainer.utilityStick.GetX());
 
-	LCD.printLine(LCD_7, "Lrpm=%d - Rrpm=%d  Lmax vel=%.3f - Rmax vel=%.3f", driveBase.leftEncoder.getRPM(),
+	  LCD.printLine(LCD_7, "Lrpm=%d - Rrpm=%d  Lmax vel=%.3f - Rmax vel=%.3f", driveBase.leftEncoder.getRPM(),
 	    driveBase.rightEncoder.getRPM(), driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS),
-		driveBase.rightEncoder.getMaxVelocity(PIDRateType.velocityMPS));
+		  driveBase.rightEncoder.getMaxVelocity(PIDRateType.velocityMPS));
 	  
-	Pose2d pose = driveBase.getOdometerPose();
+	  Pose2d pose = driveBase.getOdometerPose();
 	  
-	LCD.printLine(LCD_8, "pose x=%.1fm  y=%.1fm  deg=%.1f", pose.getX(), pose.getY(),
-		pose.getRotation().getDegrees());
-    
+	  LCD.printLine(LCD_8, "pose x=%.1fm  y=%.1fm  deg=%.1f", pose.getX(), pose.getY(),
+		  pose.getRotation().getDegrees());
+  
+    // Tank or Arcade Drive are default commanads for the DriveBase. When running in autonmous, the auto commands
+    // require DriveBase, which preempts the default DriveBase command. However, if our auto code ends before end
+    // of auto period, then the tank/arcade drive command resumes and is feeding drivebase during remainder of auto
+    // period. This was not an issue until the joystick drift problem arose, so the resumption of a driving command
+    // during auto had the robot driving randomly after our auto program completed. The if statment below fixes this.
+    if (robot.isAutonomous()) return;
+        
     if (turnInPlace)
-        driveBase.curvatureDrive(0, rotation * steeringGain, true);
+      driveBase.curvatureDrive(0, rotation * steeringGain, true);
     else
 	    driveBase.arcadeDrive(power, rotation * steeringGain, false);
   }
@@ -120,11 +127,11 @@ public class ArcadeDrive extends CommandBase
   @Override
   public void end(boolean interrupted) 
   {
-	Util.consoleLog("interrupted=%b", interrupted);
+	  Util.consoleLog("interrupted=%b", interrupted);
 	  
-	driveBase.stop();
+	  driveBase.stop();
 	  
-	driveBase.setMotorSafety(false); 	// Turn off watchdog.
+	  driveBase.setMotorSafety(false); 	// Turn off watchdog.
   }
 
   /**

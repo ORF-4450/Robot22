@@ -284,7 +284,8 @@ public class AutoDrive extends CommandBase
 		
 		driveBase.curvatureDrive(power, Util.clampValue(-yaw * kSteeringGain, 1.0), false);
 
-		Util.consoleLog("lpwr=%.2f  rpwr=%.2f", driveBase.getLeftPower(), -driveBase.getRightPower());
+		//Util.consoleLog("lpwr=%.2f  rpwr=%.2f", driveBase.getLeftPower(), -driveBase.getRightPower());
+		Util.consoleLog("lpwr=%.2f  rpwr=%.2f", driveBase.getLeftPower(), driveBase.getRightPower());
 
 		iterations++;
 	}
