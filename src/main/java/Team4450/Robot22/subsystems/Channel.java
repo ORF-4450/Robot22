@@ -38,7 +38,7 @@ public class Channel extends SubsystemBase
 		Util.consoleLog("Channel created!");
 	}
 	
-	// This method will be called once per scheduler run
+	// This method will be called once per scheduler run.
 	@Override
 	public void periodic() 
 	{

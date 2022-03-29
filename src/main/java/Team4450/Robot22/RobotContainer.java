@@ -49,6 +49,7 @@ import Team4450.Robot22.subsystems.DriveBase;
 import Team4450.Robot22.subsystems.LimeLight;
 import Team4450.Robot22.subsystems.Pickup;
 import Team4450.Robot22.subsystems.Shooter;
+import Team4450.Robot22.subsystems.ShuffleBoard;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -60,7 +61,8 @@ public class RobotContainer
 {
 	// Subsystems.
 
-	private final DriveBase 	driveBase;
+	public static ShuffleBoard	shuffleBoard;
+	public static DriveBase 	driveBase;
 	public static Channel		channel;
 	public static Pickup		pickup;
 	public static Shooter		shooter;
@@ -201,7 +203,8 @@ public class RobotContainer
 		}
 
 		// Create subsystems prior to button mapping.
-		
+
+		shuffleBoard = new ShuffleBoard();
 		driveBase = new DriveBase();
         channel = new Channel();
         shooter = new Shooter(channel);

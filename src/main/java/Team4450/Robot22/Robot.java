@@ -192,16 +192,9 @@ public class Robot extends TimedRobot
 
     // Reset driver station LEDs.
 
-    SmartDashboard.putBoolean("Disabled", true);
-    SmartDashboard.putBoolean("Auto Mode", false);
-    SmartDashboard.putBoolean("Teleop Mode", false);
-    SmartDashboard.putBoolean("FMS", DriverStation.isFMSAttached());
-    SmartDashboard.putBoolean("Overload", false);
-    SmartDashboard.putNumber("AirPressure", 0);
-    SmartDashboard.putBoolean("AltDriveMode", false);
-    SmartDashboard.putBoolean("SteeringAssist", false);
-    SmartDashboard.putBoolean("Brake", false);
-    //SmartDashboard.putBoolean("TargetLocked", false);
+    RobotContainer.shuffleBoard.resetLEDs();
+
+    // Put subsystems into correct state for next enable.
 
     RobotContainer.pickup.retract();
     RobotContainer.channel.stopIndexer();
