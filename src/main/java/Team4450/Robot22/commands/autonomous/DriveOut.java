@@ -85,6 +85,10 @@ public class DriveOut extends CommandBase
 		// executed one after the other until done.
 		
 		commands = new SequentialCommandGroup();
+
+		command = new AutoRotate(driveBase, .30, 180, AutoDrive.Pid.on, AutoDrive.Heading.angle);
+
+		commands.addCommands(command);
 		
 		// First action is to drive forward some encoder counts and stop with brakes on. We express the
 		// target distance in feet and convert to ticks.

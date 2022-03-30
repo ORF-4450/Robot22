@@ -472,7 +472,8 @@ public class RobotContainer
 		startingPoseChooser = new SendableChooser<Pose2d>();
 		
 		SendableRegistry.add(startingPoseChooser, "Start Position");
-		startingPoseChooser.setDefaultOption("Blue 1", BLUE_1);
+		startingPoseChooser.setDefaultOption("Default", DEFAULT_STARTING_POSE);
+		startingPoseChooser.addOption("Blue 1", BLUE_1);		
 		startingPoseChooser.addOption("Blue 2", BLUE_2);		
 		startingPoseChooser.addOption("Blue 3", BLUE_3);		
 		startingPoseChooser.addOption("Blue 4", BLUE_4);		

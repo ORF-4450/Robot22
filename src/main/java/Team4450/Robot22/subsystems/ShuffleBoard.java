@@ -43,8 +43,9 @@ public class ShuffleBoard extends SubsystemBase
       
         Pose2d pose = RobotContainer.driveBase.getOdometerPose();
       
-        LCD.printLine(LCD_8, "pose x=%.1fm (lrot=%.2f)  y=%.1fm  deg=%.1f", pose.getX(), 
-                      RobotContainer.driveBase.leftEncoder.getRotations(), pose.getY(), pose.getRotation().getDegrees());
+        LCD.printLine(LCD_8, "pose x=%.1fm (lrot=%.2f)  y=%.1fm  deg=%.1f  yaw=%.1f", pose.getX(), 
+                      RobotContainer.driveBase.leftEncoder.getRotations(), pose.getY(), pose.getRotation().getDegrees(),
+                      RobotContainer.navx.getYaw());
                       
         LCD.printLine(LCD_9, "shooter rpm=%.0f  max=%.0f  ball switch=%b  ball eye=%d", RobotContainer.shooter.getRPM(), 
                       RobotContainer.shooter.getMaxRPM(), RobotContainer.channel.getBallStopSwitch(), 

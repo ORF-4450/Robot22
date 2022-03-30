@@ -104,11 +104,13 @@ public class DriveBase extends SubsystemBase
         // values going forward. This should be the same for simulation, but it did not 
         // work right so no invert under sim. I am sure this is due to a mistake in how
         // the simulation is coded, but going to live with it for now.
-        //if (RobotBase.isReal()) rightEncoder.setInverted(true);
+        
+		if (RobotBase.isReal())
+		{
+        	leftEncoder.setInverted(true);
+        	rightEncoder.setInverted(true);
+		}
 
-        leftEncoder.setInverted(true);
-        rightEncoder.setInverted(true);
-		
 		// Put rear talons into a differential drive object and set the
 	    // front talons to follow the rears.
 		  
@@ -323,11 +325,11 @@ public class DriveBase extends SubsystemBase
 			// below seems to be robot specific to get inversions that turn real motors correctly to turn
 			// the sim correctly. Not sure why this is the case...
 
-			if (RRCanTalon.getInverted())
-			{
-				leftVoltage *= -1;
-				rightVoltage *= -1;
-			}
+			// if (RRCanTalon.getInverted())
+			// {
+			// 	leftVoltage *= -1;
+			// 	rightVoltage *= -1;
+			// }
 
 			driveSim.setInputs(leftVoltage, rightVoltage);
 		
