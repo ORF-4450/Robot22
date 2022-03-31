@@ -253,11 +253,11 @@ public class DriveBase extends SubsystemBase
 
 		gyroSim = new AnalogGyroSim(dummyGyro);
 
-		RobotContainer.navx.setSimGyro(dummyGyro);
+		//RobotContainer.navx.setSimGyro(dummyGyro);
 
         // Use for built-in sim support in NavX instead of above code. Not used at this time as
         // the built-in sim support is not reliable.
-        //RobotContainer.navx.initSimV2();
+        RobotContainer.navx.initSimV2();
 
 		// the Field2d class lets us visualize our robot in the simulation GUI. We have to
 		// add it to the dashboard. Field2d is updated by the odometer class instance we
@@ -362,10 +362,10 @@ public class DriveBase extends SubsystemBase
             // Update the dummy analog gyro (via GyroSim instance) which drives our NavX class instance.
             // We change the sign because the sign convention of Rotation2d is opposite of our convention used
             // in the Navx class.
-		    gyroSim.setAngle(-driveSim.getHeading().getDegrees());
+		    //gyroSim.setAngle(-driveSim.getHeading().getDegrees());
             
             // Used with built-in NavX sim support. Not used at this time.
-            //RobotContainer.navx.setSimAngle(-driveSim.getHeading().getDegrees());
+            RobotContainer.navx.setSimAngle(-driveSim.getHeading().getDegrees());
 
 			Util.consoleLog("lcount=%d  ldist=%.3fm  lget=%d ldist=%.3fm", leftDummyEncoder.get(), 
 							leftDummyEncoder.getDistance(), leftEncoder.get(), leftEncoder.getDistance(DistanceUnit.Meters));

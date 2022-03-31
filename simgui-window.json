@@ -23,7 +23,7 @@
     },
     "###/SmartDashboard/Gyro2": {
       "Collapsed": "0",
-      "Pos": "957,28",
+      "Pos": "957,27",
       "Size": "320,380"
     },
     "###/SmartDashboard/Start Position": {
@@ -37,9 +37,9 @@
       "Size": "281,190"
     },
     "###Joysticks": {
-      "Collapsed": "0",
+      "Collapsed": "1",
       "Pos": "236,562",
-      "Size": "976,278"
+      "Size": "436,173"
     },
     "###NetworkTables": {
       "Collapsed": "0",

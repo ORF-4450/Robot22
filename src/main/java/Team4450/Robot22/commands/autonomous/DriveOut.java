@@ -86,7 +86,7 @@ public class DriveOut extends CommandBase
 		
 		commands = new SequentialCommandGroup();
 
-		command = new AutoRotate(driveBase, .30, 180, AutoDrive.Pid.on, AutoDrive.Heading.angle);
+		command = new AutoRotate(driveBase, .30, 90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
 
 		commands.addCommands(command);
 		
@@ -100,6 +100,10 @@ public class DriveOut extends CommandBase
 								AutoDrive.Pid.on,
 								AutoDrive.Heading.angle);
 		
+		commands.addCommands(command);
+
+		command = new AutoRotate(driveBase, .30, -90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
+
 		commands.addCommands(command);
 		
 		// Launch autonomous command sequence.
