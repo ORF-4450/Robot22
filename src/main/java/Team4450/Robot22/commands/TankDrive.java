@@ -95,28 +95,9 @@ public class TankDrive extends CommandBase
   public void execute() 
   {
     double leftY = leftPower.getAsDouble() * kPowerGain, rightY = rightPower.getAsDouble() * kPowerGain, angle;
-    
-    LCD.printLine(LCD_2, "leftenc=%d  rightenc=%d", driveBase.getLeftEncoder(), driveBase.getRightEncoder());			
 
-    LCD.printLine(LCD_3, "leftY=%.3f (%.3f)  rightY=%.3f (%.3f)", leftY, driveBase.getLeftPower(), rightY,
+    LCD.printLine(LCD_2, "leftY=%.3f (%.3f)  rightY=%.3f (%.3f)", leftY, driveBase.getLeftPower(), rightY,
                   driveBase.getRightPower());
-                
-    LCD.printLine(LCD_4, "utilY=%.3f  utilX=%.3f  climberEnc=%d  climbswitch=%b", RobotContainer.utilityStick.GetY(), 
-                  RobotContainer.utilityStick.GetX(), RobotContainer.climber.encoderGet(), 
-                  RobotContainer.climber.getSwitch());
-
-    LCD.printLine(LCD_7, "Lrpm=%d - Rrpm=%d  Lmax vel=%.3f - Rmax vel=%.3f", driveBase.leftEncoder.getRPM(),
-        driveBase.rightEncoder.getRPM(), driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS),
-        driveBase.rightEncoder.getMaxVelocity(PIDRateType.velocityMPS));
-  
-    Pose2d pose = driveBase.getOdometerPose();
-  
-    LCD.printLine(LCD_8, "pose x=%.1fm (lrot=%.2f)  y=%.1fm  deg=%.1f", pose.getX(), 
-                  driveBase.leftEncoder.getRotations(), pose.getY(), pose.getRotation().getDegrees());
-                  
-    LCD.printLine(LCD_9, "shooter rpm=%.0f  max=%.0f  ball switch=%b  ball eye=%d", RobotContainer.shooter.getRPM(), 
-                  RobotContainer.shooter.getMaxRPM(), RobotContainer.channel.getBallStopSwitch(), 
-                  RobotContainer.channel.getBallStartSensor());
   
     // Tank or Arcade Drive are default commanads for the DriveBase. When running in autonmous, the auto commands
     // require DriveBase, which preempts the default DriveBase command. However, if our auto code ends before end

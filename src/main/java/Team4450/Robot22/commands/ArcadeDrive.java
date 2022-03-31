@@ -91,23 +91,10 @@ public class ArcadeDrive extends CommandBase
     double power = powerSupplier.getAsDouble(), rotation = rotationSupplier.getAsDouble();
 
     boolean turnInPlace = turnInPlaceSupplier.getAsBoolean();
-	  
-	  LCD.printLine(LCD_2, "leftenc=%d  rightenc=%d", driveBase.getLeftEncoder(), driveBase.getRightEncoder());			
 
-    LCD.printLine(LCD_3, "power=%.3f  rot=%.3f tip=%b  (lpwr=%.3f) (rpwr=%.3f)   ", power, rotation,
-        turnInPlace, driveBase.getLeftPower(), driveBase.getRightPower());
-                 
-    LCD.printLine(LCD_4, "utilY=%.3f  utilX=%.3f", RobotContainer.utilityStick.GetY(), RobotContainer.utilityStick.GetX());
+    LCD.printLine(LCD_2, "power=%.3f  rot=%.3f tip=%b  (lpwr=%.3f) (rpwr=%.3f)   ", power, rotation,
+                  turnInPlace, driveBase.getLeftPower(), driveBase.getRightPower());
 
-	  LCD.printLine(LCD_7, "Lrpm=%d - Rrpm=%d  Lmax vel=%.3f - Rmax vel=%.3f", driveBase.leftEncoder.getRPM(),
-	    driveBase.rightEncoder.getRPM(), driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS),
-		  driveBase.rightEncoder.getMaxVelocity(PIDRateType.velocityMPS));
-	  
-	  Pose2d pose = driveBase.getOdometerPose();
-	  
-	  LCD.printLine(LCD_8, "pose x=%.1fm  y=%.1fm  deg=%.1f", pose.getX(), pose.getY(),
-		  pose.getRotation().getDegrees());
-  
     // Tank or Arcade Drive are default commanads for the DriveBase. When running in autonmous, the auto commands
     // require DriveBase, which preempts the default DriveBase command. However, if our auto code ends before end
     // of auto period, then the tank/arcade drive command resumes and is feeding drivebase during remainder of auto
