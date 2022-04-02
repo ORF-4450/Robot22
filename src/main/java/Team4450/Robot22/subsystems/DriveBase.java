@@ -257,7 +257,7 @@ public class DriveBase extends SubsystemBase
 
         // Use for built-in sim support in NavX instead of above code. Not used at this time as
         // the built-in sim support is not reliable.
-        RobotContainer.navx.initSimV2();
+        RobotContainer.navx.initializeSim();
 
 		// the Field2d class lets us visualize our robot in the simulation GUI. We have to
 		// add it to the dashboard. Field2d is updated by the odometer class instance we
@@ -293,7 +293,7 @@ public class DriveBase extends SubsystemBase
         {
             Util.consoleLog();
 
-			Util.consoleLog("clc=%.3f  crc=%.3f  px=%.3f py=%.3f prot=%.0f tangle=%.0f simhdg=%.0f yaw=%.0f", cumulativeLeftDist, 
+			Util.consoleLog("clc=%.3f  crc=%.3f  px=%.3f py=%.3f prot=%.1f tangle=%.1f simhdg=%.1f yaw=%.1f", cumulativeLeftDist, 
 							cumulativeRightDist, pose.getX(), pose.getY(), pose.getRotation().getDegrees(), 
 							-RobotContainer.navx.getTotalAngle2d().getDegrees(), -driveSim.getHeading().getDegrees(),
 							RobotContainer.navx.getYaw());
@@ -375,7 +375,7 @@ public class DriveBase extends SubsystemBase
 			Util.consoleLog("rcount=%d  rdist=%.3fm  rget=%d rdist=%.3fm", rightDummyEncoder.get(), 
 							rightDummyEncoder.getDistance(), rightEncoder.get(), rightEncoder.getDistance(DistanceUnit.Meters));
 
-			Util.consoleLog("angle=%.1f  offset=%.1f  simhdg=%.0f  nxhdg=%.0f", dummyGyro.getAngle(), dummyGyro.getOffset(),
+			Util.consoleLog("angle=%.1f  simhdg=%.1f  nxhdg=%.1f", RobotContainer.navx.getTotalAngle(), 
                             -driveSim.getHeading().getDegrees(), RobotContainer.navx.getHeading());
                             //RobotContainer.navx.getYawRate());
 		}
