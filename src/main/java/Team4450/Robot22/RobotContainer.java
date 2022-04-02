@@ -319,6 +319,9 @@ public class RobotContainer
 		// Toggle alternate driving mode.
 		new JoystickButton(rightStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TRIGGER.value)
     		.whenPressed(new InstantCommand(driveCommand::toggleAlternateDrivingMode));
+		
+		new JoystickButton(rightStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_RIGHT.value)
+			.whenPressed(new InstantCommand(shuffleBoard::switchTab));
  
 		// -------- Utility stick buttons ----------
 		// Toggle extend Pickup.

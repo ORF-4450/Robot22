@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "RAC22SB-03.29.22-1";
+	public static String		PROGRAM_NAME = "RAC22-04.02.22-1";
 
 	public static Robot			robot;
 
@@ -68,7 +68,7 @@ public final class Constants
     public static final double	TRACK_WIDTH = 30;				// Inches. 
 	public static final double	GEAR_RATIO = 12.6;				// Overall gear ratio, motor rotations to one
 																// wheel rotation.
-	public static final double	ROBOT_WEIGHT = 154;				// Pounds.
+	public static final double	ROBOT_WEIGHT = 140;				// Pounds.
 	
 	// LCD display line number constants showing class where the line is set.
 	public static final int		LCD_1 = 1;	    // Robot, Auto Commands.
@@ -107,7 +107,7 @@ public final class Constants
     public static final double  MAX_ROTATIONAL_VEL = 70;    // Degrees per second.
     public static final double  MAX_ROTATIONAL_ACCEL = 70;  // Degrees per second per second.
 
-    // Drive base characterization results. These values from 2021 as placeholders until 2022
+    // Drive base characterization results. These values from 2021 as placeholders until 202?
 	// characterization is done.
 
     public static final double  TRACK_WIDTH_C = Util.inchesToMeters(TRACK_WIDTH);	// Meters.

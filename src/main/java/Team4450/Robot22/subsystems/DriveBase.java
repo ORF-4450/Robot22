@@ -292,10 +292,11 @@ public class DriveBase extends SubsystemBase
         if (robot.isEnabled() && RobotBase.isSimulation()) 
         {
             Util.consoleLog();
-//			Util.consoleLog("clc=%.3f  crc=%.3f  px=%.3f py=%.3f prot=%.3f tyaw=%.3f", cumulativeLeftDist, cumulativeRightDist,
-//							pose.getX(), pose.getY(), pose.getRotation().getDegrees(), RobotContainer.navx.getTotalYaw2d().getDegrees());
-            Util.consoleLog("clc=%.3f  crc=%.3f  px=%.3f py=%.3f prot=%.3f tyaw=%.3f", cumulativeLeftDist, cumulativeRightDist,
-							pose.getX(), pose.getY(), pose.getRotation().getDegrees(), RobotContainer.navx.getTotalAngle2d().getDegrees());
+
+			Util.consoleLog("clc=%.3f  crc=%.3f  px=%.3f py=%.3f prot=%.0f tangle=%.0f simhdg=%.0f yaw=%.0f", cumulativeLeftDist, 
+							cumulativeRightDist, pose.getX(), pose.getY(), pose.getRotation().getDegrees(), 
+							-RobotContainer.navx.getTotalAngle2d().getDegrees(), -driveSim.getHeading().getDegrees(),
+							RobotContainer.navx.getYaw());
         }
 
 		// Update the sim field display with the current pose, or position and direction of the robot, after we
@@ -321,9 +322,8 @@ public class DriveBase extends SubsystemBase
 			double rightVoltage = RRCanTalon.getMotorOutputVoltage();
 
 			// TalonSRX implemment inversion by switching the output leads of the controller. The simulated
-			// controller does not do this, so we have to handle inversion ourselves here. The ! (not) used
-			// below seems to be robot specific to get inversions that turn real motors correctly to turn
-			// the sim correctly. Not sure why this is the case...
+			// controller does not do this, so we have to handle inversion ourselves here. This is robot
+			// specific and only to get sim to drive correctly. May or may not be needed.
 
 			// if (RRCanTalon.getInverted())
 			// {
@@ -364,8 +364,10 @@ public class DriveBase extends SubsystemBase
             // in the Navx class.
 		    //gyroSim.setAngle(-driveSim.getHeading().getDegrees());
             
-            // Used with built-in NavX sim support. Not used at this time.
-            RobotContainer.navx.setSimAngle(-driveSim.getHeading().getDegrees());
+            // Update simulated NavX gyro via built-in NavX sim support.
+			// We change the sign because the sign convention of Rotation2d is opposite of our convention used
+            // in the Navx class (+ clockwise rotation).
+			RobotContainer.navx.setSimAngle(-driveSim.getHeading().getDegrees());
 
 			Util.consoleLog("lcount=%d  ldist=%.3fm  lget=%d ldist=%.3fm", leftDummyEncoder.get(), 
 							leftDummyEncoder.getDistance(), leftEncoder.get(), leftEncoder.getDistance(DistanceUnit.Meters));
@@ -373,7 +375,7 @@ public class DriveBase extends SubsystemBase
 			Util.consoleLog("rcount=%d  rdist=%.3fm  rget=%d rdist=%.3fm", rightDummyEncoder.get(), 
 							rightDummyEncoder.getDistance(), rightEncoder.get(), rightEncoder.getDistance(DistanceUnit.Meters));
 
-			Util.consoleLog("angle=%.2f  offset=%.2f  dshd=%.3f  hdng=%.2f", dummyGyro.getAngle(), dummyGyro.getOffset(),
+			Util.consoleLog("angle=%.1f  offset=%.1f  simhdg=%.0f  nxhdg=%.0f", dummyGyro.getAngle(), dummyGyro.getOffset(),
                             -driveSim.getHeading().getDegrees(), RobotContainer.navx.getHeading());
                             //RobotContainer.navx.getYawRate());
 		}

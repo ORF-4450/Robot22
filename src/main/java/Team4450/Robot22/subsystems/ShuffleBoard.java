@@ -9,6 +9,8 @@ import Team4450.Robot22.RobotContainer;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class ShuffleBoard extends SubsystemBase
 {
+    public int      currentTab, numberOfTabs = 2;
+
 	public ShuffleBoard()
 	{
 		Util.consoleLog("ShuffleBoard created!");
@@ -67,5 +71,32 @@ public class ShuffleBoard extends SubsystemBase
         SmartDashboard.putBoolean("SteeringAssist", false);
         SmartDashboard.putBoolean("Brake", false);
         //SmartDashboard.putBoolean("TargetLocked", false);
+    }
+
+    /**
+     * Switch tab on shuffleboard display by rotating through the tabs.
+     */
+    public void switchTab()
+    {
+        currentTab++;
+
+        if (currentTab > (numberOfTabs - 1)) currentTab = 0;
+
+        Util.consoleLog("%d", currentTab);
+
+        Shuffleboard.selectTab(currentTab);
+    }
+
+    /**
+     * Switch tab on shuffleboard display by tab name. Will create the tab if
+     * it does not already exist.
+     * @param tabName The name of the tab to select.
+     * @return The selected tab object.
+     */
+    public ShuffleboardTab switchTab(String tabName)
+    {
+        Util.consoleLog("%s", tabName);
+
+        return Shuffleboard.getTab(tabName);
     }
 }

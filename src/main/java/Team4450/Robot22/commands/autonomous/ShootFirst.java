@@ -73,10 +73,10 @@ public class ShootFirst extends CommandBase
 
 		// Set heading to initial angle (0 is robot pointed down the field) so
 		// NavX class can track which way the robot is pointed during the match.
-		RobotContainer.navx.setHeading(startingPose.getRotation().getDegrees() + 90);
+		RobotContainer.navx.setHeading(startingPose.getRotation().getDegrees() + 180);
 			
 		// Target heading should be the same.
-		RobotContainer.navx.setTargetHeading(startingPose.getRotation().getDegrees() + 90);
+		RobotContainer.navx.setTargetHeading(startingPose.getRotation().getDegrees() + 180);
 			
 		// Set Talon ramp rate for smooth acceleration from stop. Determine by observation.
 		driveBase.SetCANTalonRampRate(1.0);
@@ -84,7 +84,7 @@ public class ShootFirst extends CommandBase
 		// Reset odometry tracking with initial x,y position and heading (passed at constructor). 
 		// Robot must be placed in same starting location each time for pose tracking
 		// to work. We add 90 degrees because robot will be facing the target instead of outward.
-		driveBase.resetOdometer(startingPose, startingPose.getRotation().getDegrees() + 90);
+		driveBase.resetOdometer(startingPose, startingPose.getRotation().getDegrees() + 180);
 		
 		// Since a typical autonomous program consists of multiple actions, which are commands
 		// in this style of programming, we will create a list of commands for the actions to

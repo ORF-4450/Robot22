@@ -25,7 +25,7 @@ public class Shooter extends PIDSubsystem
 
     private FXEncoder       encoder = new FXEncoder(shooterMotor);
 
-    public final double     defaultPower = .50, lowTargetRPM = 3000, highTargetRPM = 5000, maxRPM = 6000;
+    public final double     defaultPower = .50, lowTargetRPM = 3000, highTargetRPM = 4800, maxRPM = 6000;
     private double          currentPower = defaultPower, targetRPM = highTargetRPM, toleranceRPM = 50;
     private static double   kP = .0002, kI = kP / 100, kD = 0;
     private boolean         startUp, highRPM =  true;
