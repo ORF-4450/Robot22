@@ -47,8 +47,6 @@ public class DriveBase extends SubsystemBase
 	private DifferentialDrivetrainSim 	driveSim;
 	private EncoderSim 					leftEncoderSim, rightEncoderSim;
 	private Encoder						leftDummyEncoder, rightDummyEncoder;
-	private AnalogGyroSim				gyroSim;
-	private AnalogGyro					dummyGyro;
 	
 	// The Field2d class simulates the field in the sim GUI. Note that we can have only one
   	// instance!
@@ -247,16 +245,7 @@ public class DriveBase extends SubsystemBase
 			Units.inchesToMeters(TRACK_WIDTH),              // Track width in meters.
 			null);
 
-		// Create a dummy analog gyro which will be passed into our NavX wrapper class and will
-		// drive that class instead of an actual Navx (See NavX class in RobotLib for more info).
-		dummyGyro = new AnalogGyro(SIM_GYRO);
-
-		gyroSim = new AnalogGyroSim(dummyGyro);
-
-		//RobotContainer.navx.setSimGyro(dummyGyro);
-
-        // Use for built-in sim support in NavX instead of above code. Not used at this time as
-        // the built-in sim support is not reliable.
+        // Turn on built-in sim support in NavX instead of above code.
         RobotContainer.navx.initializeSim();
 
 		// the Field2d class lets us visualize our robot in the simulation GUI. We have to
@@ -286,7 +275,6 @@ public class DriveBase extends SubsystemBase
 		lastLeftDist = left;
 		lastRightDist = right;
 		
-    	//Pose2d pose = odometer.update(RobotContainer.navx.getTotalYaw2d(), cumulativeLeftDist, cumulativeRightDist);
     	Pose2d pose = odometer.update(RobotContainer.navx.getTotalAngle2d(), cumulativeLeftDist, cumulativeRightDist);
 
         if (robot.isEnabled() && RobotBase.isSimulation()) 
@@ -358,11 +346,6 @@ public class DriveBase extends SubsystemBase
 			
             // Use with built-in SRX encoder support. Not used at this time.
             //rightEncoder.setSimValues(driveSim.getRightPositionMeters(), driveSim.getRightVelocityMetersPerSecond());
-
-            // Update the dummy analog gyro (via GyroSim instance) which drives our NavX class instance.
-            // We change the sign because the sign convention of Rotation2d is opposite of our convention used
-            // in the Navx class.
-		    //gyroSim.setAngle(-driveSim.getHeading().getDegrees());
             
             // Update simulated NavX gyro via built-in NavX sim support.
 			// We change the sign because the sign convention of Rotation2d is opposite of our convention used
