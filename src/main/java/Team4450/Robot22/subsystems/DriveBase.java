@@ -53,6 +53,7 @@ public class DriveBase extends SubsystemBase
 	//private ValveDA				highLowValve = new ValveDA(HIGHLOW_VALVE);
 
 	private boolean				talonBrakeMode, lowSpeed, highSpeed;
+	private boolean				firstEncoderReset = true;
 	
 	private double				cumulativeLeftDist = 0, cumulativeRightDist = 0;
 	private double				lastLeftDist = 0, lastRightDist = 0;
@@ -671,11 +672,9 @@ public class DriveBase extends SubsystemBase
 	 * between calling for encoder reset and the encoder returning zero. Sometimes this does not
 	 * matter and other times it can really mess things up if you reset encoder but at the time
 	 * you next read the encoder for a measurement (like in autonomous programs) the encoder has
-	 * not yet been reset and returns the previous count. This method resets and delays 112ms
-	 * which testing seemed to show would cause the next read of the reset encoder to return
-	 * zero. Note, the 112ms delay was with old way of getting encoder counts which had ~100ms
-     * response delay plus command send delay. With new way of getting counts, response delay
-     * is ~20ms plus ~10ms send delay. So we now wait 35ms to let reset complete.
+	 * not yet been reset and returns the previous count. This method resets and delays 36ms
+	 * which sould cause the next read of the reset encoders to return zero. The response delay
+     * is ~20ms plus ~10ms each send delay. So we now wait 36ms total to let resets complete.
 	 */
 	public void resetEncodersWithDelay()
 	{
@@ -683,13 +682,18 @@ public class DriveBase extends SubsystemBase
 		
 		Util.consoleLog("at encoder reset lget=%d  rget=%d", leftEncoder.get(), rightEncoder.get());
 		
-		// Set encoders to update every 20ms just to make sure.
-		rightEncoder.setStatusFramePeriod(20);
-		leftEncoder.setStatusFramePeriod(20);
+		// Set encoders to update every 20ms just to make sure. These calls take 10ms each so we
+		// just do them once.
+		if (firstEncoderReset)
+		{
+			leftEncoder.setStatusFramePeriod(20);
+			rightEncoder.setStatusFramePeriod(20);
+			firstEncoderReset = false;
+		}
 
-		// Reset encoders with 30ms delay before proceeding.
-		int rightError = rightEncoder.reset(15);    // 15ms
+		// Reset encoders with 36ms total delay before proceeding.
 		int leftError = leftEncoder.reset(15);      // 15ms
+		int rightError = rightEncoder.reset(21);    // 21ms
 
 		lastLeftDist = lastRightDist = 0;
 
