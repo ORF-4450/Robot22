@@ -13,37 +13,37 @@
   "Window": {
     "###/SmartDashboard/Auto Program": {
       "Collapsed": "0",
-      "Pos": "115,25",
+      "Pos": "4,156",
       "Size": "307,60"
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "327,271",
+      "Pos": "333,159",
       "Size": "890,537"
     },
     "###/SmartDashboard/Gyro2": {
       "Collapsed": "0",
-      "Pos": "959,24",
+      "Pos": "941,22",
       "Size": "320,380"
     },
     "###/SmartDashboard/Start Position": {
       "Collapsed": "0",
-      "Pos": "114,85",
+      "Pos": "4,215",
       "Size": "307,60"
     },
     "###FMS": {
-      "Collapsed": "0",
-      "Pos": "2,157",
-      "Size": "281,190"
+      "Collapsed": "1",
+      "Pos": "4,285",
+      "Size": "143,136"
     },
     "###Joysticks": {
-      "Collapsed": "1",
-      "Pos": "236,562",
-      "Size": "436,173"
+      "Collapsed": "0",
+      "Pos": "288,702",
+      "Size": "976,278"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "315,13",
+      "Pos": "131,31",
       "Size": "933,729"
     },
     "###Other Devices": {
@@ -58,7 +58,7 @@
     },
     "###Timing": {
       "Collapsed": "0",
-      "Pos": "6,367",
+      "Pos": "3,316",
       "Size": "162,194"
     },
     "Debug##Default": {
@@ -68,7 +68,7 @@
     },
     "Robot State": {
       "Collapsed": "0",
-      "Pos": "5,20",
+      "Pos": "3,23",
       "Size": "109,114"
     }
   }

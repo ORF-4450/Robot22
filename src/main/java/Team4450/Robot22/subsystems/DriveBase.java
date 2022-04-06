@@ -43,8 +43,6 @@ public class DriveBase extends SubsystemBase
 	
 	// Simulation classes help us simulate our robot
 	private DifferentialDrivetrainSim 	driveSim;
-	private EncoderSim 					leftEncoderSim, rightEncoderSim;
-	private Encoder						leftDummyEncoder, rightDummyEncoder;
 	
 	// The Field2d class simulates the field in the sim GUI. Note that we can have only one
   	// instance!
@@ -97,9 +95,9 @@ public class DriveBase extends SubsystemBase
 		rightEncoder = new SRXMagneticEncoderRelative(RRCanTalon, DRIVE_WHEEL_DIAMETER);
 		leftEncoder = new SRXMagneticEncoderRelative(LRCanTalon, DRIVE_WHEEL_DIAMETER);
           
-        // The real robot has to invert the right encoder so both encoder read increasing
+        // The real robot has to invert the encoders as needed so both encoder read increasing
         // values going forward. This should be the same for simulation, but it did not 
-        // work right so no invert under sim. I am sure this is due to a mistake in how
+        // work right so invert as needed under sim. I am sure this is due to a mistake in how
         // the simulation is coded, but going to live with it for now.
         
 		if (RobotBase.isReal())
@@ -107,6 +105,7 @@ public class DriveBase extends SubsystemBase
         	leftEncoder.setInverted(true);
         	rightEncoder.setInverted(true);
 		}
+		else rightEncoder.setInverted(true);
 
 		// Put rear talons into a differential drive object and set the
 	    // front talons to follow the rears.
@@ -206,31 +205,13 @@ public class DriveBase extends SubsystemBase
 	{
 		Util.consoleLog();
 
-		// Dummy encoders have to have ports that are not allocated to anything else.
-		// Can be non-existent ports.
-		leftDummyEncoder = new Encoder(DUMMY_LEFT_ENCODER, DUMMY_LEFT_ENCODER + 1);
-        rightDummyEncoder = new Encoder(DUMMY_RIGHT_ENCODER, DUMMY_RIGHT_ENCODER + 1);
-		
-		double distancePerTickMeters = Math.PI * Units.inchesToMeters(DRIVE_WHEEL_DIAMETER) / SRXMagneticEncoderRelative.TICKS_PER_REVOLUTION;
+		//double distancePerTickMeters = Math.PI * Units.inchesToMeters(DRIVE_WHEEL_DIAMETER) / SRXMagneticEncoderRelative.TICKS_PER_REVOLUTION;
         
-        Util.consoleLog("disttickmeters=%.6f", distancePerTickMeters);
-		
-		leftDummyEncoder.setDistancePerPulse(distancePerTickMeters);
-		rightDummyEncoder.setDistancePerPulse(distancePerTickMeters);
-
-		// Configure our SRXMagneticEncoderRelative instances to use the dummy encoders instead
-		// of actual CTRE magnetic encoders connected to TalonSRX controllers.
-		leftEncoder.setSimEncoder(leftDummyEncoder);
-        rightEncoder.setSimEncoder(rightDummyEncoder);
+        //Util.consoleLog("disttickmeters=%.6f", distancePerTickMeters);
         
-        // This code is used with the built-in SRXMagneticEncoder sim support instead of above
-        // code. Not used at this time as buit-in sim support is not reliable.
-        //leftEncoder.initializeSim();
-        //rightEncoder.initializeSim();
-
-		// Create the encoder simulation classes that wrap the dummy encoders.
-		leftEncoderSim = new EncoderSim(leftDummyEncoder);
-		rightEncoderSim = new EncoderSim(rightDummyEncoder);	
+        // Initialize SRXMagneticEncoder sim support.
+        leftEncoder.initializeSim();
+        rightEncoder.initializeSim();
 
 		// Create the simulation model of the drivetrain.
 		// The MOI of 1.0 is guess needed to get the sim to behave like a real robot...
@@ -280,7 +261,7 @@ public class DriveBase extends SubsystemBase
         {
             Util.consoleLog();
 
-			Util.consoleLog("clc=%.3f  crc=%.3f  px=%.3f py=%.3f prot=%.1f tangle=%.1f simhdg=%.1f yaw=%.1f", cumulativeLeftDist, 
+			Util.consoleLog("cld=%.3f  crd=%.3f  px=%.3f py=%.3f prot=%.1f tangle=%.1f simhdg=%.1f yaw=%.1f", cumulativeLeftDist, 
 							cumulativeRightDist, pose.getX(), pose.getY(), pose.getRotation().getDegrees(), 
 							-RobotContainer.navx.getTotalAngle2d().getDegrees(), -driveSim.getHeading().getDegrees(),
 							RobotContainer.navx.getYaw());
@@ -300,10 +281,7 @@ public class DriveBase extends SubsystemBase
 		{
 			// To update our simulation, we set motor voltage inputs, update the
 			// simulation, and write the simulated positions and velocities to our
-			// simulated encoder and gyro.
-
-			//double leftVoltage = LRCanTalon.get() * RobotController.getInputVoltage();
-			//double rightVoltage = RRCanTalon.get() * RobotController.getInputVoltage();
+			// simulated encoders and gyro.
 
 			double leftVoltage = LRCanTalon.getMotorOutputVoltage();
 			double rightVoltage = RRCanTalon.getMotorOutputVoltage();
@@ -332,32 +310,18 @@ public class DriveBase extends SubsystemBase
 			SmartDashboard.putNumber("LeftDistance", driveSim.getLeftPositionMeters());
 			SmartDashboard.putNumber("RightDistance", driveSim.getRightPositionMeters());
 
-			// Drive the dummy encoders (via EncoderSim instances) which in turn drive our SRXMagneticEncoder
-			// instances.
-			leftEncoderSim.setDistance(driveSim.getLeftPositionMeters());
-			leftEncoderSim.setRate(driveSim.getLeftVelocityMetersPerSecond());
+            // Update simulated SRX encoders. 
+            leftEncoder.setSimValues(driveSim.getLeftPositionMeters(), driveSim.getLeftVelocityMetersPerSecond());
 
-            // Use with built-in SRX encoder support. Not used at this time.
-            //leftEncoder.setSimValues(driveSim.getLeftPositionMeters(), driveSim.getLeftVelocityMetersPerSecond());
-
-			rightEncoderSim.setDistance(driveSim.getRightPositionMeters());
-			rightEncoderSim.setRate(driveSim.getRightVelocityMetersPerSecond());
-			
-            // Use with built-in SRX encoder support. Not used at this time.
-            //rightEncoder.setSimValues(driveSim.getRightPositionMeters(), driveSim.getRightVelocityMetersPerSecond());
+            rightEncoder.setSimValues(driveSim.getRightPositionMeters(), driveSim.getRightVelocityMetersPerSecond());
             
             // Update simulated NavX gyro via built-in NavX sim support.
 			// We change the sign because the sign convention of Rotation2d is opposite of our convention used
             // in the Navx class (+ clockwise rotation).
 			RobotContainer.navx.setSimAngle(-driveSim.getHeading().getDegrees());
 
-			Util.consoleLog("lcount=%d  ldist=%.3fm  lget=%d ldist=%.3fm abs=%.1f", leftDummyEncoder.get(), 
-							leftDummyEncoder.getDistance(), leftEncoder.get(), 
-							leftEncoder.getDistance(DistanceUnit.Meters),
-							leftEncoder.getAbsolute());
-
-			Util.consoleLog("rcount=%d  rdist=%.3fm  rget=%d rdist=%.3fm", rightDummyEncoder.get(), 
-							rightDummyEncoder.getDistance(), rightEncoder.get(), 
+			Util.consoleLog("lget=%d ldist=%.3fm  rget=%d rdist=%.3fm", leftEncoder.get(), 
+							leftEncoder.getDistance(DistanceUnit.Meters), rightEncoder.get(), 
 							rightEncoder.getDistance(DistanceUnit.Meters));
 
 			Util.consoleLog("tangle=%.1f  simhdg=%.1f  nxhdg=%.1f", RobotContainer.navx.getTotalAngle(), 
@@ -662,9 +626,6 @@ public class DriveBase extends SubsystemBase
 		lastLeftDist = lastRightDist = 0;
 
         RobotContainer.navx.resetYaw();
-
-        // This has the effect of resetting encoder tracking in the driveSim.
-		if (driveSim != null) driveSim.setPose(driveSim.getPose());   //odometer.getPoseMeters());
 	}
 	
 	/**
@@ -697,13 +658,8 @@ public class DriveBase extends SubsystemBase
 
 		lastLeftDist = lastRightDist = 0;
 
-		if (RobotBase.isSimulation()) driveSim.setPose(driveSim.getPose());   //odometer.getPoseMeters());
-		
 		Util.consoleLog("after reset lget=%d  rget=%d  lerr=%d  rerr=%d", leftEncoder.get(), rightEncoder.get(),
 						leftError, rightError);
-		
-		if (RobotBase.isSimulation())
-			Util.consoleLog("after reset ldget=%d  rdget=%d", leftDummyEncoder.get(), rightDummyEncoder.get());
 	}
 	
 	/**
