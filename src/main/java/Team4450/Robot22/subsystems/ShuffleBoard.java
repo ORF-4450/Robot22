@@ -75,8 +75,9 @@ public class ShuffleBoard extends SubsystemBase
 
     /**
      * Switch tab on shuffleboard display by rotating through the tabs.
+     * @return The new tab index (0-based).
      */
-    public void switchTab()
+    public int switchTab()
     {
         currentTab++;
 
@@ -85,6 +86,8 @@ public class ShuffleBoard extends SubsystemBase
         Util.consoleLog("%d", currentTab);
 
         Shuffleboard.selectTab(currentTab);
+
+        return currentTab;
     }
 
     /**

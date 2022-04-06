@@ -17,6 +17,14 @@ Operates the robot "Mugato" for FRC game "Rapid React".
 ### If RobotLib gets an update:
 1) download the RobotLib.json file from the RobotLib Github repo and drop it into the vendordeps folder inside the project folder. Build the project.
 ****************************************************************************************************************
+Version 22.RAC.2
+
+*   Replace the home brew NavX simulation scheme using dmmy analog gyros with NavX's built-in sim support.
+    Requires v3.12.0 of RobotLib.
+*   Various tweaks and clean up get everything working with the NavX sim changes.
+
+R. Corn, April 2 2022
+
 Version 22.RAC.1
 
 *   Move LCD panel displays to new ShuffleBoard class.

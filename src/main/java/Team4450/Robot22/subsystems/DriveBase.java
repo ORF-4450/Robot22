@@ -13,7 +13,6 @@ import Team4450.Lib.SRXMagneticEncoderRelative.DistanceUnit;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.RobotContainer;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -22,7 +21,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -226,8 +224,8 @@ public class DriveBase extends SubsystemBase
         
         // This code is used with the built-in SRXMagneticEncoder sim support instead of above
         // code. Not used at this time as buit-in sim support is not reliable.
-        //leftEncoder.initSim();
-        //rightEncoder.initSim();
+        //leftEncoder.initializeSim();
+        //rightEncoder.initializeSim();
 
 		// Create the encoder simulation classes that wrap the dummy encoders.
 		leftEncoderSim = new EncoderSim(leftDummyEncoder);
@@ -352,13 +350,16 @@ public class DriveBase extends SubsystemBase
             // in the Navx class (+ clockwise rotation).
 			RobotContainer.navx.setSimAngle(-driveSim.getHeading().getDegrees());
 
-			Util.consoleLog("lcount=%d  ldist=%.3fm  lget=%d ldist=%.3fm", leftDummyEncoder.get(), 
-							leftDummyEncoder.getDistance(), leftEncoder.get(), leftEncoder.getDistance(DistanceUnit.Meters));
+			Util.consoleLog("lcount=%d  ldist=%.3fm  lget=%d ldist=%.3fm abs=%.1f", leftDummyEncoder.get(), 
+							leftDummyEncoder.getDistance(), leftEncoder.get(), 
+							leftEncoder.getDistance(DistanceUnit.Meters),
+							leftEncoder.getAbsolute());
 
 			Util.consoleLog("rcount=%d  rdist=%.3fm  rget=%d rdist=%.3fm", rightDummyEncoder.get(), 
-							rightDummyEncoder.getDistance(), rightEncoder.get(), rightEncoder.getDistance(DistanceUnit.Meters));
+							rightDummyEncoder.getDistance(), rightEncoder.get(), 
+							rightEncoder.getDistance(DistanceUnit.Meters));
 
-			Util.consoleLog("angle=%.1f  simhdg=%.1f  nxhdg=%.1f", RobotContainer.navx.getTotalAngle(), 
+			Util.consoleLog("tangle=%.1f  simhdg=%.1f  nxhdg=%.1f", RobotContainer.navx.getTotalAngle(), 
                             -driveSim.getHeading().getDegrees(), RobotContainer.navx.getHeading());
                             //RobotContainer.navx.getYawRate());
 		}
