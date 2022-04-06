@@ -50,9 +50,6 @@ public final class Constants
 	public static final int		CLIMBER_SWITCH = 0;
 	public static final int		BALL_STOP_SWITCH = 1;
 	//public static final int		CLIMBER_ENCODER = 1;		// 1-2
-
-	// Simulation dummy encoders use DIO port numbers above the actual ports on RoboRio.
-	public static final int		DUMMY_LEFT_ENCODER = 10, DUMMY_RIGHT_ENCODER = 12;
 	  
 	// Analog Input port assignments.
 	// Simulated Gyro needs an actual analog port and has to be 0 or 1.
