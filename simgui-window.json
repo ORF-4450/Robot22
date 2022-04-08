@@ -34,7 +34,7 @@
     "###FMS": {
       "Collapsed": "1",
       "Pos": "4,285",
-      "Size": "143,136"
+      "Size": "177,119"
     },
     "###Joysticks": {
       "Collapsed": "0",
@@ -42,8 +42,8 @@
       "Size": "976,278"
     },
     "###NetworkTables": {
-      "Collapsed": "0",
-      "Pos": "131,31",
+      "Collapsed": "1",
+      "Pos": "298,34",
       "Size": "933,729"
     },
     "###Other Devices": {
