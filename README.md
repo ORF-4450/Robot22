@@ -17,6 +17,12 @@ Operates the robot "Mugato" for FRC game "Rapid React".
 ### If RobotLib gets an update:
 1) download the RobotLib.json file from the RobotLib Github repo and drop it into the vendordeps folder inside the project folder. Build the project.
 ****************************************************************************************************************
+Version 22.4
+
+*   Merge RAC season development branch onto master. Any future work will be done on master.
+
+R. Corn, April 16 2022
+
 Version 22.RAC.3
 
 *   Replace the home brew SRX Magnetic Encoder simulation scheme using dmmy analog gyros with CTRE's built-in 
