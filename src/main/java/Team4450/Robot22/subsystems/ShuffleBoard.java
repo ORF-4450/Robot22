@@ -3,6 +3,7 @@ package Team4450.Robot22.subsystems;
 import static Team4450.Robot22.Constants.*;
 
 import Team4450.Lib.LCD;
+import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.RobotContainer;
@@ -54,6 +55,12 @@ public class ShuffleBoard extends SubsystemBase
         LCD.printLine(LCD_9, "shooter rpm=%.0f  max=%.0f  ball switch=%b  ball eye=%d", RobotContainer.shooter.getRPM(), 
                       RobotContainer.shooter.getMaxRPM(), RobotContainer.channel.getBallStopSwitch(), 
                       RobotContainer.channel.getBallStartSensor());  
+
+        LCD.printLine(LCD_10, "labspos=%.1f  ldeg=%.1f  rabspos=%.1f  rdeg=%.1f",
+                      RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
+                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.leftEncoder.getAbsolutePosition()),
+                      RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
+                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.rightEncoder.getAbsolutePosition()));
     }
 
     /**
