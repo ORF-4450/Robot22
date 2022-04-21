@@ -56,11 +56,15 @@ public class ShuffleBoard extends SubsystemBase
                       RobotContainer.shooter.getMaxRPM(), RobotContainer.channel.getBallStopSwitch(), 
                       RobotContainer.channel.getBallStartSensor());  
 
-        LCD.printLine(LCD_10, "labspos=%.1f  ldeg=%.1f  rabspos=%.1f  rdeg=%.1f",
-                      RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
-                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.leftEncoder.getAbsolutePosition()),
-                      RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
-                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.rightEncoder.getAbsolutePosition()));
+        LCD.printLine(LCD_10, "yaw=%.1f tyaw=%.1f tyaw180=%.1f tangle=%.1f hdg=%.1f",
+                      RobotContainer.navx.getYaw(), RobotContainer.navx.getTotalYaw(), RobotContainer.navx.getTotalYaw180(),
+                      RobotContainer.navx.getTotalAngle(), RobotContainer.navx.getHeading());
+
+        // LCD.printLine(LCD_10, "labspos=%d  ldeg=%.1f  rabspos=%d  rdeg=%.1f",
+        //               RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
+        //               SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.leftEncoder.getAbsolutePosition()),
+        //               RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
+        //               SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.rightEncoder.getAbsolutePosition()));
     }
 
     /**

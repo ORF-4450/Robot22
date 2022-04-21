@@ -102,8 +102,8 @@ public class RobotContainer
 	
 	private JoyStick	leftStick = new JoyStick(new Joystick(LEFT_STICK), "Left Stick", JoyStickButtonIDs.TRIGGER);
 	private JoyStick	rightStick = new JoyStick(new Joystick(RIGHT_STICK), "Right  Stick", JoyStickButtonIDs.TRIGGER);
-
 	public static JoyStick   utilityStick = new JoyStick(new Joystick(UTILITY_STICK), "Utility Stick", JoyStickButtonIDs.TRIGGER);
+
 	private Joystick	launchPad = new Joystick(LAUNCH_PAD);	//new LaunchPad(new Joystick(LAUNCH_PAD));
 
     private GamePad     gamePad;	// Used during simulation.
@@ -403,6 +403,8 @@ public class RobotContainer
 	{
         Util.consoleLog();
         
+		new JoystickButton(gamePad.getJoyStick(), GamePad.GamePadButtonIDs.X.value)
+    		.whenReleased(new InstantCommand(navx::resetYaw));
     }
 
 	/**

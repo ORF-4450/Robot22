@@ -56,8 +56,9 @@ public class DriveBase extends SubsystemBase
 	private double				cumulativeLeftDist = 0, cumulativeRightDist = 0;
 	private double				lastLeftDist = 0, lastRightDist = 0;
 	
-	private SlewRateLimiter		leftLimiter = new SlewRateLimiter(0.5);
-	private SlewRateLimiter		rightLimiter = new SlewRateLimiter(0.5);
+	// Slewratelimiters make joystick inputs more gentle: 1 sec from 0 to 1.
+	private SlewRateLimiter		leftLimiter = new SlewRateLimiter(1);
+	private SlewRateLimiter		rightLimiter = new SlewRateLimiter(1);
  	
 	 /**
 	 * Creates a new DriveBase Subsystem.
@@ -343,15 +344,12 @@ public class DriveBase extends SubsystemBase
 	/**
 	 * Tank drive function. Passes left/right power values to the robot drive.
 	 * Should be called every scheduler run by the Drive command.
-	 * @param leftPower Left power setting -1.0 to +1.0.
-	 * @param rightPower Right power setting -1.0 to +1.0.
+	 * @param leftPower Left % power setting -1.0 to +1.0.
+	 * @param rightPower Right % power setting -1.0 to +1.0.
 	 * @param squareInputs True reduces sensitivity at low speeds.
 	 */
 	public void tankDrive(double leftPower, double rightPower, boolean squareInputs)
 	{
-		//if (RobotBase.isSimulation())
-		//robotDrive.tankDrive(-leftPower, -rightPower, squareInputs);
-		//else
 		robotDrive.tankDrive(leftPower, rightPower, squareInputs);
 		
 		//Util.consoleLog("l=%.3f m=%.3f  r=%.3f m=%.3f", leftPower, LRCanTalon.get(), rightPower, RRCanTalon.get());
@@ -360,22 +358,25 @@ public class DriveBase extends SubsystemBase
 	/**
 	 * Tank drive function. Passes left/right power values to the robot drive.
 	 * Should be called every scheduler run by the Drive command. Uses SlewRateLimiter
-	 * filter to modulate inputs to smooth out power delivery. Testing did not show any
-	 * advantage over square inputs but will keep this routine for now. In theory, the
-     * CAN Talon ramp rate we set globally does the same job.
-	 * @param leftSpeed Left power setting -1.0 to +1.0.
-	 * @param rightSpeed Right power setting -1.0 to +1.0.
+	 * filter to delay inputs to smooth out control. This appears as a delay to apply
+	 * power but desired power is reached in 2 sec. Robot may appear slow to respond
+	 * then accelerate abrutly as full input is reached In theory, the CAN Talon ramp
+	 * rate we set globally does the same job, but it did not seem to make much difference.
+	 * Here we are laying ramp rate, slewratelimiting and square inputs to tone down the
+	 * responsiveness of the controls.
+	 * @param leftSpeed Left % power setting -1.0 to +1.0.
+	 * @param rightSpeed Right % power setting -1.0 to +1.0.
 	 */
 	public void tankDriveLimited(double leftPower, double rightPower)
 	{
-		robotDrive.tankDrive(leftLimiter.calculate(leftPower), rightLimiter.calculate(rightPower), false);
+		robotDrive.tankDrive(leftLimiter.calculate(leftPower), rightLimiter.calculate(rightPower), true);
 		
 		//Util.consoleLog("l=%.2f m=%.2f  r=%.2f m=%.2f", leftPower, LRCanTalon.get(), rightPower, RRCanTalon.get());
 	}
 
 	/**
 	 * Curvature drive function. Drives at set speed with set curve.
-	 * @param power Power setting -1.0 to +1.0.
+	 * @param power % Power setting -1.0 to +1.0.
 	 * @param rotation Rotation rate -1.0 to +1.0. Clockwise us +.
 	 * @param quickTurn True causes quick turn (turn in place).
 	 */
@@ -390,7 +391,7 @@ public class DriveBase extends SubsystemBase
 
     /**
 	 * Arcade drive function. Drives at set power with set curve/rotation.
-	 * @param power Power setting -1.0 to +1.0, positive is forward.
+	 * @param power % Power setting -1.0 to +1.0, positive is forward.
 	 * @param rotation Rotation rate -1.0 to +1.0, positive is clockwise.
 	 * @param squareInputs When set reduces sensitivity a low speeds.
 	 */
@@ -416,8 +417,8 @@ public class DriveBase extends SubsystemBase
     
     /**
      * Set left/right motor voltage level directly.
-     * @param leftVolts     % power -12 to +12, + is forward.
-     * @param rightVolts    % power -12 to +12, + is forward.
+     * @param leftVolts     power -12 to +12, + is forward.
+     * @param rightVolts    power -12 to +12, + is forward.
      */
     public void setVoltage(double leftVolts, double rightVolts)
     {

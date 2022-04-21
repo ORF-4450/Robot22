@@ -25,8 +25,9 @@ public class TankDrive extends CommandBase
   
   private final DoubleSupplier	leftPower, rightPower;
   
-  private boolean				        altDriveMode, steeringAssistMode;
+  private boolean				altDriveMode, steeringAssistMode;
   private double                kPowerGain = 1.0;   // This is to tone down joystick response.
+  private double                kMaxPower = .75;    // Max joystick value.
 
   /**
    * Creates a new TankDrive command.
@@ -96,6 +97,14 @@ public class TankDrive extends CommandBase
   {
     double leftY = leftPower.getAsDouble() * kPowerGain, rightY = rightPower.getAsDouble() * kPowerGain, angle;
 
+    // Limit joystick max input value. Gain can reduce power but does it over the entire range of JS values.
+    // This can mean really sluggish behavior at small input. Limiting max caps robot speed but leaves the
+    // lower speeds unchanged. Note that the drive base has limiting functions as well that seek to reduce
+    // the reponsiveness of the robot through delays in application of power to make driving more manageable.
+    // So joystick response is customizable in several locations.
+    leftY = Util.clampValue(leftY, kMaxPower);
+    rightY = Util.clampValue(rightY, kMaxPower);
+
     LCD.printLine(LCD_2, "leftY=%.3f (%.3f)  rightY=%.3f (%.3f)", leftY, driveBase.getLeftPower(), rightY,
                   driveBase.getRightPower());
   
@@ -145,7 +154,8 @@ public class TankDrive extends CommandBase
         SmartDashboard.putBoolean("SteeringAssist", steeringAssistMode);
     }
     else
-        driveBase.tankDrive(leftY, rightY, false);		// Normal tank drive.
+        //driveBase.tankDrive(leftY, rightY, false);		// Normal tank drive.
+        driveBase.tankDriveLimited(leftY, rightY);		// Normal tank drive.
         //driveBase.tankDrive(0, 0, true);
   }
 
