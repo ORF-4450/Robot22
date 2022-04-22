@@ -4,7 +4,6 @@ package Team4450.Robot22;
 import Team4450.Lib.*;
 import Team4450.Robot22.wpilib.TimedRobot;
 
-//import Team4450.Robot22.subsystems.ColorWheel;
 import static Team4450.Robot22.Constants.*;
 
 import edu.wpi.first.util.sendable.Sendable;
@@ -92,13 +91,6 @@ public class Robot extends TimedRobot
 
       if (RobotBase.isSimulation()) Util.consoleLog("Simulated Robot");
       if (RobotBase.isReal()) Util.consoleLog("Real Robot");
-
-      // Debugging code for WPILib bug. Bug fixed but keeping this for a bit.
-      // monitorDS1Thread = MonitorDS1.getInstance();
-      // monitorDS1Thread.start();
-
-      // monitorDS2Thread = MonitorDS2.getInstance();
-      // monitorDS2Thread.start();
 
       // Eliminate LW overhead when not using it.
       LiveWindow.disableAllTelemetry();

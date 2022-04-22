@@ -86,14 +86,16 @@ public class DriveOut extends CommandBase
 		
 		commands = new SequentialCommandGroup();
 
-		command = new AutoRotate(driveBase, .30, 90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
+		// Rotate left 90 degrees.
+
+		command = new AutoRotate(driveBase, .30, -90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
 
 		commands.addCommands(command);
 		
-		// First action is to drive forward some encoder counts and stop with brakes on. We express the
+		// Drive forward some encoder counts and stop with brakes on. We express the
 		// target distance in feet and convert to ticks.
-		
-        command = new AutoDrive(driveBase, .30, 
+		   
+		command = new AutoDrive(driveBase, .30, 
                                 SRXMagneticEncoderRelative.getTicksForDistance(3.5, DRIVE_WHEEL_DIAMETER), 
 								AutoDrive.StopMotors.stop,
 								AutoDrive.Brakes.on,
@@ -102,10 +104,23 @@ public class DriveOut extends CommandBase
 		
 		commands.addCommands(command);
 
-		command = new AutoRotate(driveBase, .30, -90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
+		// Rotate right 90 degrees.
+
+		command = new AutoRotate(driveBase, .30, 90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
 
 		commands.addCommands(command);
 		
+		// Drive forward again.
+		   
+		command = new AutoDrive(driveBase, .30, 
+                                SRXMagneticEncoderRelative.getTicksForDistance(3.5, DRIVE_WHEEL_DIAMETER), 
+								AutoDrive.StopMotors.stop,
+								AutoDrive.Brakes.on,
+								AutoDrive.Pid.on,
+								AutoDrive.Heading.angle);
+		
+		commands.addCommands(command);	
+
 		// Launch autonomous command sequence.
 		
 		commands.schedule();

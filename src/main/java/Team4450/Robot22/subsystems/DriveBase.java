@@ -6,7 +6,9 @@ import static Team4450.Robot22.Constants.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import Team4450.Lib.FXEncoder;
 import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.SRXMagneticEncoderRelative.DistanceUnit;
@@ -449,6 +451,15 @@ public class DriveBase extends SubsystemBase
 	// or a talon has low voltage value, it did not get recognized by the RR on start up.
 	  
 	private static void InitializeCANTalon(WPI_TalonSRX talon)
+	{
+		if (RobotBase.isReal())
+			Util.consoleLog("talon init: %s   voltage=%.1f", talon.getDescription(), talon.getBusVoltage());
+
+        talon.configFactoryDefault();
+		talon.clearStickyFaults(0); //0ms means no blocking.
+	}
+	  
+	private static void InitializeCANTalonFX(WPI_TalonFX talon)
 	{
 		if (RobotBase.isReal())
 			Util.consoleLog("talon init: %s   voltage=%.1f", talon.getDescription(), talon.getBusVoltage());

@@ -6,6 +6,7 @@ import Team4450.Lib.LCD;
 import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
+import Team4450.Lib.FXEncoder;
 import Team4450.Robot22.RobotContainer;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -56,15 +57,17 @@ public class ShuffleBoard extends SubsystemBase
                       RobotContainer.shooter.getMaxRPM(), RobotContainer.channel.getBallStopSwitch(), 
                       RobotContainer.channel.getBallStartSensor());  
 
-        LCD.printLine(LCD_10, "yaw=%.1f tyaw=%.1f tyaw180=%.1f tangle=%.1f hdg=%.1f",
-                      RobotContainer.navx.getYaw(), RobotContainer.navx.getTotalYaw(), RobotContainer.navx.getTotalYaw180(),
-                      RobotContainer.navx.getTotalAngle(), RobotContainer.navx.getHeading());
+        // LCD.printLine(LCD_10, "yaw=%.1f tyaw=%.1f tyaw180=%.1f tangle=%.1f hdg=%.1f",
+        //               RobotContainer.navx.getYaw(), RobotContainer.navx.getTotalYaw(), RobotContainer.navx.getTotalYaw180(),
+        //               RobotContainer.navx.getTotalAngle(), RobotContainer.navx.getHeading());
 
-        // LCD.printLine(LCD_10, "labspos=%d  ldeg=%.1f  rabspos=%d  rdeg=%.1f",
-        //               RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
-        //               SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.leftEncoder.getAbsolutePosition()),
-        //               RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
-        //               SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.rightEncoder.getAbsolutePosition()));
+        LCD.printLine(LCD_10, "ltt=%d  labspos=%d  ldeg=%.1f  rtt=%d  rabspos=%d  rdeg=%.1f",
+                      RobotContainer.driveBase.leftEncoder.getTotalTicks(),
+                      RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
+                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.leftEncoder.getAbsolutePosition()),
+                      RobotContainer.driveBase.rightEncoder.getTotalTicks(),
+                      RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
+                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.rightEncoder.getAbsolutePosition()));
     }
 
     /**
