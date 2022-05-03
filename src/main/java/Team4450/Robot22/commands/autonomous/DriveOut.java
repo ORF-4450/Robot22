@@ -90,7 +90,7 @@ public class DriveOut extends CommandBase
 
 		command = new AutoRotate(driveBase, .30, -90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
 
-		commands.addCommands(command);
+		//commands.addCommands(command);
 		
 		// Drive forward some encoder counts and stop with brakes on. We express the
 		// target distance in feet and convert to ticks.
@@ -108,7 +108,7 @@ public class DriveOut extends CommandBase
 
 		command = new AutoRotate(driveBase, .30, 90, AutoDrive.Pid.on, AutoDrive.Heading.angle);
 
-		commands.addCommands(command);
+		//commands.addCommands(command);
 		
 		// Drive forward again.
 		   
@@ -119,7 +119,7 @@ public class DriveOut extends CommandBase
 								AutoDrive.Pid.on,
 								AutoDrive.Heading.angle);
 		
-		commands.addCommands(command);	
+		//commands.addCommands(command);	
 
 		// Launch autonomous command sequence.
 		

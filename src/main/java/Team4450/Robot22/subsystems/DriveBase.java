@@ -97,7 +97,7 @@ public class DriveBase extends SubsystemBase
 		
 		rightEncoder = new SRXMagneticEncoderRelative(RRCanTalon, DRIVE_WHEEL_DIAMETER);
 		leftEncoder = new SRXMagneticEncoderRelative(LRCanTalon, DRIVE_WHEEL_DIAMETER);
-          
+
         // The real robot has to invert the encoders as needed so both encoder read increasing
         // values going forward. This should be the same for simulation, but it did not 
         // work right so invert as needed under sim. I am sure this is due to a mistake in how
@@ -315,6 +315,8 @@ public class DriveBase extends SubsystemBase
 
             // Update simulated SRX encoders. 
             leftEncoder.setSimValues(driveSim.getLeftPositionMeters(), driveSim.getLeftVelocityMetersPerSecond());
+
+			RobotContainer.canCoder.setSimValues(driveSim.getLeftPositionMeters(), driveSim.getLeftVelocityMetersPerSecond());
 
             rightEncoder.setSimValues(driveSim.getRightPositionMeters(), driveSim.getRightVelocityMetersPerSecond());
             

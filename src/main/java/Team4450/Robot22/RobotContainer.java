@@ -3,11 +3,8 @@ package Team4450.Robot22;
 
 import static Team4450.Robot22.Constants.*;
 
-
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.function.DoubleSupplier;
-import java.util.function.Function;
 
 import Team4450.Lib.CameraFeed;
 import Team4450.Lib.GamePad;
@@ -20,6 +17,7 @@ import Team4450.Lib.NavX;
 import Team4450.Lib.Util;
 import Team4450.Lib.GamePad.GamePadButtonIDs;
 import Team4450.Lib.JoyStick.JoyStickButtonIDs;
+import Team4450.Lib.CTRE_CANCoder;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -136,6 +134,8 @@ public class RobotContainer
 
 	private static SendableChooser<AutoProgram>	autoChooser;
 	private static SendableChooser<Pose2d>		startingPoseChooser;
+
+	public static CTRE_CANCoder	canCoder = new CTRE_CANCoder(12, DRIVE_WHEEL_DIAMETER);
 
 	/**
 	 * The container for the robot. Contains subsystems, Opertor Interface devices, and commands.
@@ -294,6 +294,11 @@ public class RobotContainer
         // We do this because trajectory loads can take up to 10 seconds to load so we want this
         // being done while we are getting started up. Hopefully will complete before we are ready to
         // use the trajectory. See Robot22B2 for example of how to do this.
+
+		if (RobotBase.isSimulation())
+		{
+			canCoder.initializeSim();
+		}
 	}
 
 	/**

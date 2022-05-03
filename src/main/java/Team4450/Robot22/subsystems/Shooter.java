@@ -23,7 +23,7 @@ public class Shooter extends PIDSubsystem
   	
     private WPI_TalonFX     shooterMotor = new WPI_TalonFX(SHOOTER_TALON);
 
-    private FXEncoder       encoder = new FXEncoder(shooterMotor);
+    public FXEncoder       encoder = new FXEncoder(shooterMotor);
 
     public final double     defaultPower = .50, lowTargetRPM = 3000, highTargetRPM = 4800, maxRPM = 6000;
     private double          currentPower = defaultPower, targetRPM = highTargetRPM, toleranceRPM = 50;

@@ -2,14 +2,14 @@
 package Team4450.Robot22;
 
 import Team4450.Lib.*;
-import Team4450.Robot22.wpilib.TimedRobot;
+//import Team4450.Robot22.wpilib.TimedRobot;
 
 import static Team4450.Robot22.Constants.*;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-//import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.WPILibVersion;
@@ -72,9 +72,9 @@ public class Robot extends TimedRobot
       // long that can lead to various control problems. But, it has proven hard to
       // do anything useful and not exceed the .02 sec watchdogs.
 
-      enableWatchDogWarning(false);
-      enableWatchDogFlush(false);
-      this.setWatchDogTimeout(.04);
+      //enableWatchDogWarning(false);
+      //enableWatchDogFlush(false);
+      //this.setWatchDogTimeout(.04);
       CommandScheduler.getInstance().setPeriod(1.0);
 
       // Set Java to catch any uncaught exceptions and record them in our log file.

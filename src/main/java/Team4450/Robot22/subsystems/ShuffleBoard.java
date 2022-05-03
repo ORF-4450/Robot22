@@ -7,7 +7,10 @@ import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Lib.FXEncoder;
+import Team4450.Robot22.Robot;
 import Team4450.Robot22.RobotContainer;
+import Team4450.Robot22.commands.NotifierCommand;
+import Team4450.Lib.CTRE_CANCoder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -23,16 +26,32 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class ShuffleBoard extends SubsystemBase
 {
-    public int      currentTab, numberOfTabs = 2;
+    public int                  currentTab, numberOfTabs = 2;
+
+    private NotifierCommand     updateCommand;
 
 	public ShuffleBoard()
 	{
+        // We use a NotifierCommand to run the DS update process in a separate thread
+        // from the main thread. We set that command as the default command for this
+        // subsystem to the scheduler starts the command. After start, the notifier
+        // runs all the time updating the DS every 25ms which is slightly slower than
+        // the main thread update period.
+        updateCommand = new NotifierCommand(this::updateDS, .025, this);
+
+        this.setDefaultCommand(updateCommand);
+
 		Util.consoleLog("ShuffleBoard created!");
 	}
-	
-	// This method will be called once per scheduler run.
+
+	// This method will be called once per scheduler run on the scheduler (main) thread.
 	@Override
-	public void periodic() 
+	public void periodic()
+    {
+        //updateDS();
+    }
+
+    public void updateDS()
 	{    
         LCD.printLine(LCD_3, "leftenc=%d  rightenc=%d", RobotContainer.driveBase.getLeftEncoder(), 
                       RobotContainer.driveBase.getRightEncoder());			
@@ -61,13 +80,29 @@ public class ShuffleBoard extends SubsystemBase
         //               RobotContainer.navx.getYaw(), RobotContainer.navx.getTotalYaw(), RobotContainer.navx.getTotalYaw180(),
         //               RobotContainer.navx.getTotalAngle(), RobotContainer.navx.getHeading());
 
-        LCD.printLine(LCD_10, "ltt=%d  labspos=%d  ldeg=%.1f  rtt=%d  rabspos=%d  rdeg=%.1f",
-                      RobotContainer.driveBase.leftEncoder.getTotalTicks(),
+        // LCD.printLine(LCD_10, "ltt=%d  labspos=%d  ldeg=%.1f  rtt=%d  rabspos=%d  rdeg=%.1f",
+        //               RobotContainer.driveBase.leftEncoder.getTotalTicks(),
+        //               RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
+        //               SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.leftEncoder.getAbsolutePosition()),
+        //               RobotContainer.driveBase.rightEncoder.getTotalTicks(),
+        //               RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
+        //               RobotContainer.driveBase.rightEncoder.getAbsolutePositionDeg());
+
+        RobotContainer.canCoder.getRPM();
+        RobotContainer.driveBase.leftEncoder.getRPM();
+
+        LCD.printLine(LCD_10, "ccpos=%d ccabspos=%d ccdeg=%.1f ccmax=%.1f  lpos=%d labspos=%d ldeg=%.1f lmax=%.1f",
+                      RobotContainer.canCoder.get(),
+                      RobotContainer.canCoder.getAbsolutePosition(),
+                      RobotContainer.canCoder.getAbsolutePositionDeg(),
+                      RobotContainer.canCoder.getMaxVelocity(CTRE_CANCoder.PIDRateType.velocityMPS),
+                      RobotContainer.driveBase.leftEncoder.get(),
                       RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
-                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.leftEncoder.getAbsolutePosition()),
-                      RobotContainer.driveBase.rightEncoder.getTotalTicks(),
-                      RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
-                      SRXMagneticEncoderRelative.ticksToDegrees(RobotContainer.driveBase.rightEncoder.getAbsolutePosition()));
+                      RobotContainer.driveBase.leftEncoder.getAbsolutePositionDeg(),
+                      RobotContainer.driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS));
+        
+        //LCD.printLine(LCD_10, "labspos=%d  ldeg=%.1f", RobotContainer.shooter.encoder.getAbsolutePosition(),
+        //              RobotContainer.shooter.encoder.getAbsolutePositionDeg());
     }
 
     /**

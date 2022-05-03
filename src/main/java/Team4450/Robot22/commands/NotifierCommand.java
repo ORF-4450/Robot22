@@ -41,6 +41,19 @@ public class NotifierCommand extends CommandBase
 	  addRequirements(requirements);
   }
 
+  /**
+   * Creates a new NotifierCommand.
+   *
+   * @param toRun        The runnable for the notifier to run.
+   * @param period       The period at which the notifier should run, in seconds. Zero 
+   *                     runs the runnable one time then the command ends.
+   */
+  public NotifierCommand(Runnable toRun, double period) 
+  {
+	  m_notifier = new Notifier(toRun);
+	  m_period = period;
+  }
+
   @Override
   public void initialize() 
   {
