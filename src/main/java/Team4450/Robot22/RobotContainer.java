@@ -336,7 +336,12 @@ public class RobotContainer
 		// thread. So we show all 3 methods as illustration but the reason we tried 3 methods is
 		// that the pickup retraction action takes almost 1 second (due apparently to some big
 		// overhead in disabling the electric eye interrupt) and triggers the global and drivebase
-		// watchdogs. Threading does not as the toggle method is not run on the scheduler thread.
+		// watchdogs (20ms). Threading does not as the toggle method is not run on the scheduler thread.
+		// Also, any action that operates air valves, there is a 50ms delay in the ValveDA and SA
+		// classes to apply power long enough so that the valve slides move far enough to open/close.
+		// So any function that operates valves will trigger the watchdogs. Again, the watchdog 
+		// notifications are only a warning (though too much delay on main thread can effect robot
+		// operation) they can fill the Riolog to the point it is not useful.
 		// Note: the threaded command can only execute a runnable (function on a class) not a Command.
 		
 		new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_BACK.value)
@@ -348,7 +353,8 @@ public class RobotContainer
 			.whenPressed(new InstantCommand(shooter::togglePID, shooter));		
 		
         new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_LEFT.value)
-			.whenPressed(new InstantCommand(channel::toggleIndexerUp, channel));
+			//.whenPressed(new InstantCommand(channel::toggleIndexerUp, channel));
+			.whenPressed(new InstantCommand(channel.toggleTheIndexer(true), channel));
 		
         new JoystickButton(utilityStick.getJoyStick(), JoyStick.JoyStickButtonIDs.TOP_RIGHT.value)
 			.whenPressed(new InstantCommand(channel::toggleIndexerDown, channel));
@@ -374,10 +380,10 @@ public class RobotContainer
     		.whenReleased(new InstantCommand(driveBase::resetEncoders));
 	
 		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_YELLOW.value)
-    		.whenReleased(new InstantCommand(climber::toggleDeployMain));
+    		.whenReleased(new NotifierCommand(climber::toggleDeployMain, 0.0));
 			
 		new JoystickButton(launchPad, LaunchPad.LaunchPadControlIDs.BUTTON_BLUE_RIGHT.value)
-    		.whenReleased(new InstantCommand(climber::toggleDeployAux));
+    		.whenReleased(new NotifierCommand(climber::toggleDeployAux, 0.0));
 			
 		// Toggle drive CAN Talon brake mode. We need to capture both sides of the rocker switch
 		// to get a toggle on either position of the rocker.

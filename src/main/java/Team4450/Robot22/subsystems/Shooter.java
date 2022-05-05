@@ -58,6 +58,10 @@ public class Shooter extends PIDSubsystem
      */
     public void initialize(boolean high)
     {
+        Util.consoleLog();
+        
+        stopWheel();
+
         if (high)
         {
             targetRPM = highTargetRPM;

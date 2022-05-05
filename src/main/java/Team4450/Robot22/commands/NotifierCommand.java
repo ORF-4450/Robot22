@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class NotifierCommand extends CommandBase 
 {
   protected final Notifier  m_notifier;
-  protected final double 	m_period;
+  protected final double 	  m_period;
   private         boolean   m_runWhenDisabled;
 
   /**

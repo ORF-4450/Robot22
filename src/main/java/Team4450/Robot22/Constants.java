@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "ORF22-05.05.22-1";
+	public static String		PROGRAM_NAME = "ORF22-05.04.22-1";
 
 	public static Robot			robot;
 
@@ -76,7 +76,7 @@ public final class Constants
 	public static final int		LCD_7 = 7;	    // ShuffleBoard subsystem.
 	public static final int		LCD_8 = 8;	    // ShuffleBoard subsystem.
 	public static final int		LCD_9 = 9;	    // ShuffleBoard subsystem.
-	public static final int		LCD_10 = 10;	// Not used.
+	public static final int		LCD_10 = 10;	// ShuffleBoard subsystem.
 
 	// Default starting field position in meters for pose tracking. For full field lower left corner.
 	public static final Pose2d	DEFAULT_STARTING_POSE = new Pose2d(1.2, 0.5, new Rotation2d(Math.toRadians(0)));

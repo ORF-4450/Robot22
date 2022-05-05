@@ -33,10 +33,18 @@ public class Channel extends SubsystemBase
 	{
         indexerMotor.setInverted(true);
 
-        stopIndexer();
-
 		Util.consoleLog("Channel created!");
 	}
+
+    /**
+     * Put Channel into desired intial state when enabled.
+     */
+    public void initialize()
+    {
+        Util.consoleLog();
+        
+        stopIndexer();
+    }
 	
 	// This method will be called once per scheduler run.
 	@Override
@@ -140,7 +148,11 @@ public class Channel extends SubsystemBase
      * This is an example of how to pass parameters to a runnable. The two funtions above
      * could be done os one, with a parameter for direction or perhaps power. Both ways
      * are legitimate but this shows how to pass a parameter to a runnable if a case
-     * surfaces that needs a parameter. See RobotContainer button config method.
+     * surfaces that needs a parameter. See RobotContainer button config method:
+     *  instead of:
+     * 	.whenPressed(new InstantCommand(channel::toggleIndexerUp, channel));
+     *  do this:
+	 *	.whenPressed(new InstantCommand(channel.toggleTheIndexer(true), channel));
      * @param up Direction of wheel rotation. True is up, false is down.
      * @return A runnable object suitable for passing to an InstantCommand.
      */
@@ -149,6 +161,8 @@ public class Channel extends SubsystemBase
         Runnable aRunnable = new Runnable() {
             public void run()
             {
+                Util.consoleLog("up=%b", up);
+
                 if (up)
                     toggleIndexerUp();
                 else

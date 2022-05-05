@@ -60,11 +60,6 @@ public class Climber extends SubsystemBase
 
 		climberEncoder.reset();
 		
-		releaseBrake();
-
-        retractMain();
-        retractAux();
-		
 		Util.consoleLog("Climber created!");
 	}
 	

@@ -14,6 +14,7 @@ import Team4450.Lib.CTRE_CANCoder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,12 +30,13 @@ public class ShuffleBoard extends SubsystemBase
     public int                  currentTab, numberOfTabs = 2;
 
     private NotifierCommand     updateCommand;
+    private Notifier            notifier;
 
 	public ShuffleBoard()
 	{
         // We use a NotifierCommand to run the DS update process in a separate thread
         // from the main thread. We set that command as the default command for this
-        // subsystem to the scheduler starts the command. After start, the notifier
+        // subsystem so the scheduler starts the command. After start, the notifier
         // runs all the time updating the DS every 25ms which is slightly slower than
         // the main thread update period.
         updateCommand = new NotifierCommand(this::updateDS, .025, this);
@@ -44,7 +46,8 @@ public class ShuffleBoard extends SubsystemBase
 		Util.consoleLog("ShuffleBoard created!");
 	}
 
-	// This method will be called once per scheduler run on the scheduler (main) thread.
+	// This method will be called once per scheduler run on the scheduler (main) thread. Only
+    // used if not running the update with the notifier.
 	@Override
 	public void periodic()
     {
@@ -88,6 +91,7 @@ public class ShuffleBoard extends SubsystemBase
         //               RobotContainer.driveBase.rightEncoder.getAbsolutePosition(),
         //               RobotContainer.driveBase.rightEncoder.getAbsolutePositionDeg());
 
+        // Required to seed getMaxVelocity calls.
         RobotContainer.canCoder.getRPM();
         RobotContainer.driveBase.leftEncoder.getRPM();
 
@@ -110,6 +114,14 @@ public class ShuffleBoard extends SubsystemBase
      */
     public void resetLEDs()
     {
+        notifier = new Notifier(this::resetLEDIndicators);
+        notifier.startSingle(0);
+    }
+
+    private void resetLEDIndicators()
+    {
+        Util.consoleLog();
+        
         SmartDashboard.putBoolean("Disabled", true);
         SmartDashboard.putBoolean("Auto Mode", false);
         SmartDashboard.putBoolean("Teleop Mode", false);

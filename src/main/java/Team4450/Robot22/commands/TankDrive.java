@@ -5,13 +5,10 @@ import java.util.function.DoubleSupplier;
 
 import static Team4450.Robot22.Constants.*;
 
-import Team4450.Robot22.Robot;
 import Team4450.Robot22.RobotContainer;
 import Team4450.Lib.LCD;
 import Team4450.Lib.Util;
-import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.subsystems.DriveBase;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -188,7 +185,7 @@ public class TankDrive extends CommandBase
   {
 	    Util.consoleLog("interrupted=%b", interrupted);
 	  
-	   driveBase.stop();
+	    driveBase.stop();
 	  
 	    driveBase.setMotorSafety(false); 	// Turn off watchdog.
   }

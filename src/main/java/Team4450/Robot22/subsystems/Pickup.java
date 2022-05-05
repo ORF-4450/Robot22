@@ -57,8 +57,6 @@ public class Pickup extends SubsystemBase
         // blocked (0v), we interrupt on the falling (voltage) edge of the signal.
 		
 		//interruptHandler.setInterruptEdges(false, true);
-
-		retract();
 		
 		Util.consoleLog("Pickup created!");
     }

@@ -8,6 +8,7 @@ import static Team4450.Robot22.Constants.*;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -70,7 +71,9 @@ public class Robot extends TimedRobot
       // IterativeRobotBase and Watchdog have been modified.
       // Note that the periodic function is called very .02 sec. If our code runs too
       // long that can lead to various control problems. But, it has proven hard to
-      // do anything useful and not exceed the .02 sec watchdogs.
+      // do anything useful and not exceed the .02 sec watchdogs, though we have made
+      // improvements to various functions to reduce execution time or multi-thread.
+      // We have trimmed the volume of overrun messages but they still occur.
 
       //enableWatchDogWarning(false);
       //enableWatchDogFlush(false);
@@ -186,14 +189,8 @@ public class Robot extends TimedRobot
 
     RobotContainer.shuffleBoard.resetLEDs();
 
-    // Put subsystems into correct state for next enable.
-
-    RobotContainer.pickup.retract();
-    RobotContainer.channel.stopIndexer();
-    RobotContainer.shooter.stopWheel();
-
-    Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
-                    RobotContainer.channel.highestSensorValue);
+    //Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
+    //                RobotContainer.channel.highestSensorValue);
 
     Util.consoleLog("end -------------------------------------------------------------------------");
   }
@@ -272,6 +269,7 @@ public class Robot extends TimedRobot
 
     robotContainer.resetFaults();
 
+    RobotContainer.channel.initialize();
     RobotContainer.pickup.initialize();
     RobotContainer.climber.initialize();
     RobotContainer.shooter.initialize(true);
