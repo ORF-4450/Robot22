@@ -5,6 +5,8 @@ import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 
 import static Team4450.Robot22.Constants.*;
+
+import Team4450.Robot22.Robot;
 import Team4450.Robot22.RobotContainer;
 import Team4450.Robot22.subsystems.DriveBase;
 
@@ -59,8 +61,11 @@ public class DriveOut extends CommandBase
 				DriverStation.isFMSAttached(), gameMessage);
 		
 		// Reset wheel encoders.	  	
-	  	driveBase.resetEncodersWithDelay();
-	  	
+		if (Robot.isReal())
+		  	driveBase.resetEncodersWithDelay();
+		else
+			driveBase.resetSimEncodersWithDelay();
+			
 	  	// Set NavX yaw tracking to 0.
 	  	RobotContainer.navx.resetYaw();
 

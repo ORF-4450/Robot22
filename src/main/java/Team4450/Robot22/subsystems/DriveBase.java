@@ -316,7 +316,7 @@ public class DriveBase extends SubsystemBase
             // Update simulated SRX encoders. 
             leftEncoder.setSimValues(driveSim.getLeftPositionMeters(), driveSim.getLeftVelocityMetersPerSecond());
 
-			RobotContainer.canCoder.setSimValues(driveSim.getLeftPositionMeters(), driveSim.getLeftVelocityMetersPerSecond());
+			//RobotContainer.canCoder.setSimValues(driveSim.getLeftPositionMeters(), driveSim.getLeftVelocityMetersPerSecond());
 
             rightEncoder.setSimValues(driveSim.getRightPositionMeters(), driveSim.getRightVelocityMetersPerSecond());
             
@@ -643,6 +643,27 @@ public class DriveBase extends SubsystemBase
 	}
 	
 	/**
+	 * Reset drive wheel encoders as in resetEncoders(), except that the
+	 * encoder simulation is reset to zero. This is used to start a test run over
+	 * allowing an auto program to run, be disabled, then restarted to run again
+	 * from the starting point. The sim needs a special reset to support this.
+	 * Should only be called from auto program initialization.
+	 */
+	public void resetSimEncoders()
+	{
+		Util.consoleLog();
+		
+		Util.consoleLog("at encoder reset lget=%d  rget=%d", leftEncoder.get(), rightEncoder.get());
+		
+		leftEncoder.resetSim(0);
+		rightEncoder.resetSim(0);
+
+		lastLeftDist = lastRightDist = 0;
+
+        RobotContainer.navx.resetYaw();
+	}
+
+	/**
 	 * Reset the drive wheel encoders to zero with time delay. There can be a significant delay
 	 * between calling for encoder reset and the encoder returning zero. Sometimes this does not
 	 * matter and other times it can really mess things up if you reset encoder but at the time
@@ -675,7 +696,39 @@ public class DriveBase extends SubsystemBase
 		Util.consoleLog("after reset lget=%d  rget=%d  lerr=%d  rerr=%d", leftEncoder.get(), rightEncoder.get(),
 						leftError, rightError);
 	}
-	
+
+	/**
+	 * Reset drive wheel encoders as in resetEncodersWithDelay(), except that the
+	 * encoder simulation is reset to zero. This is used to start a test run over
+	 * allowing an auto program to run, be disabled, then restarted to run again
+	 * from the starting point. The sim needs a special reset to support this.
+	 * Should only be called from auto program initialization.
+	 */
+	public void resetSimEncodersWithDelay()
+	{
+		Util.consoleLog();
+		
+		Util.consoleLog("at encoder reset lget=%d  rget=%d", leftEncoder.get(), rightEncoder.get());
+		
+		// Set encoders to update every 20ms just to make sure. These calls take 10ms each so we
+		// just do them once.
+		if (firstEncoderReset)
+		{
+			leftEncoder.setStatusFramePeriod(20);
+			rightEncoder.setStatusFramePeriod(20);
+			firstEncoderReset = false;
+		}
+
+		// Reset encoders with 36ms total delay before proceeding.
+		int leftError = leftEncoder.resetSim(15);      // 15ms
+		int rightError = rightEncoder.resetSim(21);    // 21ms
+
+		lastLeftDist = lastRightDist = 0;
+
+		Util.consoleLog("after reset lget=%d  rget=%d  lerr=%d  rerr=%d", leftEncoder.get(), rightEncoder.get(),
+						leftError, rightError);
+	}
+
 	/**
 	 * Return right side motor power.
 	 * @return Power level -1.0 to +1.0.

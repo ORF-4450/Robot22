@@ -10,7 +10,7 @@ import Team4450.Lib.FXEncoder;
 import Team4450.Robot22.Robot;
 import Team4450.Robot22.RobotContainer;
 import Team4450.Robot22.commands.NotifierCommand;
-import Team4450.Lib.CTRE_CANCoder;
+import Team4450.Lib.CANCoder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -39,7 +39,7 @@ public class ShuffleBoard extends SubsystemBase
         // subsystem so the scheduler starts the command. After start, the notifier
         // runs all the time updating the DS every 25ms which is slightly slower than
         // the main thread update period.
-        updateCommand = new NotifierCommand(this::updateDS, .025, this);
+        updateCommand = new NotifierCommand(this::updateDS, .025, "SB", this);
 
         this.setDefaultCommand(updateCommand);
 
@@ -92,21 +92,21 @@ public class ShuffleBoard extends SubsystemBase
         //               RobotContainer.driveBase.rightEncoder.getAbsolutePositionDeg());
 
         // Required to seed getMaxVelocity calls.
-        RobotContainer.canCoder.getRPM();
-        RobotContainer.driveBase.leftEncoder.getRPM();
+        //RobotContainer.canCoder.getRPM();
+        //RobotContainer.driveBase.leftEncoder.getRPM();
 
-        LCD.printLine(LCD_10, "ccpos=%d ccabspos=%d ccdeg=%.1f ccmax=%.1f  lpos=%d labspos=%d ldeg=%.1f lmax=%.1f",
-                      RobotContainer.canCoder.get(),
-                      RobotContainer.canCoder.getAbsolutePosition(),
-                      RobotContainer.canCoder.getAbsolutePositionDeg(),
-                      RobotContainer.canCoder.getMaxVelocity(CTRE_CANCoder.PIDRateType.velocityMPS),
-                      RobotContainer.driveBase.leftEncoder.get(),
-                      RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
-                      RobotContainer.driveBase.leftEncoder.getAbsolutePositionDeg(),
-                      RobotContainer.driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS));
+        // LCD.printLine(LCD_10, "ccpos=%d ccabspos=%d ccdeg=%.1f ccmax=%.1f  lpos=%d labspos=%d ldeg=%.1f lmax=%.1f",
+        //               RobotContainer.canCoder.get(),
+        //               RobotContainer.canCoder.getAbsolutePosition(),
+        //               RobotContainer.canCoder.getAbsolutePositionDeg(),
+        //               RobotContainer.canCoder.getMaxVelocity(CANCoder.PIDRateType.velocityMPS),
+        //               RobotContainer.driveBase.leftEncoder.get(),
+        //               RobotContainer.driveBase.leftEncoder.getAbsolutePosition(),
+        //               RobotContainer.driveBase.leftEncoder.getAbsolutePositionDeg(),
+        //               RobotContainer.driveBase.leftEncoder.getMaxVelocity(PIDRateType.velocityMPS));
         
-        //LCD.printLine(LCD_10, "labspos=%d  ldeg=%.1f", RobotContainer.shooter.encoder.getAbsolutePosition(),
-        //              RobotContainer.shooter.encoder.getAbsolutePositionDeg());
+        LCD.printLine(LCD_10, "shooter abspos=%d  deg=%.1f", RobotContainer.shooter.encoder.getAbsolutePosition(),
+                      RobotContainer.shooter.encoder.getAbsolutePositionDeg());
     }
 
     /**
@@ -114,6 +114,7 @@ public class ShuffleBoard extends SubsystemBase
      */
     public void resetLEDs()
     {
+        // Notifier runs the reset function in a separate thread.
         notifier = new Notifier(this::resetLEDIndicators);
         notifier.startSingle(0);
     }

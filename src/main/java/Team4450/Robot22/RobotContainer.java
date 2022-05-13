@@ -17,15 +17,17 @@ import Team4450.Lib.NavX;
 import Team4450.Lib.Util;
 import Team4450.Lib.GamePad.GamePadButtonIDs;
 import Team4450.Lib.JoyStick.JoyStickButtonIDs;
-import Team4450.Lib.CTRE_CANCoder;
+import Team4450.Lib.CANCoder;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -135,7 +137,7 @@ public class RobotContainer
 	private static SendableChooser<AutoProgram>	autoChooser;
 	private static SendableChooser<Pose2d>		startingPoseChooser;
 
-	public static CTRE_CANCoder	canCoder = new CTRE_CANCoder(12, DRIVE_WHEEL_DIAMETER);
+	//public static CANCoder	canCoder = new CANCoder(12, DRIVE_WHEEL_DIAMETER);
 
 	/**
 	 * The container for the robot. Contains subsystems, Opertor Interface devices, and commands.
@@ -297,7 +299,8 @@ public class RobotContainer
 
 		if (RobotBase.isSimulation())
 		{
-			canCoder.initializeSim();
+			//canCoder.initializeSim();
+			//canCoder.reset();
 		}
 	}
 
@@ -416,6 +419,9 @@ public class RobotContainer
         
 		new JoystickButton(gamePad.getJoyStick(), GamePad.GamePadButtonIDs.X.value)
     		.whenReleased(new InstantCommand(navx::resetYaw));
+	
+		new JoystickButton(gamePad.getJoyStick(),  GamePad.GamePadButtonIDs.Y.value)
+    		.whenReleased(new InstantCommand(driveBase::resetEncoders));
     }
 
 	/**
@@ -560,4 +566,5 @@ public class RobotContainer
 
         return trajectory;
     }
+
 }

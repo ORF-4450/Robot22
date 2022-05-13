@@ -39,10 +39,10 @@
     "###Joysticks": {
       "Collapsed": "0",
       "Pos": "288,702",
-      "Size": "976,278"
+      "Size": "976,82"
     },
     "###NetworkTables": {
-      "Collapsed": "0",
+      "Collapsed": "1",
       "Pos": "285,37",
       "Size": "1298,729"
     },
@@ -53,13 +53,13 @@
     },
     "###System Joysticks": {
       "Collapsed": "0",
-      "Pos": "0,567",
+      "Pos": "8,628",
       "Size": "232,254"
     },
     "###Timing": {
       "Collapsed": "0",
       "Pos": "3,316",
-      "Size": "154,168"
+      "Size": "169,220"
     },
     "Debug##Default": {
       "Collapsed": "0",

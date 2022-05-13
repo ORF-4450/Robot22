@@ -8,7 +8,6 @@ import static Team4450.Robot22.Constants.*;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -49,30 +48,26 @@ public class Robot extends TimedRobot
       Util.CustomLogger.setup();
 
       // The wpilib classes that underlie this class generate a lot of warning
-      // messages
-      // that flood the Riolog and make it almost unusable. The warnings are about our
-      // code in the robotPeriodic() function taking longer than .02 sec to execute.
-      // It's very hard to stay under this limit. So...copied classes from the wpilib
-      // name space to inside this project and modified them to allow us to control
-      // these
-      // warnings and log some of them to our log file. The warnings from
-      // IterativeRobotBase
-      // can be turned on/off and the timeout set. Any warnings from that class will
-      // go to
-      // our log file. The CommandScheduler also generates essentially the same
-      // warnings
-      // but copying that is getting beyond what we should be doing, so we just set
-      // its
-      // internal timeout (because it allows us to) to a longer value to turn off its
-      // warnings. It does not log to our log file. These warnings can be turned back
-      // on at times to check if we are having significant overruns but turned off if
-      // things look ok. This is a major hack, the downside of which is that with each
-      // release of Wpilib the copied files would have to be recopied and remodified.
+      // messages that flood the Riolog and make it almost unusable. The warnings 
+      // are about our code in the robotPeriodic() function taking longer than .02 
+      // sec to execute. It's very hard to stay under this limit. So...copied classes 
+      // from the wpilib name space to inside this project and modified them to allow
+      // us to control these warnings and log some of them to our log file. The warnings 
+      // from IterativeRobotBase can be turned on/off and the timeout set. Any warnings 
+      // from that class will go to our log file. The CommandScheduler also generates 
+      // essentially the same warnings but copying that is getting beyond what we should
+      // be doing, so we just set its internal timeout (because it allows us to) to a 
+      // longer value to turn off its warnings. It does not log to our log file. These 
+      // warnings can be turned back on at times to check if we are having significant 
+      // overruns but turned off if things look ok. This is a major hack, the downside 
+      // of which is that with each yearly release of Wpilib the copied files would have
+      // to be recopied and remodified to make sure our copies are up to date. 
       // IterativeRobotBase and Watchdog have been modified.
+      //
       // Note that the periodic function is called very .02 sec. If our code runs too
       // long that can lead to various control problems. But, it has proven hard to
       // do anything useful and not exceed the .02 sec watchdogs, though we have made
-      // improvements to various functions to reduce execution time or multi-thread.
+      // improvements to various functions to reduce execution time or used threading.
       // We have trimmed the volume of overrun messages but they still occur.
 
       //enableWatchDogWarning(false);
