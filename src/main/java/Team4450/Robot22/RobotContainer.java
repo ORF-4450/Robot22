@@ -102,9 +102,9 @@ public class RobotContainer
 	
 	private JoyStick	leftStick = new JoyStick(new Joystick(LEFT_STICK), "Left Stick", JoyStickButtonIDs.TRIGGER);
 	private JoyStick	rightStick = new JoyStick(new Joystick(RIGHT_STICK), "Right  Stick", JoyStickButtonIDs.TRIGGER);
-	public static JoyStick   utilityStick = new JoyStick(new Joystick(UTILITY_STICK), "Utility Stick", JoyStickButtonIDs.TRIGGER);
+	public static JoyStick utilityStick = new JoyStick(new Joystick(UTILITY_STICK), "Utility Stick", JoyStickButtonIDs.TRIGGER);
 
-	private Joystick	launchPad = new Joystick(LAUNCH_PAD);	//new LaunchPad(new Joystick(LAUNCH_PAD));
+	private Joystick	launchPad = new Joystick(LAUNCH_PAD);
 
     private GamePad     gamePad;	// Used during simulation.
 
@@ -297,6 +297,7 @@ public class RobotContainer
         // being done while we are getting started up. Hopefully will complete before we are ready to
         // use the trajectory. See Robot22B2 for example of how to do this.
 
+		// CANCoder test code.
 		if (RobotBase.isSimulation())
 		{
 			//canCoder.initializeSim();
@@ -422,6 +423,9 @@ public class RobotContainer
 	
 		new JoystickButton(gamePad.getJoyStick(),  GamePad.GamePadButtonIDs.Y.value)
     		.whenReleased(new InstantCommand(driveBase::resetEncoders));
+	
+		new JoystickButton(gamePad.getJoyStick(),  GamePad.GamePadButtonIDs.A.value)
+    		.whenReleased(new InstantCommand(driveBase::toggleHighLowSpeed));
     }
 
 	/**

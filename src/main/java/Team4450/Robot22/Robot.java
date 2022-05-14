@@ -90,7 +90,8 @@ public class Robot extends TimedRobot
       if (RobotBase.isSimulation()) Util.consoleLog("Simulated Robot");
       if (RobotBase.isReal()) Util.consoleLog("Real Robot");
 
-      // Eliminate LW overhead when not using it.
+      // Eliminate LW overhead when not using it. Comment out to enable LW operation during
+      // auto & teleop modes. Always works in test mode.
       LiveWindow.disableAllTelemetry();
 
       // Create SendableVersion object so it can be sent to the dashboard and also
@@ -118,7 +119,7 @@ public class Robot extends TimedRobot
       // here and then a few lines below delete it from the sendable system. This puts the version
       // info onto the dashboard but removes it from further updates.
 
-      SmartDashboard.putData("Version", (Sendable) SendableVersion.INSTANCE);
+      SmartDashboard.putData("Version", SendableVersion.INSTANCE);
 
       // Instantiate our RobotContainer class. This will perform all necessary setup of the various
       // subsystems, commands and other items that are needed to to be ready before we start doing

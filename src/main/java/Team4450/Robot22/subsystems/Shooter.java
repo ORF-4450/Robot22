@@ -3,6 +3,9 @@ package Team4450.Robot22.subsystems;
 import static Team4450.Robot22.Constants.SHOOTER_TALON;
 import static Team4450.Robot22.Constants.robot;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import Team4450.Lib.FXEncoder;
@@ -11,6 +14,7 @@ import Team4450.Robot22.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
@@ -20,13 +24,16 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 public class Shooter extends PIDSubsystem
 {
 	private boolean			wheelRunning;
-  	
+    private BooleanSupplier	wr = () -> wheelRunning;
+
     private WPI_TalonFX     shooterMotor = new WPI_TalonFX(SHOOTER_TALON);
 
-    public FXEncoder       encoder = new FXEncoder(shooterMotor);
+    public FXEncoder        encoder = new FXEncoder(shooterMotor);
 
     public final double     defaultPower = .50, lowTargetRPM = 3000, highTargetRPM = 4800, maxRPM = 6000;
     private double          currentPower = defaultPower, targetRPM = highTargetRPM, toleranceRPM = 50;
+    private DoubleSupplier	tr = () -> targetRPM;
+
     private static double   kP = .0002, kI = kP / 100, kD = 0;
     private boolean         startUp, highRPM =  true;
     private double          startTime, kS = .498, kV = .108;
@@ -49,8 +56,19 @@ public class Shooter extends PIDSubsystem
 
         this.channel = channel;
 
+        addChild("Motor", shooterMotor);
+
         Util.consoleLog("Shooter created!");
     }    
+
+	@Override
+	public void initSendable( SendableBuilder builder )
+	{
+	    builder.addBooleanProperty("Running", wr, null);
+	    builder.addBooleanProperty("PIDEnabled", this::isEnabled, null);
+	    builder.addDoubleProperty("TargetRPM", tr, null);
+	    builder.addDoubleProperty("ActualRPM", this::getRPM, null);
+	}   	
 
     /**
      * Put shooter into desired initial state when enabled;

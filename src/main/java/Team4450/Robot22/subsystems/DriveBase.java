@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import Team4450.Lib.FXEncoder;
 import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
+import Team4450.Lib.ValveDA;
 import Team4450.Lib.SRXMagneticEncoderRelative.DistanceUnit;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.RobotContainer;
@@ -30,9 +31,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveBase extends SubsystemBase 
+public class DriveBase extends SubsystemBase
 {
 	private WPI_TalonSRX		LFCanTalon, LRCanTalon, RFCanTalon, RRCanTalon;
 
@@ -96,7 +99,10 @@ public class DriveBase extends SubsystemBase
 		// Wheel diameter is in inches. Adjust for each years robot.
 		
 		rightEncoder = new SRXMagneticEncoderRelative(RRCanTalon, DRIVE_WHEEL_DIAMETER);
+		addChild("rightEncoder", rightEncoder);
+
 		leftEncoder = new SRXMagneticEncoderRelative(LRCanTalon, DRIVE_WHEEL_DIAMETER);
+		addChild("leftEncoder", leftEncoder);
 
         // The real robot has to invert the encoders as needed so both encoder read increasing
         // values going forward. This should be the same for simulation, but it did not 
@@ -117,6 +123,7 @@ public class DriveBase extends SubsystemBase
 		RFCanTalon.set(ControlMode.Follower, RRCanTalon.getDeviceID());
 
 		robotDrive = new DifferentialDrive(LRCanTalon, RRCanTalon);
+		addChild("RobotDrive", robotDrive);
 
    		// Configure starting motor safety. This runs a timer between updates of the
 		// robotDrive motor power with the set() method. If the timer expires because
@@ -195,10 +202,20 @@ public class DriveBase extends SubsystemBase
 		resetOdometer(DEFAULT_STARTING_POSE, DEFAULT_STARTING_POSE.getRotation().getDegrees());
 
         if (RobotBase.isSimulation()) configureSimulation();
+
+		//addChild("HighLowValve", highLowValve);
         
         Util.consoleLog("DriveBase created!");
 	}
 
+	@Override
+	public void initSendable( SendableBuilder builder )
+	{
+	    builder.addDoubleProperty("LeftPower", this::getLeftPower, null);
+	    builder.addDoubleProperty("RightPower", this::getRightPower, null);
+		builder.addBooleanProperty("LowSpeed", this::isLowSpeed, null);
+	}   	
+	
 	// Simulation classes help us simulate our robot. Our SRXMagneticEncoderRelative class
 	// is not compatible with the Wpilib EncoderSim so create regular Encoder objects which
 	// which are compatible with EncoderSim. We then pass the dummy encoders into the SRX
@@ -605,6 +622,17 @@ public class DriveBase extends SubsystemBase
 		highSpeed = true;
 			
 		updateDS();
+	}
+
+	/**
+	 * Toggles between low and high speed.
+	 */
+	public void toggleHighLowSpeed()
+	{
+		if (lowSpeed)
+			highSpeed();
+		else
+			lowSpeed();
 	}
 
 	/**

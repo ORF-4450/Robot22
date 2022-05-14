@@ -1,6 +1,16 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "Talon SRX[1]/Quad Encoder": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[2]/Quad Encoder": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon SRX[4]/Quad Encoder": {
         "header": {
           "open": true
@@ -11,6 +21,19 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Channel/IndexerMotor": "Motor Controller",
+      "/LiveWindow/Channel/StopSwitch": "Digital Input",
+      "/LiveWindow/Climber/BottomSwitch": "Digital Input",
+      "/LiveWindow/Climber/Motors": "Motor Controller",
+      "/LiveWindow/DriveBase/RobotDrive": "DifferentialDrive",
+      "/LiveWindow/Pickup/Drive": "Motor Controller",
+      "/LiveWindow/Shooter/Motor": "Motor Controller",
+      "/LiveWindow/Shooter/PID Controller": "PIDController",
+      "/LiveWindow/ShuffleBoard": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon SRX [1]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [3]": "Motor Controller",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/Auto Program": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Gyro2": "Gyro",
@@ -46,7 +69,20 @@
     "LiveWindow": {
       ".status": {
         "open": true
-      }
+      },
+      "DriveBase": {
+        "open": true
+      },
+      "Ungrouped": {
+        "Talon SRX [1]": {
+          "open": true
+        },
+        "Talon SRX [3]": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
     },
     "SmartDashboard": {
       "Gyro2": {

@@ -2,12 +2,15 @@ package Team4450.Robot22.subsystems;
 
 import static Team4450.Robot22.Constants.*;
 
+import java.util.function.BooleanSupplier;
+
 //import java.util.function.BiConsumer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import Team4450.Lib.Util;
 import Team4450.Lib.ValveDA;
+import edu.wpi.first.util.sendable.SendableBuilder;
 //import edu.wpi.first.wpilibj.AsynchronousInterrupt;
 //import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.Timer;
@@ -30,7 +33,10 @@ public class Pickup extends SubsystemBase
     private double          pickupPower = .35, interruptTime;
 	private boolean			extended = false, pickupRunning = false, interrupted;
     //public static boolean   balleye = false;
-    
+     	
+    private BooleanSupplier	ex = () -> extended;
+    private BooleanSupplier pr = () -> pickupRunning;
+	
 	public Pickup ()
 	{
 		Util.consoleLog();
@@ -42,6 +48,7 @@ public class Pickup extends SubsystemBase
 		upperVictor.setInverted(true);
 
         pickupDrive = new MotorControllerGroup(lowerVictor, upperVictor);
+		addChild("Drive", pickupDrive);
 		  
         // Configure interrupt handler for the ballEye optical ball detector. An interrupt
         // handler will run the code (function) we specify when the RoboRio detects a change
@@ -60,7 +67,14 @@ public class Pickup extends SubsystemBase
 		
 		Util.consoleLog("Pickup created!");
     }
-    	
+ 
+	@Override
+	public void initSendable( SendableBuilder builder )
+	{
+	    builder.addBooleanProperty("Running", pr, null);
+	    builder.addBooleanProperty("Extended", ex, null);
+	}   
+		
 	/**
 	 * Put pickup into it's initial state when robot enabled.
 	 */

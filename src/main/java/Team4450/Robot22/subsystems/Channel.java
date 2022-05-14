@@ -2,11 +2,12 @@ package Team4450.Robot22.subsystems;
 
 import static Team4450.Robot22.Constants.*;
 
+import java.util.function.BooleanSupplier;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 
 import Team4450.Lib.Util;
 import Team4450.Robot22.RobotContainer;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
@@ -20,6 +21,9 @@ public class Channel extends SubsystemBase
 {
 	private boolean			indexerRunning, feedingBall;
   	
+    private BooleanSupplier  ir = () -> indexerRunning;
+    private BooleanSupplier  fb = () -> feedingBall;
+
     private WPI_VictorSPX   indexerMotor = new WPI_VictorSPX(INDEXER_VICTOR);
       
     private double          defaultPower = .30;
@@ -33,9 +37,20 @@ public class Channel extends SubsystemBase
 	{
         indexerMotor.setInverted(true);
 
+        addChild("IndexerMotor", indexerMotor);
+        addChild("StopSwitch", ballStopSwitch);
+        addChild("StartSwitch", ballStartSensor);
+
 		Util.consoleLog("Channel created!");
 	}
 
+	@Override
+	public void initSendable( SendableBuilder builder )
+	{
+	    builder.addBooleanProperty("Running", ir, null);
+	    builder.addBooleanProperty("Feeding", fb, null);
+	}
+    
     /**
      * Put Channel into desired intial state when enabled.
      */

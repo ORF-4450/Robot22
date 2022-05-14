@@ -45,6 +45,7 @@ public final class Constants
 	public static final int		PICKUP_VALVE = 0;			// 0-1
 	public static final int		MAIN_CLIMBER_VALVE = 4;		// 4-5
 	public static final int		AUX_CLIMBER_VALVE = 2;		// 2-3
+	//public static final int		HIGHLOW_VALVE = 6;			// 6-7
 
 	// Digital Input port assignments. Encoder takes 2 ports.
 	public static final int		CLIMBER_SWITCH = 0;
@@ -53,7 +54,7 @@ public final class Constants
 	  
 	// Analog Input port assignments.
 	// Simulated Gyro needs an actual analog port and has to be 0 or 1.
-	public static final int		SIM_GYRO = 0;
+	//public static final int		SIM_GYRO = 0;
     public static final int		PRESSURE_SENSOR = 1;
 	public static final int		BALL_START_SENSOR = 2;
 

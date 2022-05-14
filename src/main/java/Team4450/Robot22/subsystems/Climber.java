@@ -12,10 +12,8 @@ import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.ValveDA;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -59,7 +57,11 @@ public class Climber extends SubsystemBase
         climberEncoder = new SRXMagneticEncoderRelative(climberRightTalon, 1);
 
 		climberEncoder.reset();
-		
+
+		addChild("Encoder", climberEncoder);
+		addChild("BottomSwitch", climberSwitch);
+		addChild("Motors", climberDrive);
+
 		Util.consoleLog("Climber created!");
 	}
 	
