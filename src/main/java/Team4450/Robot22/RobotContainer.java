@@ -6,31 +6,39 @@ import static Team4450.Robot22.Constants.*;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.revrobotics.CIEColor;
+
 import Team4450.Lib.CameraFeed;
 import Team4450.Lib.GamePad;
 import Team4450.Lib.JoyStick;
 import Team4450.Lib.LaunchPad;
+import Team4450.Lib.Lidar;
 import Team4450.Lib.MonitorBattery;
 import Team4450.Lib.MonitorCompressor;
+import Team4450.Lib.MonitorDistance;
+import Team4450.Lib.MonitorDistanceMBX;
 import Team4450.Lib.MonitorPDP;
 import Team4450.Lib.NavX;
+import Team4450.Lib.RevColorSensor;
 import Team4450.Lib.Util;
 import Team4450.Lib.GamePad.GamePadButtonIDs;
 import Team4450.Lib.JoyStick.JoyStickButtonIDs;
 import Team4450.Lib.CANCoder;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
@@ -110,17 +118,19 @@ public class RobotContainer
 
 	private AnalogInput	pressureSensor = new AnalogInput(PRESSURE_SENSOR);
 	  
-	private PowerDistribution	pdp = new PowerDistribution(0, PowerDistribution.ModuleType.kCTRE);
+	private PowerDistribution		pdp = new PowerDistribution(0, PowerDistribution.ModuleType.kCTRE);
 
 	// PneumaticsControlModule class controls the PCM. New for 2022.
 	private PneumaticsControlModule	pcm = new PneumaticsControlModule(COMPRESSOR);
 
 	// Navigation board.
-	public static NavX	navx;
+	public static NavX			navx;
 
 	private Thread      		monitorBatteryThread, monitorPDPThread;
 	private MonitorCompressor	monitorCompressorThread;
     private CameraFeed			cameraFeed;
+
+	private Lidar				lidar;
     
 	// Trajecotries.
     //public static Trajectory    ;
@@ -258,10 +268,12 @@ public class RobotContainer
    		monitorCompressorThread.setDelay(1.0);
    		monitorCompressorThread.SetLowPressureAlarm(50);
    		monitorCompressorThread.start();
-   		
+		
+		lidar = new Lidar(new DigitalInput(5));
+		
    		monitorPDPThread = MonitorPDP.getInstance(pdp);
    		monitorPDPThread.start();
-
+		
 		// Start camera server thread using our class for usb cameras.
     
 		cameraFeed = CameraFeed.getInstance(); 

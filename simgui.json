@@ -25,11 +25,16 @@
       "/LiveWindow/Channel/StopSwitch": "Digital Input",
       "/LiveWindow/Climber/BottomSwitch": "Digital Input",
       "/LiveWindow/Climber/Motors": "Motor Controller",
+      "/LiveWindow/DriveBase/LFTalon": "Motor Controller",
+      "/LiveWindow/DriveBase/RFTalon": "Motor Controller",
       "/LiveWindow/DriveBase/RobotDrive": "DifferentialDrive",
+      "/LiveWindow/DriveBase/robotDrive": "DifferentialDrive",
       "/LiveWindow/Pickup/Drive": "Motor Controller",
       "/LiveWindow/Shooter/Motor": "Motor Controller",
       "/LiveWindow/Shooter/PID Controller": "PIDController",
       "/LiveWindow/ShuffleBoard": "Subsystem",
+      "/LiveWindow/Ungrouped/DigitalInput[5]": "Digital Input",
+      "/LiveWindow/Ungrouped/LidarDIO[5]": "Digital Input",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon SRX [1]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [3]": "Motor Controller",
@@ -74,10 +79,7 @@
         "open": true
       },
       "Ungrouped": {
-        "Talon SRX [1]": {
-          "open": true
-        },
-        "Talon SRX [3]": {
+        "navX-Sensor[4]": {
           "open": true
         },
         "open": true

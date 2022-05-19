@@ -179,7 +179,7 @@ public class Robot extends TimedRobot
   {
     Util.consoleLog();
 
-    LCD.printLine(LCD_1, "Mode: Disabled");
+    LCD.printLine(LCD_1, "Mode: %s", getMode());
 
     // Reset driver station LEDs.
 
@@ -188,7 +188,7 @@ public class Robot extends TimedRobot
     //Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
     //                RobotContainer.channel.highestSensorValue);
 
-    Util.consoleLog("end -------------------------------------------------------------------------");
+    Util.consoleLog("end %s -------------------------------------------------------------------------", getMode());
   }
 
   /**
@@ -211,7 +211,7 @@ public class Robot extends TimedRobot
 
     LCD.clearAll();
 
-    LCD.printLine(LCD_1, "Mode: Auto - No Program");
+    LCD.printLine(LCD_1, "Mode: %s - No Program", getMode());
 
     SmartDashboard.putBoolean("Disabled", false);
     SmartDashboard.putBoolean("Auto Mode", true);
@@ -257,7 +257,7 @@ public class Robot extends TimedRobot
 
     LCD.clearAll();
 
-    LCD.printLine(LCD_1, "Mode: teleop  All=%s, Start=%d, FMS=%b, msg=%s", alliance.name(), location,
+    LCD.printLine(LCD_1, "Mode: %s  All=%s, Start=%d, FMS=%b, msg=%s", getMode(), alliance.name(), location,
                   DriverStation.isFMSAttached(), gameMessage);
 
     SmartDashboard.putBoolean("Disabled", false);
@@ -293,11 +293,21 @@ public class Robot extends TimedRobot
   {
     Util.consoleLog();
 
-    LCD.clearAll();
+    //LCD.clearAll();
+
+    //LCD.printLine(LCD_1, "Mode: Test");
 
     // Cancels all running commands at the start of test mode.
 
     CommandScheduler.getInstance().cancelAll();
+    
+    //robotContainer.getMatchInformation();
+
+    //robotContainer.resetFaults();
+
+    teleopInit();
+
+    CommandScheduler.getInstance().enable();
   }
 
   /**
@@ -306,5 +316,23 @@ public class Robot extends TimedRobot
   @Override
   public void testPeriodic() 
   {
+  }
+
+  /**
+   * Return the current operation mode of the robot.
+   * @return The mode title.
+   */
+  public String getMode()
+  {
+    if (this.isAutonomous())
+      return "Auto";
+    else if (this.isTeleop())
+      return "Teleop";
+    else if (this.isTest())
+      return "Test";
+    else if (this.isDisabled())
+      return "Disabled";
+
+    return "Unknown";
   }
 }

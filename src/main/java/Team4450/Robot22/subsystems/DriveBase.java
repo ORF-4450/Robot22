@@ -8,15 +8,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import Team4450.Lib.FXEncoder;
 import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
-import Team4450.Lib.ValveDA;
 import Team4450.Lib.SRXMagneticEncoderRelative.DistanceUnit;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.RobotContainer;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -25,13 +22,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -78,6 +73,12 @@ public class DriveBase extends SubsystemBase
 		RFCanTalon = new WPI_TalonSRX(RF_TALON);	
 		RRCanTalon = new WPI_TalonSRX(RR_TALON);	
 
+		// Add to LiveWindow under DriveBase, robotDrive will add the other two Talons.
+		// Note: When WPI_TalonSRX is used in follower mode, the get() function does not
+		// work and therefore the value field for the Talon in LW display is always zero.
+		addChild("LFTalon", LFCanTalon);
+		addChild("RFTalon", RFCanTalon);
+
 		// Initialize CAN Talons and write status to log so we can verify
 		// all the Talons are connected.
 		InitializeCANTalon(LFCanTalon);
@@ -123,7 +124,7 @@ public class DriveBase extends SubsystemBase
 		RFCanTalon.set(ControlMode.Follower, RRCanTalon.getDeviceID());
 
 		robotDrive = new DifferentialDrive(LRCanTalon, RRCanTalon);
-		addChild("RobotDrive", robotDrive);
+		addChild("robotDrive", robotDrive);
 
    		// Configure starting motor safety. This runs a timer between updates of the
 		// robotDrive motor power with the set() method. If the timer expires because
@@ -211,9 +212,10 @@ public class DriveBase extends SubsystemBase
 	@Override
 	public void initSendable( SendableBuilder builder )
 	{
-	    builder.addDoubleProperty("LeftPower", this::getLeftPower, null);
-	    builder.addDoubleProperty("RightPower", this::getRightPower, null);
+	    //builder.addDoubleProperty("LeftPower", this::getLeftPower, null);
+	    //builder.addDoubleProperty("RightPower", this::getRightPower, null);
 		builder.addBooleanProperty("LowSpeed", this::isLowSpeed, null);
+		builder.addBooleanProperty("BrakesOn", this::isBrakeMode, null);
 	}   	
 	
 	// Simulation classes help us simulate our robot. Our SRXMagneticEncoderRelative class

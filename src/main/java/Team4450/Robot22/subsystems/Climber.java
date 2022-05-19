@@ -53,7 +53,7 @@ public class Climber extends SubsystemBase
 	    climberRightTalon.setNeutralMode(NeutralMode.Brake);
 
 	    climberDrive = new MotorControllerGroup(climberLeftVictor, climberRightTalon);
-
+		
         climberEncoder = new SRXMagneticEncoderRelative(climberRightTalon, 1);
 
 		climberEncoder.reset();
@@ -61,6 +61,8 @@ public class Climber extends SubsystemBase
 		addChild("Encoder", climberEncoder);
 		addChild("BottomSwitch", climberSwitch);
 		addChild("Motors", climberDrive);
+		addChild("MainValve", mainValve);
+		addChild("AuxValve", auxValve);
 
 		Util.consoleLog("Climber created!");
 	}
