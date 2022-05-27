@@ -23,6 +23,7 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Channel/IndexerMotor": "Motor Controller",
       "/LiveWindow/Channel/StopSwitch": "Digital Input",
+      "/LiveWindow/Climber": "Subsystem",
       "/LiveWindow/Climber/BottomSwitch": "Digital Input",
       "/LiveWindow/Climber/Motors": "Motor Controller",
       "/LiveWindow/DriveBase/LFTalon": "Motor Controller",

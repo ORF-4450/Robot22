@@ -6,7 +6,6 @@ import Team4450.Lib.*;
 
 import static Team4450.Robot22.Constants.*;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -160,8 +159,7 @@ public class Robot extends TimedRobot
     // when robot is disabled. This seems a bad idea...
 
     // The try/catch will catch any exceptions thrown in the commands run by the
-    // scheduler
-    // and record them in our log file then stops execution of this program.
+    // scheduler and record them in our log file then stops execution of this program.
 
     try {
       CommandScheduler.getInstance().run();
@@ -179,7 +177,7 @@ public class Robot extends TimedRobot
   {
     Util.consoleLog();
 
-    LCD.printLine(LCD_1, "Mode: %s", getMode());
+    LCD.printLine(LCD_1, "Mode: Disabled");
 
     // Reset driver station LEDs.
 
@@ -188,7 +186,7 @@ public class Robot extends TimedRobot
     //Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
     //                RobotContainer.channel.highestSensorValue);
 
-    Util.consoleLog("end %s -------------------------------------------------------------------------", getMode());
+    Util.consoleLog("end -------------------------------------------------------------------------");
   }
 
   /**
@@ -211,7 +209,7 @@ public class Robot extends TimedRobot
 
     LCD.clearAll();
 
-    LCD.printLine(LCD_1, "Mode: %s - No Program", getMode());
+    LCD.printLine(LCD_1, "Mode: Auto - No Program");
 
     SmartDashboard.putBoolean("Disabled", false);
     SmartDashboard.putBoolean("Auto Mode", true);
@@ -257,7 +255,7 @@ public class Robot extends TimedRobot
 
     LCD.clearAll();
 
-    LCD.printLine(LCD_1, "Mode: %s  All=%s, Start=%d, FMS=%b, msg=%s", getMode(), alliance.name(), location,
+    LCD.printLine(LCD_1, "Mode: Teleop  All=%s, Start=%d, FMS=%b, msg=%s", alliance.name(), location,
                   DriverStation.isFMSAttached(), gameMessage);
 
     SmartDashboard.putBoolean("Disabled", false);
@@ -293,17 +291,13 @@ public class Robot extends TimedRobot
   {
     Util.consoleLog();
 
-    //LCD.clearAll();
-
-    //LCD.printLine(LCD_1, "Mode: Test");
-
     // Cancels all running commands at the start of test mode.
 
     CommandScheduler.getInstance().cancelAll();
-    
-    //robotContainer.getMatchInformation();
 
-    //robotContainer.resetFaults();
+    // Next two lines launch teleop mode, but since we are in test
+    // mode, LiveWindow will be enabled to display test data to the
+    // outlineviewer to shuffleboard.
 
     teleopInit();
 
@@ -316,23 +310,5 @@ public class Robot extends TimedRobot
   @Override
   public void testPeriodic() 
   {
-  }
-
-  /**
-   * Return the current operation mode of the robot.
-   * @return The mode title.
-   */
-  public String getMode()
-  {
-    if (this.isAutonomous())
-      return "Auto";
-    else if (this.isTeleop())
-      return "Teleop";
-    else if (this.isTest())
-      return "Test";
-    else if (this.isDisabled())
-      return "Disabled";
-
-    return "Unknown";
   }
 }

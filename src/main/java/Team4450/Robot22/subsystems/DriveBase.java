@@ -15,6 +15,7 @@ import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.RobotContainer;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -73,11 +74,14 @@ public class DriveBase extends SubsystemBase
 		RFCanTalon = new WPI_TalonSRX(RF_TALON);	
 		RRCanTalon = new WPI_TalonSRX(RR_TALON);	
 
-		// Add to LiveWindow under DriveBase, robotDrive will add the other two Talons.
-		// Note: When WPI_TalonSRX is used in follower mode, the get() function does not
-		// work and therefore the value field for the Talon in LW display is always zero.
-		addChild("LFTalon", LFCanTalon);
-		addChild("RFTalon", RFCanTalon);
+		// RobotDrive will add the rear two Talons to LiveWindow.
+		// When WPI_TalonSRX is used in follower mode, the get() function does not
+		// work and therefore the value field for the Talon in LW display is always zero,
+		// so we remove the front Talons from LW..
+		LiveWindow.disableTelemetry(LFCanTalon);
+		LiveWindow.disableTelemetry(RFCanTalon);
+		//addChild("LFTalon", LFCanTalon);
+		//addChild("RFTalon", RFCanTalon);
 
 		// Initialize CAN Talons and write status to log so we can verify
 		// all the Talons are connected.

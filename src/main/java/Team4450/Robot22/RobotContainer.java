@@ -269,7 +269,7 @@ public class RobotContainer
    		monitorCompressorThread.SetLowPressureAlarm(50);
    		monitorCompressorThread.start();
 		
-		lidar = new Lidar(new DigitalInput(5));
+		lidar = new Lidar(new DigitalInput(3));
 		
    		monitorPDPThread = MonitorPDP.getInstance(pdp);
    		monitorPDPThread.start();
