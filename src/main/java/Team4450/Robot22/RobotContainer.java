@@ -6,8 +6,6 @@ import static Team4450.Robot22.Constants.*;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import com.revrobotics.CIEColor;
-
 import Team4450.Lib.CameraFeed;
 import Team4450.Lib.GamePad;
 import Team4450.Lib.JoyStick;
@@ -15,11 +13,8 @@ import Team4450.Lib.LaunchPad;
 import Team4450.Lib.Lidar;
 import Team4450.Lib.MonitorBattery;
 import Team4450.Lib.MonitorCompressor;
-import Team4450.Lib.MonitorDistance;
-import Team4450.Lib.MonitorDistanceMBX;
 import Team4450.Lib.MonitorPDP;
 import Team4450.Lib.NavX;
-import Team4450.Lib.RevColorSensor;
 import Team4450.Lib.Util;
 import Team4450.Lib.GamePad.GamePadButtonIDs;
 import Team4450.Lib.JoyStick.JoyStickButtonIDs;
@@ -48,9 +43,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import Team4450.Robot22.commands.ArcadeDrive;
 import Team4450.Robot22.commands.Climb;
 import Team4450.Robot22.commands.TankDrive;
+import Team4450.Robot22.commands.Utility.NotifierCommand;
 import Team4450.Robot22.commands.autonomous.DriveOut;
 import Team4450.Robot22.commands.autonomous.ShootFirst;
-import Team4450.Robot22.commands.NotifierCommand;
 import Team4450.Robot22.subsystems.Channel;
 import Team4450.Robot22.subsystems.Climber;
 import Team4450.Robot22.subsystems.DriveBase;
@@ -437,7 +432,8 @@ public class RobotContainer
     		.whenReleased(new InstantCommand(driveBase::resetEncoders));
 	
 		new JoystickButton(gamePad.getJoyStick(),  GamePad.GamePadButtonIDs.A.value)
-    		.whenReleased(new InstantCommand(driveBase::toggleHighLowSpeed));
+    		//.whenReleased(new InstantCommand(climber::toggleDeployMain));
+    		.whenReleased(new NotifierCommand(climber::toggleDeployMain, 0));
     }
 
 	/**

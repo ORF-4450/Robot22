@@ -9,7 +9,7 @@ import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Lib.FXEncoder;
 import Team4450.Robot22.Robot;
 import Team4450.Robot22.RobotContainer;
-import Team4450.Robot22.commands.NotifierCommand;
+import Team4450.Robot22.commands.Utility.NotifierCommand;
 import Team4450.Lib.CANCoder;
 
 import edu.wpi.first.math.geometry.Pose2d;

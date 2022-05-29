@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.ValveDA;
-
+import Team4450.Lib.Tracer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -220,12 +220,16 @@ public class Climber extends SubsystemBase
 	 */
 	public void toggleDeployMain()
 	{
+		if (tracing) Tracer.INSTANCE.enterFunction("Climber.toggleDeployMain");
+
 		Util.consoleLog("%b", isMainExtended());
 		
 		if (isMainExtended())
 			retractMain();
 		else
 		  	extendMain();
+
+		if (tracing) Tracer.INSTANCE.exitFunction("Climber.toggleDeployMain");
     }
 	
 	/**
@@ -268,13 +272,17 @@ public class Climber extends SubsystemBase
 	 */
 	public void toggleDeployAux()
 	{
+		if (tracing) Tracer.INSTANCE.enterFunction("Climber.toggleDeployAux");
+
 		Util.consoleLog("%b", isAuxExtended());
 		
 		if (isAuxExtended())
 			retractAux();
 		else
 		  	extendAux();
-    }
+
+		if (tracing) Tracer.INSTANCE.exitFunction("Climber.toggleDeployAux");
+	}
 	
 	/**
 	 * Returns extended state of main climber arm.

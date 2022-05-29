@@ -3,6 +3,7 @@ package Team4450.Robot22;
 
 import java.util.Properties;
 
+
 import Team4450.Lib.Util;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,13 +19,13 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "ORF22-05.26.22-1";
+	public static String		PROGRAM_NAME = "ORF22-05.28.22-1";
 
 	public static Robot			robot;
 
 	public static Properties	robotProperties;
 	  
-	public static boolean		isClone = false, isComp = false;
+	public static boolean		isClone = false, isComp = false, tracing = true;
 	    	
 	public static DriverStation.Alliance	alliance;
 	public static int                       location, matchNumber;

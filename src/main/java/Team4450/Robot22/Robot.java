@@ -2,8 +2,6 @@
 package Team4450.Robot22;
 
 import Team4450.Lib.*;
-//import Team4450.Robot22.wpilib.TimedRobot;
-
 import static Team4450.Robot22.Constants.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -161,12 +159,18 @@ public class Robot extends TimedRobot
     // The try/catch will catch any exceptions thrown in the commands run by the
     // scheduler and record them in our log file then stops execution of this program.
 
+    if (tracing & isEnabled()) Tracer.INSTANCE.enterFunction("Robot.robotPeriodic");
+
     try {
       CommandScheduler.getInstance().run();
     } catch (Exception e) {
       Util.logException(e);
       this.endCompetition();
     }
+
+		if (tracing & isEnabled()) Tracer.INSTANCE.exitFunction("Robot.robotPeriodic");
+
+    // if (tracing & isEnabled()) Tracer.INSTANCE.printFunctions(Util.logPrintStream);
   }
 
   /**
@@ -185,6 +189,11 @@ public class Robot extends TimedRobot
 
     //Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
     //                RobotContainer.channel.highestSensorValue);
+
+    // if (tracing)
+    // {
+    //   Tracer.INSTANCE.printFunctions(Util.logPrintStream);
+    // }
 
     Util.consoleLog("end -------------------------------------------------------------------------");
   }
@@ -271,6 +280,8 @@ public class Robot extends TimedRobot
     // Driving handled by DriveCommand which is default command for the DriveBase.
     // Other commands scheduled by joystick buttons.
 
+    if  (tracing) Tracer.INSTANCE.clearFunctions();
+
     Util.consoleLog("end -------------------------------------------------------------------------");
   }
 
@@ -281,6 +292,7 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
+    Tracer.INSTANCE.printFunctions(Util.logPrintStream);
   }
 
   /**

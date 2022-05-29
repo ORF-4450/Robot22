@@ -360,7 +360,7 @@ public abstract class IterativeRobotBase extends RobotBase {
     // Warn on loop time overruns
     if (m_watchdog_flush && m_watchdog.isExpired()) {
       //m_watchdog.printEpochs();
-      m_watchdog.printEpochs(t -> Util.consoleLog(t));
+      m_watchdog.printEpochs(t -> Util.consoleLog("%s\n", t));
     }
   }
 
