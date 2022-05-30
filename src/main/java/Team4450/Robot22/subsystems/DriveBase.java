@@ -13,7 +13,7 @@ import Team4450.Lib.Util;
 import Team4450.Lib.SRXMagneticEncoderRelative.DistanceUnit;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Robot22.RobotContainer;
-import Team4450.Lib.Tracer;
+import Team4450.Lib.FunctionTracer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -267,7 +267,7 @@ public class DriveBase extends SubsystemBase
 	@Override
 	public void periodic() 
 	{
-		if (tracing) Tracer.INSTANCE.enterFunction("DriveBase.periodic");
+		if (tracing) FunctionTracer.INSTANCE.enterFunction("DriveBase.periodic");
 
 		// Update the odometer tracking robot position on the field. We have to track the
 		// cumulative encoder counts since at any time we can reset the encoders to facilitate
@@ -299,7 +299,7 @@ public class DriveBase extends SubsystemBase
 		// updated that pose above.
 		if (RobotBase.isSimulation()) fieldSim.setRobotPose(pose);
 		
-		if (tracing) Tracer.INSTANCE.exitFunction("DriveBase.periodic");
+		if (tracing) FunctionTracer.INSTANCE.exitFunction("DriveBase.periodic");
 	}
 	
     // Updates simulation data *after* to each periodic() (above) call when under simulation. Then all other
@@ -309,7 +309,7 @@ public class DriveBase extends SubsystemBase
   	{
 		if (robot.isEnabled())
 		{
-			if (tracing) Tracer.INSTANCE.enterFunction("DriveBase.simulationPeriodic");
+			if (tracing) FunctionTracer.INSTANCE.enterFunction("DriveBase.simulationPeriodic");
 
 			// To update our simulation, we set motor voltage inputs, update the
 			// simulation, and write the simulated positions and velocities to our
@@ -362,7 +362,7 @@ public class DriveBase extends SubsystemBase
                             -driveSim.getHeading().getDegrees(), RobotContainer.navx.getHeading());
                             //RobotContainer.navx.getYawRate());
 		
-			if (tracing) Tracer.INSTANCE.exitFunction("DriveBase.simulationPeriodic");
+			if (tracing) FunctionTracer.INSTANCE.exitFunction("DriveBase.simulationPeriodic");
 		}
 	}
 

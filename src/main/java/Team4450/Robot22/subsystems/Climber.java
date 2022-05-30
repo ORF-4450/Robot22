@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.ValveDA;
-import Team4450.Lib.Tracer;
+import Team4450.Lib.FunctionTracer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -220,7 +220,7 @@ public class Climber extends SubsystemBase
 	 */
 	public void toggleDeployMain()
 	{
-		if (tracing) Tracer.INSTANCE.enterFunction("Climber.toggleDeployMain");
+		if (tracing) FunctionTracer.INSTANCE.enterFunction("Climber.toggleDeployMain");
 
 		Util.consoleLog("%b", isMainExtended());
 		
@@ -229,7 +229,7 @@ public class Climber extends SubsystemBase
 		else
 		  	extendMain();
 
-		if (tracing) Tracer.INSTANCE.exitFunction("Climber.toggleDeployMain");
+		if (tracing) FunctionTracer.INSTANCE.exitFunction("Climber.toggleDeployMain");
     }
 	
 	/**
@@ -272,7 +272,7 @@ public class Climber extends SubsystemBase
 	 */
 	public void toggleDeployAux()
 	{
-		if (tracing) Tracer.INSTANCE.enterFunction("Climber.toggleDeployAux");
+		if (tracing) FunctionTracer.INSTANCE.enterFunction("Climber.toggleDeployAux");
 
 		Util.consoleLog("%b", isAuxExtended());
 		
@@ -281,7 +281,7 @@ public class Climber extends SubsystemBase
 		else
 		  	extendAux();
 
-		if (tracing) Tracer.INSTANCE.exitFunction("Climber.toggleDeployAux");
+		if (tracing) FunctionTracer.INSTANCE.exitFunction("Climber.toggleDeployAux");
 	}
 	
 	/**
