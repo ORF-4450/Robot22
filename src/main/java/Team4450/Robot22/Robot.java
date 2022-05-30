@@ -190,10 +190,10 @@ public class Robot extends TimedRobot
     //Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
     //                RobotContainer.channel.highestSensorValue);
 
-    // if (tracing)
-    // {
-    //   FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
-    // }
+    if (tracing)
+    {
+      FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
+    }
 
     Util.consoleLog("end -------------------------------------------------------------------------");
   }
@@ -280,7 +280,7 @@ public class Robot extends TimedRobot
     // Driving handled by DriveCommand which is default command for the DriveBase.
     // Other commands scheduled by joystick buttons.
 
-    if  (tracing) FunctionTracer.INSTANCE.clearFunctions();
+    if  (tracing) FunctionTracer.INSTANCE.reset();
 
     Util.consoleLog("end -------------------------------------------------------------------------");
   }
@@ -292,7 +292,7 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
+    //FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
   }
 
   /**
