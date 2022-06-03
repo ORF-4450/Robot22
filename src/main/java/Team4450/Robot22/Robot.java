@@ -2,11 +2,13 @@
 package Team4450.Robot22;
 
 import Team4450.Lib.*;
+import Team4450.Robot22.wpilib.TimedRobot;
+
 import static Team4450.Robot22.Constants.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.TimedRobot;
+//import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.WPILibVersion;
@@ -67,9 +69,9 @@ public class Robot extends TimedRobot
       // improvements to various functions to reduce execution time or used threading.
       // We have trimmed the volume of overrun messages but they still occur.
 
-      //enableWatchDogWarning(false);
+      enableWatchDogWarning(false);
       //enableWatchDogFlush(false);
-      //this.setWatchDogTimeout(.04);
+      this.setWatchDogTimeout(.04);
       CommandScheduler.getInstance().setPeriod(1.0);
 
       // Set Java to catch any uncaught exceptions and record them in our log file.
@@ -187,13 +189,10 @@ public class Robot extends TimedRobot
 
     RobotContainer.shuffleBoard.resetLEDs();
 
-    //Util.consoleLog("ball sensor low=%d  high=%d", RobotContainer.channel.lowestSensorValue, 
-    //                RobotContainer.channel.highestSensorValue);
-
-    if (tracing)
-    {
-      FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
-    }
+    // if (tracing)
+    // {
+    //   FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
+    // }
 
     Util.consoleLog("end -------------------------------------------------------------------------");
   }
@@ -292,7 +291,7 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    //FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
+    if (tracing) FunctionTracer.INSTANCE.printFunctions(Util.logPrintStream);
   }
 
   /**

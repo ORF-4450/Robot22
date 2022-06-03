@@ -7,10 +7,10 @@ import Team4450.Lib.SRXMagneticEncoderRelative;
 import Team4450.Lib.Util;
 import Team4450.Lib.SRXMagneticEncoderRelative.PIDRateType;
 import Team4450.Lib.FXEncoder;
-import Team4450.Robot22.Robot;
 import Team4450.Robot22.RobotContainer;
 import Team4450.Robot22.commands.Utility.NotifierCommand;
 import Team4450.Lib.CANCoder;
+import Team4450.Lib.FunctionTracer;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -56,6 +56,8 @@ public class ShuffleBoard extends SubsystemBase
 
     public void updateDS()
 	{    
+        if (tracing) FunctionTracer.INSTANCE.enterFunction("ShuffleBoard.updateDS");
+
         LCD.printLine(LCD_3, "leftenc=%d  rightenc=%d", RobotContainer.driveBase.getLeftEncoder(), 
                       RobotContainer.driveBase.getRightEncoder());			
                 
@@ -107,6 +109,8 @@ public class ShuffleBoard extends SubsystemBase
         
         LCD.printLine(LCD_10, "shooter abspos=%d  deg=%.1f", RobotContainer.shooter.encoder.getAbsolutePosition(),
                       RobotContainer.shooter.encoder.getAbsolutePositionDeg());
+    
+        if (tracing) FunctionTracer.INSTANCE.exitFunction("ShuffleBoard.updateDS");
     }
 
     /**

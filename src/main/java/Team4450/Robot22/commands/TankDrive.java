@@ -9,6 +9,8 @@ import Team4450.Robot22.RobotContainer;
 import Team4450.Lib.LCD;
 import Team4450.Lib.Util;
 import Team4450.Robot22.subsystems.DriveBase;
+import Team4450.Lib.FunctionTracer;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -92,6 +94,8 @@ public class TankDrive extends CommandBase
   @Override
   public void execute() 
   {
+    if (tracing) FunctionTracer.INSTANCE.enterFunction("TankDrive.execute");
+
     double leftY = leftPower.getAsDouble() * kPowerGain, rightY = rightPower.getAsDouble() * kPowerGain, angle;
 
     // Limit joystick max input value. Gain can reduce power but does it over the entire range of JS values.
@@ -154,7 +158,9 @@ public class TankDrive extends CommandBase
         //driveBase.tankDrive(leftY, rightY, false);		// Normal tank drive.
         driveBase.tankDriveLimited(leftY, rightY);		// Normal tank drive.
         //driveBase.tankDrive(0, 0, true);
-  }
+  
+    if (tracing) FunctionTracer.INSTANCE.exitFunction("TankDrive.execute");
+    }
 
   private boolean isLeftRightEqual(double left, double right, double percent)
   {

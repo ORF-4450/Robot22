@@ -19,13 +19,13 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public final class Constants
 {
-	public static String		PROGRAM_NAME = "ORF22-05.28.22-1";
+	public static String		PROGRAM_NAME = "ORF22-06.02.22-1";
 
 	public static Robot			robot;
 
 	public static Properties	robotProperties;
 	  
-	public static boolean		isClone = false, isComp = false, tracing = true;
+	public static boolean		isClone = false, isComp = false, tracing = false;
 	    	
 	public static DriverStation.Alliance	alliance;
 	public static int                       location, matchNumber;

@@ -76,6 +76,9 @@
       ".status": {
         "open": true
       },
+      "Climber": {
+        "open": true
+      },
       "DriveBase": {
         "open": true
       },

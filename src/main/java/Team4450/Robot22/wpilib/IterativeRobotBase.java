@@ -70,7 +70,7 @@ public abstract class IterativeRobotBase extends RobotBase {
 
   private final DSControlWord m_word = new DSControlWord();
   private Mode m_lastMode = Mode.kNone;
-  private final double m_period;
+  private double m_period;
   private final Watchdog m_watchdog;
   private boolean m_ntFlushEnabled;
   private boolean m_watchDog_warning = true, m_watchdog_flush = true;
@@ -360,7 +360,7 @@ public abstract class IterativeRobotBase extends RobotBase {
     // Warn on loop time overruns
     if (m_watchdog_flush && m_watchdog.isExpired()) {
       //m_watchdog.printEpochs();
-      m_watchdog.printEpochs(t -> Util.consoleLog("%s\n", t));
+      m_watchdog.printEpochs(t -> Util.consoleLog("%s\r", t));
     }
   }
 
@@ -393,5 +393,6 @@ public abstract class IterativeRobotBase extends RobotBase {
   public void setWatchDogTimeout(double timeout)
   {
       m_watchdog.setTimeout(timeout);
+      m_period = timeout;
   }
 }
