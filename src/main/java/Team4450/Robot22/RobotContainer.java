@@ -10,36 +10,29 @@ import Team4450.Lib.CameraFeed;
 import Team4450.Lib.GamePad;
 import Team4450.Lib.JoyStick;
 import Team4450.Lib.LaunchPad;
-import Team4450.Lib.Lidar;
-import Team4450.Lib.MonitorBattery;
 import Team4450.Lib.MonitorCompressor;
 import Team4450.Lib.MonitorPDP;
 import Team4450.Lib.NavX;
 import Team4450.Lib.Util;
 import Team4450.Lib.GamePad.GamePadButtonIDs;
 import Team4450.Lib.JoyStick.JoyStickButtonIDs;
-import Team4450.Lib.CANCoder;
-
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import Team4450.Robot22.commands.ArcadeDrive;
 import Team4450.Robot22.commands.Climb;
 import Team4450.Robot22.commands.TankDrive;
@@ -49,7 +42,6 @@ import Team4450.Robot22.commands.autonomous.ShootFirst;
 import Team4450.Robot22.subsystems.Channel;
 import Team4450.Robot22.subsystems.Climber;
 import Team4450.Robot22.subsystems.DriveBase;
-import Team4450.Robot22.subsystems.LimeLight;
 import Team4450.Robot22.subsystems.Pickup;
 import Team4450.Robot22.subsystems.Shooter;
 import Team4450.Robot22.subsystems.ShuffleBoard;
@@ -121,11 +113,9 @@ public class RobotContainer
 	// Navigation board.
 	public static NavX			navx;
 
-	private Thread      		monitorBatteryThread, monitorPDPThread;
+	private Thread      		monitorPDPThread;
 	private MonitorCompressor	monitorCompressorThread;
     private CameraFeed			cameraFeed;
-
-	private Lidar				lidar;
     
 	// Trajecotries.
     //public static Trajectory    ;
@@ -141,8 +131,6 @@ public class RobotContainer
 
 	private static SendableChooser<AutoProgram>	autoChooser;
 	private static SendableChooser<Pose2d>		startingPoseChooser;
-
-	//public static CANCoder	canCoder = new CANCoder(12, DRIVE_WHEEL_DIAMETER);
 
 	/**
 	 * The container for the robot. Contains subsystems, Opertor Interface devices, and commands.
@@ -254,17 +242,15 @@ public class RobotContainer
         //                                                             () -> rightStick.GetX(),
         //                                                             () -> rightStick.getJoyStick().getTrigger()));
 		   
-		// Start the battery, compressor, PDP and camera feed monitoring Tasks.
+		// Start the compressor, PDP and camera feed monitoring Tasks.
 
-   		monitorBatteryThread = MonitorBattery.getInstance();
-   		monitorBatteryThread.start();
+   		//monitorBatteryThread = MonitorBattery.getInstance();
+   		//monitorBatteryThread.start();
 
    		monitorCompressorThread = MonitorCompressor.getInstance(pressureSensor);
    		monitorCompressorThread.setDelay(1.0);
    		monitorCompressorThread.SetLowPressureAlarm(50);
    		monitorCompressorThread.start();
-		
-		lidar = new Lidar(new DigitalInput(3));
 		
    		monitorPDPThread = MonitorPDP.getInstance(pdp);
    		monitorPDPThread.start();

@@ -108,8 +108,10 @@ public class Robot extends TimedRobot
       // Send program version to the dashboard.
       SmartDashboard.putString("Program", PROGRAM_NAME);
 
-      // Log RobotLib and WPILib versions we are using.
-      Util.consoleLog("RobotLib=%s, WPILib=%s", LibraryVersion.version, WPILibVersion.Version);
+      // Log RobotLib and WPILib versions we are using. Note Robolib WPILib version can be different
+      // than robot WPILib version. Should be the same for best results.
+      Util.consoleLog("Robot WPILib=%s", WPILibVersion.Version);
+      Util.consoleLog("RobotLib=%s", LibraryVersion.version);
 
       // Note: Any Sendables added to SmartDashboard or Shuffleboard are sent to the DS on every
       // loop of a TimedRobot. In this case it means that the SendableVersion data would be sent
